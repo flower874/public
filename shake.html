@@ -6,7 +6,7 @@
 <body>
 <h1>采集数据</h1>
 <script>
-(function deviceMotionHandler(eventData) {
+function deviceMotionHandler(eventData) {
 		a = eventData.accelerationIncludingGravity
                 x = a.x
                 y = a.y
@@ -15,8 +15,8 @@
 		document.write(y);
 		document.write(z)
 	   }
-	   window.addEventListener('devicemotion',deviceMotionHandler, false);
-)
+window.addEventListener('devicemotion',deviceMotionHandler, false);
+
 </script>
 </body>
 </html>
