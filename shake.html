@@ -15,17 +15,17 @@
     var speed = 3;
     var x = y = z = lastX = lastY = lastZ = 0;
     function deviceMotionHandler(eventData) {
-        console.log(eventData)
 	var acceleration = eventData.accelerationIncludingGravity;
-        console.log(eventData.accelerationIncludingGravity) 
 	x = acceleration.x;
         y = acceleration.y;
         z = acceleration.z;
-	
+		
         if (Math.abs(x - lastX) > speed || Math.abs(y - lastY) > speed || Math.abs(z - lastZ) > speed) {
 
             if (lastX != 0 && lastY != 0 && lastZ != 0) {
-               console.log(x, ",", y, ",", z) 
+        	console.log(eventData)
+        	console.log(eventData.accelerationIncludingGravity) 
+                console.log(x, ",", y, ",", z) 
             }
 
         }
