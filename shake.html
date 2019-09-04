@@ -3,9 +3,9 @@
 <head prefix="og: http://ogp.me/ns#">
   <meta charset="utf-8">
 </head>
+<body>
 <h1>采集数据</h1>
 <script>
-	window.addEventListener('devicemotion',deviceMotionHandler, false);
 	$(function deviceMotionHandler(eventData) {
 	   while (0===0){
 		a = eventData.accelerationIncludingGravity
@@ -17,6 +17,8 @@
 		document.write(z)
 	     } 
 	   }
+	   window.addEventListener('devicemotion',deviceMotionHandler, false);
 	)
 </script>
+</body>
 </html>
