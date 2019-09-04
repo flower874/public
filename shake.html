@@ -25,8 +25,8 @@
         document.getElementById("z").innerHTML = z;
         document.write(x,y,z)
         
-    if(window.DeviceOrientationEvent){
-        window.addEventListener('deviceorientation',DeviceOrientationHandler, false);
+    if(window.DeviceMotionEvent){
+        window.addEventListener('devicemotion',deviceMotionHandler, false);
     }else{
         alert("您的浏览器不支持DeviceOrientation");
     }
