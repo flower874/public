@@ -4,14 +4,15 @@
 </body>
 <script>
 $(
-    window.addEventListener('devicemotion',deviceMotionHandler, false);
     function deviceMotionHandler(eventData) {
         var acceleration =eventData.accelerationIncludingGravity;
         x = acceleration.x;
         y = acceleration.y;
         z = acceleration.z;
 	document.write(x,y,z)
-    })
+    }
+    window.addEventListener('devicemotion',deviceMotionHandler, false);
+	)
 
 </script>
 </html>
