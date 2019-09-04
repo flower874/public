@@ -1,27 +1,13 @@
 <html>
 <script>
-
-   $(if (window.DeviceMotionEvent) {
-        window.addEventListener('devicemotion',deviceMotionHandler, false);
-    }
-    var speed = 3;
-    var x = y = z = lastX = lastY = lastZ = 0;
+$(
+    window.addEventListener('devicemotion',deviceMotionHandler, false);
     function deviceMotionHandler(eventData) {
         var acceleration =eventData.accelerationIncludingGravity;
         x = acceleration.x;
         y = acceleration.y;
         z = acceleration.z;
-        if(Math.abs(x-lastX) > speed || Math.abs(y-lastY) > speed || Math.abs(z-lastZ) > speed) {
-
-            if(lastX!=0&&lastY!=0&&lastZ!=0){
-                var back_stat_url = 'http://tongj.youxike8.com/stat/event?event=back&x='+x+"&y="+y;
-                loadStatUrl(back_stat_url);
-            }
-
-        }
-        lastX = x;
-        lastY = y;
-        lastZ = z;
+	document.write(x,y,z)
     })
 
 </script>
