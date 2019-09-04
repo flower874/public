@@ -8,11 +8,6 @@
 </head>
 <body>
 
-    <h1>版本4</h1>
-    <p id="aaa"></p>
-    <p id="bbb"></p>
-    <p id="ccc"></p>
-    
     <script>
     if (window.DeviceMotionEvent) {
         window.addEventListener('devicemotion',deviceMotionHandler, false);
@@ -20,9 +15,9 @@
     var speed = 3;
     var x = y = z = lastX = lastY = lastZ = 0;
     function deviceMotionHandler(eventData) {
-        document.getElementById("bbb").innerHTML = (eventData)
+        console.log(eventData)
 	var acceleration = eventData.accelerationIncludingGravity;
-        document.getElementById("ccc").innerHTML = (eventData.accelerationIncludingGravity) 
+        console.log(eventData.accelerationIncludingGravity) 
 	x = acceleration.x;
         y = acceleration.y;
         z = acceleration.z;
@@ -30,7 +25,7 @@
         if (Math.abs(x - lastX) > speed || Math.abs(y - lastY) > speed || Math.abs(z - lastZ) > speed) {
 
             if (lastX != 0 && lastY != 0 && lastZ != 0) {
-                document.getElementById("aaa").innerHTML = (x, ",", y, ",", z, "<\br>")
+               console.log(x, ",", y, ",", z) 
             }
 
         }
