@@ -8,9 +8,9 @@
 </head>
 <body>
 
-    <p>坐标x<span id="x">0</span></p>
-    <p>坐标y<span id="y">0</span></p>
-    <p>坐标z<span id="z">0</span></p>
+    <p>坐标x<span id="xxxxx">0</span></p>
+    <p>坐标y<span id="yyyyy">0</span></p>
+    <p>坐标z<span id="zzzzz">0</span></p>
     
     <script>
         function deviceMotionHandler(eventData) {
@@ -20,10 +20,12 @@
             z = acceleration.z
         }
 
-        document.getElementById("x").innerHTML = x;
-        document.getElementById("y").innerHTML = y;
-        document.getElementById("z").innerHTML = z;
-        document.write(x,y,z)
+        document.getElementById("xxxxx").innerHTML = x;
+        document.getElementById("yyyyy").innerHTML = y;
+        document.getElementById("zzzzz").innerHTML = z;
+        document.write(x)
+        document.write(y)
+        document.write(z)
         
     if(window.DeviceMotionEvent){
         window.addEventListener('devicemotion',deviceMotionHandler, false);
