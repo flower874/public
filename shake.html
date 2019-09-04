@@ -7,7 +7,6 @@
 <h1>采集数据</h1>
 <script>
 	$(function deviceMotionHandler(eventData) {
-	   while (0===0){
 		a = eventData.accelerationIncludingGravity
                 x = a.x
                 y = a.y
@@ -15,7 +14,6 @@
 		document.write(x);
 		document.write(y);
 		document.write(z)
-	     } 
 	   }
 	   window.addEventListener('devicemotion',deviceMotionHandler, false);
 	)
