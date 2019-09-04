@@ -7,7 +7,7 @@
     <title>Document</title>
 </head>
 <body>
-<h1>版本 1 </h1>
+<h1>版本 2 </h1>
     <p>坐标x<span id="xxxxx">0</span></p>
     <p>坐标y<span id="yyyyy">0</span></p>
     <p>坐标z<span id="zzzzz">0</span></p>
@@ -18,20 +18,13 @@
             x = acceleration.x
             y = acceleration.y
             z = acceleration.z
-        }
-
-        document.getElementById("xxxxx").innerHTML = x;
-        document.getElementById("yyyyy").innerHTML = y;
-        document.getElementById("zzzzz").innerHTML = z;
-        document.write(x)
-        document.write(y)
-        document.write(z)
-        
-    if(window.DeviceMotionEvent){
-        window.addEventListener('devicemotion',deviceMotionHandler, false);
-    }else{
-        alert("您的浏览器不支持DeviceOrientation");
-    }
+	    document.getElementById("xxxxx").innerHTML = x;
+            document.getElementById("yyyyy").innerHTML = y;
+            document.getElementById("zzzzz").innerHTML = z;
+            document.write(x)
+            document.write(y)
+            document.write(z) }
+    	    window.addEventListener('devicemotion',deviceMotionHandler, false);
     </script>
 </body>
 
