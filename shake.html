@@ -5,10 +5,12 @@
 
 <h1></h1>
 <script>
-window.addEventListener('devicemotion',deviceMotionHandler, false);
-	function deviceMotionHandler(eventData) {
+
+	window.addEventListener('devicemotion',deviceMotionHandler, false);
+	
+	$(function deviceMotionHandler(eventData) {
 		z = eventData.accelerationIncludingGravity
 		document.write(z.x,z.y,z.z)
-		}
+		})
 </script>
 
