@@ -25,14 +25,18 @@
         if (Math.abs(x - lastX) > speed || Math.abs(y - lastY) > speed || Math.abs(z - lastZ) > speed) {
 
             if (lastX != 0 && lastY != 0 && lastZ != 0) {
-                document.write("<h2>", x,",",y,",",z,"</h2>","</br>")
+                //document.write("<h2>", x,",",y,",",z,"</h2>","</br>")
+		var t = typeof eventData.accelerationIncludingGravity
+		document.write(t)
             }
 
         }
         lastX = x;
         lastY = y;
         lastZ = z;
+
     }
+
     </script>
 </body>
 
