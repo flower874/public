@@ -7,22 +7,32 @@
     <title>Document</title>
 </head>
 <body>
-<h1>版本 3 </h1>
-    <p>坐标x<span id="xxxxx">0</span></p>
-    <p>坐标y<span id="yyyyy">0</span></p>
-    <p>坐标z<span id="zzzzz">0</span></p>
+
+    <h1>版本4</h1>
+
     
     <script>
-        function deviceMotionHandler(eventData) {
-            var acceleration = eventData.accelerationIncludingGravity;
-            x = acceleration.x
-            y = acceleration.y
-            z = acceleration.z
-	    document.getElementById("xxxxx").innerHTML = x;
-            document.getElementById("yyyyy").innerHTML = y;
-            document.getElementById("zzzzz").innerHTML = z;
-             }
-    	    window.addEventListener('devicemotion',deviceMotionHandler, false);
+    if (window.DeviceMotionEvent) {
+        window.addEventListener('devicemotion',deviceMotionHandler, false);
+    }
+    var speed = 3;
+    var x = y = z = lastX = lastY = lastZ = 0;
+    function deviceMotionHandler(eventData) {
+        var acceleration = eventData.accelerationIncludingGravity;
+        x = acceleration.x;
+        y = acceleration.y;
+        z = acceleration.z;
+        if (Math.abs(x - lastX) > speed || Math.abs(y - lastY) > speed || Math.abs(z - lastZ) > speed) {
+
+            if (lastX != 0 && lastY != 0 && lastZ != 0) {
+                document.write("<h2>", x,",",y,",",z,"</h2>","</br>")
+            }
+
+        }
+        lastX = x;
+        lastY = y;
+        lastZ = z;
+    }
     </script>
 </body>
 
