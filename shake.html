@@ -10,7 +10,7 @@
 <h1> 版本7 提取navigator全家桶的属性 </h1>
 
 <h2>platform</h2>
-<h2 id="platform"><>
+<h2 id="platform"></h2>
 
 <h2>type: </h2>
 <h2 id="type"></h2>
@@ -28,8 +28,10 @@
 <h2 >type: </h2>
 <h2 id="type"></h2>
 
+<p id="full"></p>
     <script>
 
+   document.getElementById("full").innerHTML=navigator.connection
    var conn = navigator.connection||navigator.mozConnection||navigator.webkitConnection
    document.getElementById("type").innerHTML=conn.type
    document.getElementById("downlinkmax").innerHTML=conn.downlinkmax
