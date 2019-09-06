@@ -7,8 +7,37 @@
     <title>Document</title>
 </head>
 <body>
-<h1> 版本6 </h1>
+<h1> 版本7 提取navigator全家桶的属性 </h1>
+
+<h2>platform</h2>
+<h2 id="platform"><>
+
+<h2>type: </h2>
+<h2 id="type"></h2>
+
+<h2 >downlinkmax: </h2>
+<h2 id="downlinkmax"></h2>
+
+<h2 >onLine: </h2>
+<h2 id="online"></h2>
+
+
+<h2 >type: </h2>
+<h2 id="type"></h2>
+
+<h2 >type: </h2>
+<h2 id="type"></h2>
+
     <script>
+
+   var conn = navigator.connection||navigator.mozConnection||navigator.webkitConnection
+   document.getElementById("type").innerHTML=conn.type
+   document.getElementById("downlinkmax").innerHTML=conn.downlinkmax
+   document.getElementById("onLine").innerHTML=conn.onLine
+   document.getElementById("platform").innerHTML=navigator.platform
+
+
+   /***
     if (window.DeviceMotionEvent) {
         window.addEventListener('devicemotion',deviceMotionHandler, false);
     }
@@ -32,6 +61,10 @@
         lastZ = z;
 
     }
+    /***
+
+	var conn = navigator.connection
+	
 
     </script>
 </body>
