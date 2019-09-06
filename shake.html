@@ -21,13 +21,6 @@
 <h2 >onLine: </h2>
 <h2 id="online"></h2>
 
-
-<h2 >type: </h2>
-<h2 id="type"></h2>
-
-<h2 >type: </h2>
-<h2 id="type"></h2>
-
 <p id="full"></p>
     <script>
 
@@ -35,7 +28,7 @@
    var conn = navigator.connection||navigator.mozConnection||navigator.webkitConnection
    document.getElementById("type").innerHTML=conn.type
    document.getElementById("downlinkmax").innerHTML=conn.downlinkmax
-   document.getElementById("onLine").innerHTML=conn.onLine
+   document.getElementById("online").innerHTML=conn.onLine
    document.getElementById("platform").innerHTML=navigator.platform
 
 
