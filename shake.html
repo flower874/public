@@ -7,29 +7,17 @@
     <title>Document</title>
 </head>
 <body>
-<h1> 版本7 提取navigator全家桶的属性 </h1>
+<h2> 版本8 提取navigator全家桶的属性 </h1>
 
-<h2>platform</h2>
+<h3>platform</h3>
 <h2 id="platform"></h2>
 
-<h2>type: </h2>
-<h2 id="type"></h2>
-
-<h2 >downlinkmax: </h2>
-<h2 id="downlinkmax"></h2>
-
-<h2 >onLine: </h2>
-<h2 id="online"></h2>
-
-<p id="full"></p>
     <script>
 
-   document.getElementById("full").innerHTML=navigator.connection
-   var conn = navigator.connection||navigator.mozConnection||navigator.webkitConnection
-   document.getElementById("type").innerHTML=conn.type
-   document.getElementById("downlinkmax").innerHTML=conn.downlinkmax
-   document.getElementById("online").innerHTML=conn.onLine
-   document.getElementById("platform").innerHTML=navigator.platform
+   var conn = navigator.conn
+   var p = navigator.platform
+  
+   document.getElementById("platform").innerHTML=p
 
 
    /***
