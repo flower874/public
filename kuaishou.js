@@ -38,17 +38,12 @@
         return
         };
     // 写入启动时间
-    var AppName = values.appName
+    var AppName = array.appName
     var now = parseInt(Date.now()/1000)
     var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate()
     var storage = storages.create("AppStartTime")
-    try {
-        var save = storage.get(today)
-    }catch(e){
-        var save = {}
-        Storage.put(today,save)
-    }
-    save.AppName = now
+    var save = storage.get(today)
+    Storage.put(today,save)
     storage.put(today,save)
     
     // 运行时间
