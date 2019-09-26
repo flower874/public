@@ -255,7 +255,7 @@ function watchVideo(values,startTime,limitTime) {
     var now = parseInt(Date.now()/1000)
     var residue = limitTime - (now - startTime)
     if(residue<=0){
-        return;
+        engines.stopAll();
     }else{
         console.log("剩余运行时间 : "+residue+" 秒");
     };
