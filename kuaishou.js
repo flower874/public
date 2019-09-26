@@ -42,7 +42,7 @@
     var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate()
     var storage = storages.create("AppStartTime")
     var save = storage.get(today)
-    save.AppName = now
+    save[AppName] = now
     storage.put(today,save)
     
     // 运行时间
