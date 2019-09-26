@@ -43,12 +43,12 @@
     var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate()
     var storage = storages.create("AppStartTime")
     var save = storage.get(today)
-    Storage.put(today,save)
+    storage.put(today,save)
     storage.put(today,save)
     
     // 运行时间
     var limitTime = random(300000,1800000)
-    while(!watchVideo(values,limitTime,now)){}
+    while(!watchVideo(array,limitTime,now)){}
 })()
 
 function jumpAd(){
@@ -245,9 +245,12 @@ function bezier_curves(cp, t) {
     return result;
 };
 
-function watchVideo(values) {
+function watchVideo(values,limitTime,startTime) {
     
-
+    //根据运行时间退出
+    var now = parseInt(Date.now()/1000)
+    if(now-startTime>=limitTime)return;
+    
     //随机点赞 100/1
     try {
         sleep(random(1500,4000));
