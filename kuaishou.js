@@ -1,3 +1,4 @@
+console.show();
 (function main() {
     home()
     count = 0
