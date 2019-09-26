@@ -306,12 +306,10 @@ function watchVideo(values,startTime,limitTime) {
         swipeEx(x1,y1, x2,y2, random(160,249), 0.08)
         sleep(1000)
         try{
-            var title = id("label").findOne(1800).text();
+            var title = id("user_name_text_view").findOne(1800).text();
         }catch(e){
             var title = ""
         }
-        console.log("上划后当前标题: "+ title)
-        console.log("之前标题: " + srcTitle)
         if(srcTitle === title){
             console.log("上划失败，重试")
             flag = 't';
