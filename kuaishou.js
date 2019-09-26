@@ -32,10 +32,10 @@ console.show();
         'follow' : 'follow_layout'
     };    
     if (openApp(array) === false ){
-         return
+        engines.stopAll();
         };
     if (goReady(array) ===  false){
-        return
+        engines.stopAll();
         };
     // 写入启动时间
     var AppName = array.appName
