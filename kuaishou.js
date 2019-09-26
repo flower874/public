@@ -42,6 +42,10 @@
     var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate()
     var storage = storages.create("AppStartTime")
     var save = storage.get(today)
+    if(!save){ 
+        var save = {}
+        storage.put(today,save)
+    }
     save[AppName] = now
     storage.put(today,save)
     
