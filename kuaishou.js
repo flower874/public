@@ -29,7 +29,7 @@ console.show();
         // 点赞
         'like' : 'like_icon',
         // 关注
-        'follow' : 'follow_layout'
+        'follow' : 'follow'
     };    
     if (openApp(array) === false ){
         engines.stopAll();
@@ -262,13 +262,11 @@ function watchVideo(values,startTime,limitTime) {
     //随机点赞 100/1
     try {
         sleep(random(1500,4000));
-        if (random(0,50) === 0 ){
+        if (0 === 0 ){
             console.log("点个小心心")
             try{
-                var like = id("like_icon").findOne(1000).bounds();
-                var s_x = like.centerX();
-                var s_y = like.centerY()
-                click(s_x,s_y)
+                var like = id("like_button").findOne(1000);
+                like.click()
             }catch(e){};
     //随机关注 1000/1
         }
@@ -276,7 +274,7 @@ function watchVideo(values,startTime,limitTime) {
     
     try {
         sleep(random(1500,4000));
-        if (random(0,999) === 0 ){
+        if (0 === 0 ){
             console.log("关注一下")
             id(values.like).findOne(800).click()
          }
