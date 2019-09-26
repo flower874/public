@@ -1,6 +1,5 @@
 (function main() {
     home()
-    console.show()
     count = 0
     var array = {
         // 默认全是id，text会标注
