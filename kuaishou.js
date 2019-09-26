@@ -285,7 +285,7 @@ function watchVideo(values,startTime,limitTime) {
     //标题
     sleep(2000)
     try{
-        var srcTitle = id("label").findOne(1800).text()
+        var srcTitle = id("user_name_text_view").findOne(1800).text()
     }catch(e){ var srcTitle = "";}
     var watchVideoTime = random(5000,25000)
     count = count + 1
