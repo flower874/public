@@ -4,6 +4,9 @@
     count = 0
     var array = {
         // 默认全是id，text会标注
+
+        // 全局唯一app名称，千万不要写错
+        'appName' : 'kuaishou', 
         // 设备信息
         'w' : device.width,
         'h' : device.height,
@@ -32,9 +35,25 @@
          return
         };
     if (goReady(array) ===  false){
-        return};
+        return
+        };
+    // 写入启动时间
+    var AppName = values.appName
+    var now = parseInt(Date.now()/1000)
+    var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate()
+    var storage = storages.create("AppStartTime")
+    try {
+        var save = storage.get(today)
+    }catch(e){
+        var save = {}
+        Storage.put(today,save)
+    }
+    save.AppName = now
+    storage.put(today,save)
     
-    while(!watchVideo(array)){}
+    // 运行时间
+    var limitTime = random(300000,1800000)
+    while(!watchVideo(values,limitTime,now)){}
 })()
 
 function jumpAd(){
