@@ -303,7 +303,7 @@ function watchVideo(values,startTime,limitTime) {
         var y1 = random(parseInt(values.h*0.78),parseInt(values.h*0.89))
         var x2 = random(parseInt(values.w*0.71),parseInt(values.w*0.78))
         var y2 = random(parseInt(values.h*0.48),parseInt(values.h*0.31))
-        swipeEx(x1,y1, x2,y2, random(99,209), 0.08)
+        swipeEx(x1,y1, x2,y2, random(160,249), 0.08)
         sleep(1000)
         try{
             var title = id("label").findOne(1800).text();
