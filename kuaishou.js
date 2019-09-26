@@ -38,7 +38,7 @@
         };
     // 写入启动时间
     var AppName = array.appName
-    var now = parseInt(Date.now()/1000)
+    var startTime = parseInt(Date.now()/1000)
     var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate()
     var storage = storages.create("AppStartTime")
     var save = storage.get(today)
@@ -46,12 +46,12 @@
         var save = {}
         storage.put(today,save)
     }
-    save[AppName] = now
+    save[AppName] = startTime
     storage.put(today,save)
     
     // 运行时间
-    var limitTime = random(300000,1800000)
-    while(!watchVideo(array,limitTime,now)){}
+    var limitTime = random(300,1800)
+    while(!watchVideo(array,startTime,limitTime)){}
 })()
 
 function jumpAd(){
@@ -162,16 +162,16 @@ function goReady(values){
         return false
     }
     // 打开第一个视频
-    
+    /*    
     try {
         var video = id(values.firstVideo).findOne(800).bounds()
         var x = Math.abs(video.centerX())
         var y = Math.abs(video.centerY())
         press(x, y, random(10,30))
         }catch(e){
-            console.log(e);
             return true
         };
+    */
     sleep(1000)
     //jumpAd()
 }
@@ -248,44 +248,44 @@ function bezier_curves(cp, t) {
     return result;
 };
 
-function watchVideo(values,limitTime,startTime) {
+function watchVideo(values,startTime,limitTime) {
     
     //根据运行时间退出
     var now = parseInt(Date.now()/1000)
-    if(now-startTime>=limitTime)return;
-    
+    var residue = limitTime - (now - startTime)
+    if(residue<=0){
+        return;
+    }else{
+        console.log("剩余运行时间 : "+residue+" 秒");
+    };
     //随机点赞 100/1
     try {
         sleep(random(1500,4000));
         if (random(0,50) === 0 ){
             console.log("点个小心心")
             try{
-                var like = id("like_icon").findOne(1000).bounds()
-                var s_x = like.centerX()
-            }catch(e){
-                var s_x = values.w * 0.67;
-            }
-            var s_y = values.h * 0.95;
-            click(s_x,s_y)
-            }
-        }catch(e){};
-
+                var like = id("like_icon").findOne(1000).bounds();
+                var s_x = like.centerX();
+                var s_y = like.centerY()
+                click(s_x,s_y)
+            }catch(e){};
     //随机关注 1000/1
+        }
+    }catch(e){};
+    
     try {
         sleep(random(1500,4000));
         if (random(0,999) === 0 ){
             console.log("关注一下")
             id(values.like).findOne(800).click()
-         };
-    }catch(e){}
+         }
+        }catch(e){}
 
     //标题
     sleep(2000)
     try{
         var srcTitle = id("label").findOne(1800).text()
-    }catch(e){
-        var srcTitle = ""
-    }
+    }catch(e){ var srcTitle = "";}
     var watchVideoTime = random(5000,25000)
     count = count + 1
     console.log("第 " + count + " 次观看，持续" + watchVideoTime / 1000 + "秒，观看 :" + srcTitle)
@@ -298,10 +298,14 @@ function watchVideo(values,limitTime,startTime) {
     var flag = 't'
     while(flag === 't'){
         sleep(1000)
-        swipeEx(random(681,710), random(1938,1980), 784,1316, random(190,242),0.08)
+        var x1 = random(parseInt(values.w*0.67),parseInt(values.w*0.78))
+        var y1 = random(parseInt(values.h*0.78),parseInt(values.h*0.89))
+        var x2 = random(parseInt(values.w*0.71),parseInt(values.w*0.78))
+        var y2 = random(parseInt(values.h*0.48),parseInt(values.h*0.31))
+        swipeEx(x1,y1, x2,y2, random(99,209), 0.08)
         sleep(1000)
         try{
-            var title = id("label").findOne(1800).text()
+            var title = id("label").findOne(1800).text();
         }catch(e){
             var title = ""
         }
@@ -310,22 +314,6 @@ function watchVideo(values,limitTime,startTime) {
         if(srcTitle === title){
             console.log("上划失败，重试")
             flag = 't';
-        }else{ flag = 'f'}
+        } else{ flag = 'f' } 
     }
-    /*
-    var Xcoe = random(5,8)
-    var Ycoe = random(5,8)
-    var x1 = parseInt(values.w * Xcoe /10)
-    var x2 = x1 - random(-10,10)
-    var y1 = parseInt(values.h * Ycoe / 10 )
-    var y2 = parseInt(y1 * 0.2)
-    
-    var speed = parseInt((y1-y2)/1.8)
-    
-    press(x1, y1, random(1,5))
-    swipe(x1,y1, x2,y2, speed);
-    */
-
 }
-
-
