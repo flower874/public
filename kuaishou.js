@@ -7,8 +7,9 @@ function(){
             var statusStorage = storages.create("status")
             statusStorage.put(today,"")
             exit();
-        });        
-    })   
+        });
+    });
+       
     home()
     customEvent.emit('log',"开始slave进程...")
     count = 0
