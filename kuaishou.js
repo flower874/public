@@ -132,6 +132,7 @@ function(){
             try{
                 var menu = id(array.myMenu).findOne(2000)
                 console.log("返回主菜单")
+                return true
             }catch(e){
                 return false;
             };
