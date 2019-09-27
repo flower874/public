@@ -297,7 +297,6 @@ function(){
                 }else{
                     console.log("剩余运行时间 : "+residue+" 秒");
                 }
-            }
             }catch(e){
                 sum.setAndNotify("运行异常，返回master进程");
                 saveTime();
