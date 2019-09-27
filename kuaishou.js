@@ -221,7 +221,7 @@ function(){
         var residue = limitTime - (now - startTime)
         if(residue<=0){
             saveTime();
-            CustomEvent.emit('log',"运行完成，返回...")
+            customEvent.emit('log',"运行完成，返回...")
             return true;
         }else{
             console.log("剩余运行时间 : "+residue+" 秒");
@@ -297,7 +297,7 @@ function(){
         var limitTime = random(30,100)
         while(!watchVideo(startTime,limitTime)){ 
             saveTime();
-            CustomEvent.emit('log',"返回master进程");
+            customEvent.emit('log',"返回master进程");
             sum.setAndNotify("完成");
         };
     }else{
