@@ -1,7 +1,6 @@
 function(){
 
     home()
-    
     customEvent.emit('log',"开始slave进程...")
     count = 0
     var array = {
@@ -73,9 +72,7 @@ function(){
         launchPackage(values.app)
         sleep(2000)
         if(id(values.myMenu).findOne(5000)){
-    
             console.log("启动成功。")
-    
             return true
         }
         console.log("启动失败..任务结束")
@@ -311,10 +308,10 @@ function(){
         while(!watchVideo(startTime,limitTime)){ 
             saveTime();
             CustomEvent.emit('log',"返回master进程");
-            return true;
+            sum.setAndNotify("完成");
         };
     }else{
-        return true;
+        sum.setAndNotify("启动失败");
     };
 
     // 运行时间
