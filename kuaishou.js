@@ -1,3 +1,12 @@
+events.onKeyDown("volume_down", function(event){
+    console.log("关闭当前运行的任务");
+    return true;
+    home()
+});
+events.onKeyDown("volume_up", function(event){
+    console.log("关闭当前脚本！关闭后需要手工启动");
+    exit();
+});
 function main() {
     home()
     count = 0
