@@ -67,11 +67,11 @@ function(){
     
         sleep(500)
         
-        console.log("启动", values.app)
+        console.log("启动", array.app)
     
-        launchPackage(values.app)
+        launchPackage(array.app)
         sleep(2000)
-        if(id(values.myMenu).findOne(5000)){
+        if(id(array.myMenu).findOne(5000)){
             console.log("启动成功。")
             return true
         }
@@ -90,7 +90,7 @@ function(){
         //寻找菜单
     
         try {
-            var menu = id(values.myMenu).findOne(5000) 
+            var menu = id(array.myMenu).findOne(5000) 
         }catch(e){
             console.log("未找到菜单，退出..")
             return false
@@ -99,7 +99,7 @@ function(){
         if(menu !== undefined){
             // 进入菜单
             try{
-                var menu = id(values.myMenu).findOne(2000)
+                var menu = id(array.myMenu).findOne(2000)
                 console.log("进入菜单")
             }catch(e){
                 return false;
@@ -112,7 +112,7 @@ function(){
             
             // 点击 开始赚钱
             try{
-                var Cash = id(values.goCash).findOne(2000).text()
+                var Cash = id(array.goCash).findOne(2000).text()
                 console.log("查看我的账户")
             }catch(e){
                 return false;
@@ -130,7 +130,7 @@ function(){
             back()
             
             try{
-                var menu = id(values.myMenu).findOne(2000)
+                var menu = id(array.myMenu).findOne(2000)
                 console.log("返回主菜单")
             }catch(e){
                 return false;
@@ -138,17 +138,6 @@ function(){
         }else{
             return false
         }
-        // 打开第一个视频
-        /*    
-        try {
-            var video = id(values.firstVideo).findOne(800).bounds()
-            var x = Math.abs(video.centerX())
-            var y = Math.abs(video.centerY())
-            press(x, y, random(10,30))
-            }catch(e){
-                return true
-            };
-        */
         sleep(1000)
         //jumpAd()
     };
@@ -269,10 +258,10 @@ function(){
         var flag = 't'
         while(flag === 't'){
             sleep(1000)
-            var x1 = random(parseInt(values.w*0.67),parseInt(values.w*0.78))
-            var y1 = random(parseInt(values.h*0.78),parseInt(values.h*0.89))
-            var x2 = random(parseInt(values.w*0.71),parseInt(values.w*0.78))
-            var y2 = random(parseInt(values.h*0.21),parseInt(values.h*0.09))
+            var x1 = random(parseInt(array.w*0.67),parseInt(array.w*0.78))
+            var y1 = random(parseInt(array.h*0.78),parseInt(array.h*0.89))
+            var x2 = random(parseInt(array.w*0.71),parseInt(array.w*0.78))
+            var y2 = random(parseInt(array.h*0.21),parseInt(array.h*0.09))
             var speed = parseInt((y1-y2)*0.2936)
             swipeEx(x1,y1, x2,y2, speed, 0.08)        
             sleep(1000)
