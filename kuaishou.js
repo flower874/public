@@ -1,14 +1,5 @@
 
 function(){
-    threads.start(function(){
-        events.observeKey();
-        events.onKeyDown("volume_down", function(event){
-            console.log("slave进程 : 关闭当前脚本！关闭后需要手工启动");
-            var statusStorage = storages.create("status")
-            statusStorage.put(today,"")
-            exit();
-        });
-    });       
     home()
     customEvent.emit('log',"开始slave进程...")
     count = 0
