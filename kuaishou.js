@@ -52,9 +52,9 @@ function main() {
     // 运行时间
     var limitTime = random(30,100)
     var limitd = 1
-    while(!watchVideo(array,startTime,limitTime))
+    while(!watchVideo(array,startTime,limitTime)){}
 };
-main()
+main();
 
 function jumpAd(){
     try {
