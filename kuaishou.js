@@ -239,7 +239,7 @@ function(){
             var srcWrite = id("user_name_text_view").findOne(1800).text()
         }catch(e){ var srcWrite = "";}
     
-        var watchVideoTime = random(5000,25000) //观看 5 ~ 25秒
+        var watchVideoTime = random(5000,15000) //观看 5 ~ 25秒
         count = count + 1
         console.log("第 " + count + " 次观看，持续" + watchVideoTime / 1000 + "秒，作者 :" + srcWrite)        
         sleep(watchVideoTime);
@@ -284,7 +284,7 @@ function(){
 
     if(openApp()&&goReady()){
         var startTime = parseInt(Date.now()/1000)
-        var limitTime = random(30,100)
+        var limitTime = random(300,1800)
         while(true){
             try{
                 watchVideo();
