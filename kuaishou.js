@@ -267,11 +267,11 @@ function(){
             swipeEx(x1,y1, x2,y2, speed, 0.08)        
             sleep(1000)
             try{
-                var title = id("user_name_text_view").findOne(1800).text();
+                var Write = id("user_name_text_view").findOne(1800).text();
             }catch(e){
-                var title = ""
+                var Write = ""
             }
-            if(srcTitle === title){
+            if(srcWrite === Write){
                 console.log("上划失败，重试")
                 flag = 't';
             } else{ flag = 'f' } 
