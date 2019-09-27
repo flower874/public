@@ -31,10 +31,10 @@ function main() {
         'follow' : 'follow'
     };    
     if (openApp(array) === false ){
-        engines.stopAll();
+        return false
         };
     if (goReady(array) ===  false){
-        engines.stopAll();
+        return false
         };
     // 写入启动时间
     var AppName = array.appName
