@@ -216,16 +216,6 @@ function(){
     };
 
     function watchVideo(startTime,limitTime) {
-        //根据运行时间退出
-        var now = parseInt(Date.now()/1000)
-        var residue = limitTime - (now - startTime)
-        if(residue<=0){
-            saveTime();
-            customEvent.emit('log',"运行完成，返回...")
-            return true;
-        }else{
-            console.log("剩余运行时间 : "+residue+" 秒");
-        };
         //随机点赞 50/1
         if (random(0,49)===0){
             console.log("点个小心心")
@@ -295,13 +285,28 @@ function(){
     if(openApp()&&goReady()){
         var startTime = parseInt(Date.now()/1000)
         var limitTime = random(30,100)
-        while(!watchVideo(startTime,limitTime)){ 
-            saveTime();
-            customEvent.emit('log',"返回master进程");
-            sum.setAndNotify("完成");
+        while(true){
+            try{
+                watchVideo();
+                var now = parseInt(Date.now()/1000)
+                var residue = limitTime - (now - startTime)    
+                if(residue<=0){
+                    saveTime();
+                    sum.setAndNotify("运行完成，返回master进程");
+                    return true
+                }else{
+                    console.log("剩余运行时间 : "+residue+" 秒");
+                }
+            }
+            }catch(e){
+                sum.setAndNotify("运行异常，返回master进程");
+                saveTime();
+                return true
+            }
         };
     }else{
         sum.setAndNotify("启动失败");
+        return true
     };
 
     // 运行时间
