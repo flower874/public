@@ -1,5 +1,4 @@
-console.show()
-(function main() {
+function main() {
     home()
     count = 0
     var array = {
@@ -52,8 +51,10 @@ console.show()
     
     // 运行时间
     var limitTime = random(30,100)
-    while(!watchVideo(array,startTime,limitTime)){}
-})()
+    var limitd = 1
+    while(!watchVideo(array,startTime,limitTime))
+};
+main()
 
 function jumpAd(){
     try {
@@ -255,7 +256,7 @@ function watchVideo(values,startTime,limitTime) {
     var now = parseInt(Date.now()/1000)
     var residue = limitTime - (now - startTime)
     if(residue<=0){
-        engines.stopAll();
+        return false
     }else{
         console.log("剩余运行时间 : "+residue+" 秒");
     };
