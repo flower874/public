@@ -1,4 +1,3 @@
-console.show();
 (function main() {
     home()
     count = 0
@@ -51,7 +50,7 @@ console.show();
     storage.put(today,save)
     
     // 运行时间
-    var limitTime = random(300,1800)
+    var limitTime = random(30,100)
     while(!watchVideo(array,startTime,limitTime)){}
 })()
 
@@ -260,31 +259,28 @@ function watchVideo(values,startTime,limitTime) {
         console.log("剩余运行时间 : "+residue+" 秒");
     };
     //随机点赞 100/1
-    try {
-        sleep(random(1500,4000));
-        if (0 === 0 ){
-            console.log("点个小心心")
-            try{
-                var like = id("like_button").findOne(1000);
-                like.click()
-            }catch(e){};
-    //随机关注 1000/1
+    if (random(0,49)===0){
+        console.log("点个小心心")
+        let __i = 0
+        while(__i<=random(3,9)){
+            press(random(parseInt(values.w*0.6),parseInt(values.w*0.8)),random(parseInt(values.h*0.3),parseInt(values.h*0.5)),random(13,35));
+            __i++
         }
-    }catch(e){};
-    
+    };        
     try {
         sleep(random(1500,4000));
-        if (0 === 0 ){
+        if (random(0,999)===0){
             console.log("关注一下")
             id(values.like).findOne(800).click()
          }
         }catch(e){}
 
     //标题
-    sleep(2000)
+    sleep(800)
     try{
         var srcTitle = id("user_name_text_view").findOne(1800).text()
     }catch(e){ var srcTitle = "";}
+
     var watchVideoTime = random(5000,25000)
     count = count + 1
     console.log("第 " + count + " 次观看，持续" + watchVideoTime / 1000 + "秒，观看 :" + srcTitle)
