@@ -1,5 +1,15 @@
-function(){
 
+function(){
+    events.observeKey();
+    events.onKeyDown("volume_down", function(event){
+        console.log("关闭所有slave，返回master进程");
+        threads.shutDownAll();
+    });
+    events.onKeyDown("volume_up", function(event){
+        console.log("关闭当前master进程！关闭后需要手工启动");
+        exit();
+    });
+    
     home()
     customEvent.emit('log',"开始slave进程...")
     count = 0
