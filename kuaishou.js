@@ -3,7 +3,7 @@ function(){
     threads.start(function(){
         events.observeKey();
         events.onKeyDown("volume_up", function(event){
-            console.log("关闭当前master进程！关闭后需要手工启动");
+            console.log("slave进程 : 关闭当前脚本！关闭后需要手工启动");
             var statusStorage = storages.create("status")
             statusStorage.put(today,"")
             exit();
