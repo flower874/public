@@ -35,22 +35,23 @@ function(){
     
     function jumpAd(){
         try {
-            var child = id("child_icon").findOne(1000);
-            sleep(800)
-            back()
+            var child = id("child_icon").findOne(800);
+            if(child)back();
             sleep(800)
             return
         }catch(e){};
     
         try {
-            var signIn = text("立即签到").findOne(1000);
-            click("立即签到")
+            var signIn = desc("立即签到").findOne(800);
+            if(signIn)signIn.click()
+            sleep(800)
             return
         }catch(e){};
     
         try {
-            var offer = id("close").findOne(1000);
-            offer.click()
+            var offer = id("close").findOne(800);
+            if(offer)offer.click();
+            sleep(800)
             return
         }catch(e){};
     };
