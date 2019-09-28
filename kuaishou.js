@@ -1,15 +1,15 @@
 
 function(){
     home()
-    var slave.hotKey = threads.start(function(){events.observeKey();
+    var slavehotKey = threads.start(function(){events.observeKey();
         events.onKeyDown("volume_up", function(event){
-            console.log("master进程: 关闭当前脚本！关闭后需要手工启动");
+            console.log("slave进程: 关闭当前脚本！关闭后需要手工启动");
             exit();
             });
         });
         setInterval(() => {
-            if (!slave.hotKey.isAlive()){
-                slave.hotKey.setTimeout(()=>{},1000)
+            if (!slavehotKey.isAlive()){
+                slavehotKey.setTimeout(()=>{},1000)
             }
         },2000);
     customEvent.emit('log',"开始slave进程...")
