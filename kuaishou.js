@@ -1,5 +1,6 @@
 
 function(){
+    events.observeKey();
     home()
     customEvent.emit('log',"开始slave进程...")
     count = 0
@@ -38,29 +39,24 @@ function(){
             var child = id("child_icon").findOne(800);
             if(child)back();
             sleep(800)
-            return
         }catch(e){};
     
         try {
             var signIn = desc("立即签到").findOne(800);
             if(signIn)signIn.click()
             sleep(800)
-            return
         }catch(e){};
     
         try {
             var offer = id("close").findOne(800);
             if(offer)offer.click();
-            sleep(800)
             return
         }catch(e){};
     };
     
     function openApp () {    
         sleep(500)
-        
         console.log("启动", array.app)
-    
         launchPackage(array.app)
         sleep(2000)
         if(id(array.myMenu).findOne(5000)){
