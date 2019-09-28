@@ -265,7 +265,7 @@ function(){
         var save = storage.get(today)        
         if(!save)var save = {};
         console.log("写入时间戳 "+now+" 到AppStartTime")
-        save[AppName] = now;
+        save.AppName = now;
         storage.put(today,save);
         return true;
     };
@@ -275,19 +275,21 @@ function(){
         var now = parseInt(Date.now()/1000) ;
         var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
         var storage = storages.create("AppStartTime");
-        var alreadStorage = storages.create("alreadTime");
+        var alreadStorage = storages.create("alreadyTime");
         var save = alreadStorage.get(today);
-        if(!save)var save = {};
+        if(!save){
+            var save = {};
+            save.AppName = 0;
+        }
         var StoraStartTime = storage.get(today);
         if(!StoraStartTime)return true;
-        console.log("当前时间 "+now+" ，减去 "+StoraStartTime[AppName])
-        save[AppName] = now - StoraStartTime[AppName];
-        console.log("此次运行 "+save[AppName]+" 秒，写入本地存储")
+        console.log("当前时间 "+now+" ，减去 "+alreadStorage.AppName)
+        save.AppName = now - StoraStartTime + save.AppName;
+        console.log("此次运行 "+save.AppName+" 秒，写入本地存储")
         alreadStorage.put(today,save);
         storage.put(today,"");
         return true;
     };
-
 
 
     if(openApp()&&goReady()){
