@@ -86,7 +86,7 @@ function(){
         if(menu !== undefined){
             // 进入菜单
             try{
-                var menu = id(array.myMenu).findOne(2000)
+                var menu = id(array.myMenu).findOne(5000)
                 console.log("进入菜单")
             }catch(e){
                 return false;
@@ -99,7 +99,7 @@ function(){
             
             // 点击 开始赚钱
             try{
-                var Cash = id(array.goCash).findOne(2000).text()
+                var Cash = id(array.goCash).findOne(5000).text()
                 console.log("查看我的账户")
             }catch(e){
                 return false;
@@ -117,7 +117,7 @@ function(){
             back()
             
             try{
-                var menu = id(array.myMenu).findOne(2000)
+                var menu = id(array.myMenu).findOne(7000)
                 console.log("返回主菜单")
                 return true
             }catch(e){
