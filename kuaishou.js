@@ -1,4 +1,3 @@
-
 function(){
     home()
     customEvent.emit('log',"开始slave进程...")
@@ -257,31 +256,33 @@ function(){
     };
 
 
-    function save(AppName) {
-        var AppName = AppName || array.appName ;
+    
+    function save_start(){
+        var AppName = array.appName ;
         var now = parseInt(Date.now()/1000) ;
         var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
         var storage = storages.create("AppStartTime");
-    
-        function start(){
-            var save = storage.get(today)        
-            if(!save)var save = {};
-            save[AppName] = now;
-            storage.put(today,save);
-            return true;
-        };
+        var save = storage.get(today)        
+        if(!save)var save = {};
+        save[AppName] = now;
+        storage.put(today,save);
+        return true;
+    };
 
-        function already(){
-            var alreadStorage = storages.create("alreadTime");
-            var save = alreadStorage.get(today);
-            if(!save)var save = {};
-            var StoraStartTime = storage.get(today);
-            if(!StoraStartTime)return true;
-            save[AppName] = now - StoraStartTime;
-            alreadStorage.put(today,save);
-            storage.put(today,"");
-            return true;
-        };
+    function save_already(){
+        var AppName = array.appName ;
+        var now = parseInt(Date.now()/1000) ;
+        var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
+        var storage = storages.create("AppStartTime");
+        var alreadStorage = storages.create("alreadTime");
+        var save = alreadStorage.get(today);
+        if(!save)var save = {};
+        var StoraStartTime = storage.get(today);
+        if(!StoraStartTime)return true;
+        save[AppName] = now - StoraStartTime;
+        alreadStorage.put(today,save);
+        storage.put(today,"");
+        return true;
     };
 
 
@@ -292,7 +293,7 @@ function(){
         while(true){
             try{
                 //写入app启动时间
-                save.start()
+                save_start();
                 //看一次视频
                 watchVideo();
                 //剩余时间
@@ -301,16 +302,18 @@ function(){
                 //此slave运行结束
                 if(residue<=0){
                     //运行结束，将本次运行时间写入存储
-                    save.already();
+                    save_already();
                     sum.setAndNotify("slave : 运行完成，返回master进程");
                     return true
                 }else{
                     console.log("slave : 剩余运行时间 : "+residue+" 秒");
                 }
             }catch(e){
+                console.log(e)
                 sum.setAndNotify("slave : 运行异常，返回master进程");
+                console.log("slave : 运行异常，返回master进程");
                 //异常退出的情况下将运行时间写入存储
-                save.already();
+                save_already();
                 return true;
             }
         };
