@@ -56,16 +56,7 @@ function(){
         }catch(e){};
     };
     
-    function openApp () {
-        // close 所有应用
-        if (device.brand === 'samsung'){
-            recents();
-            sleep(1000);
-            if (!click("关闭全部")){
-                home()
-            };
-        };
-    
+    function openApp () {    
         sleep(500)
         
         console.log("启动", array.app)
