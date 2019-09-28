@@ -119,6 +119,7 @@ function(){
             try{
                 var menu = id(array.myMenu).findOne(7000)
                 console.log("返回主菜单")
+                back()
                 return true
             }catch(e){
                 return false;
@@ -262,15 +263,15 @@ function(){
         var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
         var storage = storages.create("AppStartTime");
     
-        var start = () =>{
+        function start(){
             var save = storage.get(today)        
             if(!save)var save = {};
             save[AppName] = now;
             storage.put(today,save);
             return true;
-        }
+        };
 
-        var already =()=>{
+        function already(){
             var alreadStorage = storages.create("alreadTime");
             var save = alreadStorage.get(today);
             if(!save)var save = {};
@@ -280,7 +281,7 @@ function(){
             alreadStorage.put(today,save);
             storage.put(today,"");
             return true;
-        }
+        };
     };
 
 
