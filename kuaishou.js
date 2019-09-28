@@ -1,6 +1,5 @@
 
 function(){
-    events.observeKey();
     home()
     customEvent.emit('log',"开始slave进程...")
     count = 0
@@ -73,7 +72,7 @@ function(){
         sleep(800)
     
         //console.log("跳过 青少年模式，邀请，签到")
-        //jumpAd()
+        jumpAd()
     
         //寻找菜单
     
@@ -112,7 +111,7 @@ function(){
             sleep(5000)
             //console.log("跳过邀请、签到")
     
-            //jumpAd()
+            jumpAd()
     
             //返回主菜单
             back()
@@ -128,7 +127,7 @@ function(){
             return false
         }
         sleep(1000)
-        //jumpAd()
+        jumpAd()
     };
     
     function swipeEx(qx, qy, zx, zy, time,excursion) {
@@ -256,38 +255,61 @@ function(){
         }
     };
 
-    function saveTime() {
-        var AppName = array.appName
-        var startTime = parseInt(Date.now()/1000)
-        var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate()
-        var storage = storages.create("AppStartTime")
-        var save = storage.get(today)
-        if(!save){ 
-            var save = {}
-            storage.put(today,save)
+
+    function save(AppName) {
+        var AppName = AppName || array.appName ;
+        var now = parseInt(Date.now()/1000) ;
+        var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
+        var storage = storages.create("AppStartTime");
+    
+        var saveStart = () =>{
+            var save = storage.get(today)        
+            if(!save)var save = {};
+            save[AppName] = now;
+            storage.put(today,save);
+            return true;
         }
-        save[AppName] = startTime
-        storage.put(today,save)
+
+        var saveAlready =()=>{
+            var alreadStorage = storages.create("alreadTime");
+            var save = alreadStorage.get(today);
+            if(!save)var save = {};
+            var StoraStartTime = storage.get(today);
+            if(!StoraStartTime)return true;
+            save[AppName] = now - StoraStartTime;
+            alreadStorage.put(today,save);
+            storage.put(today,"");
+            return true;
+        }
     };
+
+
 
     if(openApp()&&goReady()){
         var startTime = parseInt(Date.now()/1000)
         var limitTime = random(300,1800)
         while(true){
             try{
+                //写入app启动时间
+                saveTime(AppName);
+                //看一次视频
                 watchVideo();
+                //剩余时间
                 var now = parseInt(Date.now()/1000)
                 var residue = limitTime - (now - startTime)    
+                //此slave运行结束
                 if(residue<=0){
-                    saveTime();
-                    sum.setAndNotify("运行完成，返回master进程");
+                    //运行结束，将本次运行时间写入存储
+                    saveTime(AppName);
+                    sum.setAndNotify("slave : 运行完成，返回master进程");
                     return true
                 }else{
-                    console.log("剩余运行时间 : "+residue+" 秒");
+                    console.log("slave : 剩余运行时间 : "+residue+" 秒");
                 }
             }catch(e){
-                sum.setAndNotify("运行异常，返回master进程");
-                saveTime();
+                sum.setAndNotify("slave : 运行异常，返回master进程");
+                //异常退出的情况下将运行时间写入存储
+                saveTime(AppName);
                 return true
             }
         };
@@ -295,6 +317,4 @@ function(){
         sum.setAndNotify("启动失败");
         return true
     };
-
-    // 运行时间
 }
