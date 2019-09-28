@@ -1,6 +1,6 @@
 function(){
     home()
-    customEvent.emit('log',"开始slave进程...")
+    //customEvent.emit('log',"开始slave进程...")
     count = 0
     var array = {
         // 默认全是id，text会标注
@@ -264,6 +264,7 @@ function(){
         var storage = storages.create("AppStartTime");
         var save = storage.get(today)        
         if(!save)var save = {};
+        console.log("写入时间戳 "+now+" 到AppStartTime")
         save[AppName] = now;
         storage.put(today,save);
         return true;
@@ -279,7 +280,9 @@ function(){
         if(!save)var save = {};
         var StoraStartTime = storage.get(today);
         if(!StoraStartTime)return true;
-        save[AppName] = now - StoraStartTime;
+        console.log("当前时间 "+now+" ，减去 "+StoraStartTime[AppName])
+        save[AppName] = now - StoraStartTime[AppName];
+        console.log("此次运行 "+save[AppName]+" 秒，写入本地存储")
         alreadStorage.put(today,save);
         storage.put(today,"");
         return true;
@@ -289,11 +292,11 @@ function(){
 
     if(openApp()&&goReady()){
         var startTime = parseInt(Date.now()/1000)
-        var limitTime = random(300,1800)
+        var limitTime = random(30,50)
+        save_start();
         while(true){
             try{
                 //写入app启动时间
-                save_start();
                 //看一次视频
                 watchVideo();
                 //剩余时间
