@@ -1,21 +1,6 @@
 
 function(){
     home()
-    var slavehotKey = threads.start(function(){
-        events.observeKey();
-        console.log("slave : 监听按钮 音量+ (volume_up)")
-        events.onKeyDown("volume_up", function(event){
-            console.log("slave进程: 关闭当前脚本！关闭后需要手工启动");
-            exit();
-            });
-        });
-        setInterval(() => {
-            console.log("slave: 检测快捷键服务")
-            if (!slavehotKey.isAlive()){
-                console.log("slave: 重启快捷键服务")
-                slavehotKey.setTimeout(()=>{},1000)
-            }
-        },2000);
     customEvent.emit('log',"开始slave进程...")
     count = 0
     var array = {
