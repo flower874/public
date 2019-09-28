@@ -1,7 +1,9 @@
 
 function(){
     home()
-    var slavehotKey = threads.start(function(){events.observeKey();
+    var slavehotKey = threads.start(function(){
+        events.observeKey();
+        console.log("slave : 监听按钮 音量+ (volume_up)")
         events.onKeyDown("volume_up", function(event){
             console.log("slave进程: 关闭当前脚本！关闭后需要手工启动");
             exit();
