@@ -283,7 +283,7 @@ function(){
         }
         var StoraStartTime = storage.get(today);
         if(!StoraStartTime)return true;
-        console.log("当前时间 "+now+" ，减去 "+alreadStorage.AppName)
+        console.log("当前时间 "+now+" ，减去 "+ save.AppName)
         save.AppName = now - StoraStartTime + save.AppName;
         console.log("此次运行 "+save.AppName+" 秒，写入本地存储")
         alreadStorage.put(today,save);
