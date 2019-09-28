@@ -8,7 +8,9 @@ function(){
             });
         });
         setInterval(() => {
+            console.log("slave: 检测快捷键服务")
             if (!slavehotKey.isAlive()){
+                console.log("slave: 重启快捷键服务")
                 slavehotKey.setTimeout(()=>{},1000)
             }
         },2000);
