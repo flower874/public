@@ -262,7 +262,7 @@ function(){
         var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
         var storage = storages.create("AppStartTime");
     
-        var saveStart = () =>{
+        var start = () =>{
             var save = storage.get(today)        
             if(!save)var save = {};
             save[AppName] = now;
@@ -270,7 +270,7 @@ function(){
             return true;
         }
 
-        var saveAlready =()=>{
+        var already =()=>{
             var alreadStorage = storages.create("alreadTime");
             var save = alreadStorage.get(today);
             if(!save)var save = {};
@@ -291,7 +291,7 @@ function(){
         while(true){
             try{
                 //写入app启动时间
-                saveTime(AppName);
+                save.start()
                 //看一次视频
                 watchVideo();
                 //剩余时间
@@ -300,7 +300,7 @@ function(){
                 //此slave运行结束
                 if(residue<=0){
                     //运行结束，将本次运行时间写入存储
-                    saveTime(AppName);
+                    save.already();
                     sum.setAndNotify("slave : 运行完成，返回master进程");
                     return true
                 }else{
@@ -309,12 +309,12 @@ function(){
             }catch(e){
                 sum.setAndNotify("slave : 运行异常，返回master进程");
                 //异常退出的情况下将运行时间写入存储
-                saveTime(AppName);
-                return true
+                save.already();
+                return true;
             }
         };
     }else{
         sum.setAndNotify("启动失败");
-        return true
+        return true;
     };
 }
