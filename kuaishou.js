@@ -254,8 +254,6 @@ function(){
             } else{ flag = 'f' } 
         }
     };
-
-
     
     function save_start(){
         var AppName = array.appName ;
@@ -294,7 +292,7 @@ function(){
 
     if(openApp()&&goReady()){
         var startTime = parseInt(Date.now()/1000)
-        var limitTime = random(30,50)
+        var limitTime = random(300,1800)
         save_start();
         while(true){
             try{
