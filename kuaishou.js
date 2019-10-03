@@ -1,6 +1,6 @@
-function(){
+(function(){
     home()
-    //customEvent.emit('log',"开始slave进程...")
+    customEvent.emit('log',"开始slave进程...")
     count = 0
     var array = {
         // 默认全是id，text会标注
@@ -324,4 +324,4 @@ function(){
         sum.setAndNotify("启动失败");
         return true;
     };
-}
+})()
