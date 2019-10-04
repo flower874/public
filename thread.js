@@ -70,18 +70,8 @@ function bezier_curves(cp, t) {
         result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
         return result;
     };
-    function getTitles(massages){
-        let Titles = id(massages).findOne().children();
-        var x1 = random(parseInt(device.width*0.67),parseInt(device.width*0.78))
-        var y1 = random(parseInt(device.height*0.78),parseInt(device.height*0.89))
-        var x2 = random(parseInt(device.width*0.71),parseInt(device.width*0.78))
-        var y2 = random(parseInt(device.height*0.21),parseInt(device.height*0.09))
-        var speed = parseInt((y1-y2)*0.5636)
-        swipeEx(x1,y1, x2,y2, speed, 0.3)
-        return Titles;
-    }
 
-    function whereIs(intention){
+function whereIs(intention){
         //首页 0 ； 我的 1 ； 视频列表 2; 视频详情3 ； 阅读详情 4
         // eg  0 ，virification element，return true|false 
         let interaction = interaction || -1 ;
@@ -147,84 +137,8 @@ function bezier_curves(cp, t) {
             default:
                 return false
         }
-    }
-
-//console.log( getTitles(ato))
-
-/*
-function r(title){
-    let x = title.bounds().centerX()
-    let y = title.bounds().centerY()
-    press(x,y,5)
-    console.log("进入页面" + title.text() )
-    sleep(2000)
-    console.log("准备返回")
-    var quit = id("lz").findOne(1000)
-    console.log("点击x")
-    quit.click()
-}
-var a = id("ato").find()
-a.forEach(element => {
-    r(element);
-    sleep(800)
-});
-*/
-/*
-
-var t = {
 }
 
-function f(){
-    sleep(800)
-    for(index in t.unfold){
-        try{
-            console.log("查找 text: " + t.unfold[index])
-            var un = text(t.unfold[index]).findOne(10).bounds()
-            var xy = {
-                x : un.centerX(),
-                y : un.centerY()
-            }
-            console.log("找到元素，返回对象 un")
-            return xy;
-        }catch(e){}
-    }
-    try{
-        console.log("这是高手，改个方法")
-        var un = className("android.widget.Image").depth(19).findOne(800).bounds()
-        var xy = {
-            x : un.centerX(),
-            y : un.centerY()
-        }
-        return xy;
-    }catch(e){}
-    return false;
-}
-//var myVX = className("android.widget.ImageView").depth(13).findOne(5000).bounds();
-//console.log(myVX)
-
-//let groupTalk = text("内部阅读分享").findOne(1000);
-//console.log(groupTalk);
-let Titles = id("ato").find()
-Titles.forEach(element => {
-    console.log(element.text())
-});
-*/
-/*
-var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
-var storage = storages.create("vx_isread");
-//readlist = [];
-//storage.put(today,readlist);
-console.log(storage.get(today))
-var elements = {
-
-    massages : 'ato',
-    my : 'djv',
-    objectiveGroup : '内部阅读分享',
-    unfold : ['全文','显示','展开全文',
-    '点击展开全文','展开全文 ▽','展开全文更多精彩']    
-};
-
-*/
 var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
 
 var elements = {
@@ -273,14 +187,9 @@ function swipUp(){
     swipeEx(x1,y2, x2,y1, speed, 0.26);
 };
 
-swipUp()
 
 //var storage = storages.create("xiangkan");
 //var readlist = storage.get(today);
-/*
-var elements = {
-    MyMenu : 'tv_tab_title'
-};
 
 function forcePress(element){
     try{
@@ -296,24 +205,28 @@ function forcePress(element){
         return "点击失败";
     };
 }
-*/
-/*
-let src,dst,sl,_sl;
-let duration = 6000;
-let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1]
-while((e-s)<duration){
-    swipUp();
-    dst = id("author_nickname").findOne(10).text();
-    console.log("获取到作者 : "+dst)
-    if(src === dst){
-        console.log("作者未变，上划失败，重试")
-        src = dst;
-        continue;
-    }else{
-        src = dst;
+
+threads.start(function(){
+    while(true){
+        try {
+            let child = id("child_icon").findOne(50);
+            if(child)back();
+        }catch(e){};
+    
+        try {
+            let signIn = desc("立即签到").findOne(50);
+            if(signIn)signIn.click();
+            let ok = id("android.view.View").text("好的").findOne(50);
+            if(ok)ok.click();
+        }catch(e){};
+        try {
+            let ok = id("android.view.View").text("好的").findOne(50);
+            if(ok)ok.click();
+        }catch(e){}; 
+        try {
+            let offer = id("close").findOne(50);
+            if(offer)offer.click();
+        }catch(e){};
+        sleep(1000);
     };
-    sl = random(5000,17000)
-    sleep(sl)
-}
-home();
-*/
+});

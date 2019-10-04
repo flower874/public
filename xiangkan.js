@@ -34,7 +34,7 @@
         yetCoins : 'earn_coin_tv'
     };
     //初始化存储空间，存放阅读列表
-    var storage = storages.create("xiangkan");
+    var storage = storages.create(AppName);
     var readlist = storage.get(today);
     if(!readlist){
         readlist = [];
@@ -506,12 +506,12 @@
     clear();
     openApp();
     openMyMenu();
-    //福袋的子进程
     threads.start(function(){
         log("自动收取 签到/福袋/整点奖励")
         let __fudai,__commit,__indexCoin,__indexCheckin;
         while(true){
             sleep(1000)
+            //福袋
             try{
                 __fudai = id(elements.fudai).findOne(100);
                 if(__fudai){
@@ -527,6 +527,7 @@
                     forcePress(id(elements.fudaiCommit).findOne(100));
                 };
             }catch(e){}
+            //首页 整点奖励和签到
             try{
                 __indexCoin = id("tv_box_time_new").text("领金币").findOne(50);
                 if(__indexCoin)forcePress(__indexCoin);
@@ -540,7 +541,6 @@
             }catch(e){}
         };
     });
-
     //开始循环
     let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1]
     while((e-s)<duration){
