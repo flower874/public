@@ -1,4 +1,4 @@
-(function(){
+function(){
     let elements = {
         packageName : 'com.ss.android.ugc.livelite',
         kids : 'qf', //青少年模式
@@ -654,4 +654,4 @@
     };
     save_already();
     //sum.setAndNotify("slave : 运行完成，返回master进程");
-})()
+}
