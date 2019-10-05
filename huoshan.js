@@ -615,7 +615,9 @@ function(){
         let path = 'public-master/'
         let AppPool = JSON.parse(files.read(path+'conf.json'));
         let limitTIME = AppPool[AppName] || 0 ;
+        toastLog(AppName +"运行时间配置 :" +limitTIME)
         let atime = alreadyTime(AppName)
+        toastLog(AppName +"已运行时间 :"+alreadyTime)
         return {
             atime : atime,
             limitTIME : limitTIME,
