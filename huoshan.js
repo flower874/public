@@ -170,10 +170,10 @@ function(){
             result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
             return result;
         };    
-        var x1 = random(parseInt(device.width*0.21),parseInt(device.width*0.25))
+        var x1 = random(parseInt(device.width*0.14),parseInt(device.width*0.16))
         var y1 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
         var x2 = random(parseInt(device.width*0.77),parseInt(device.width*0.80))
-        var y2 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
+        var y2 = random(parseInt(device.height*0.79),parseInt(device.height*0.83))
         var speed = parseInt((x2-x1)*0.71703);
         swipeEx(x1,y1, x2,y2, speed, 0.17);
     };
@@ -463,6 +463,14 @@ function(){
     };
     function openVideo(){
         //右滑
+        let r = 0;
+        while(r === 0){
+            if(whereIs('index')){
+                r = 1;
+            }
+            swipRight();
+            sleep(800);
+        }
         swipRight();
         let fistVideo = id(elements.videoList).findOne(1000);
         if(forcePress(fistVideo)&&whereIs('video',4000)){}
