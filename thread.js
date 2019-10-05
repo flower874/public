@@ -578,19 +578,19 @@ let date = {
 storage.put(today,date)
 */
 //let time = getTIME('huoshan')
-let AppName = 'huoshan
-var alreadyTime = (AppName) => {
-    let storage = storages.create("alreadyTime");
-    let result =  storage.get(today);
-    if(result&&result[AppName]){
-        return result[AppName]
-    }else{
-        return 0;
-    };
-};
-let path = 'public-master/'
-let AppPool = JSON.parse(files.read(path+'conf.json'));
-let limitTIME = AppPool[AppName] || 0 ;
-toastLog(AppName +"运行时间配置 :" +limitTIME)
-let atime = alreadyTime(AppName)
-toastLog(AppName +"已运行时间 :"+atime)
+elements = {
+    PackageName : "com.tencent.mm",
+    AppName : '66',
+    me : 'djv',
+    favour : 'android:id/title', //text = "收藏"
+    read : 'bc', // text = "66阅读"
+    index : '今日成功阅读',
+    index2 : '今日阅读积分',
+    detail : 'img-content',
+    detail2 : 'lz',
+    theEnd : '加客服做更多任务'
+}
+let myfavour = id(elements.favour).text("收藏").findOne(2000);
+
+let Read = id(elements.read).text("66阅读");
+forcePress(Read)
