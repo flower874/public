@@ -170,10 +170,15 @@ function forcePress(element){
             x : element.bounds().centerX(),
             y : element.bounds().centerY()
         };
-    }catch(e){return false};
+    }catch(e){
+        toastLog("获取坐标失败")
+        return false
+    };
     if(press(forcePress.x, forcePress.y,50)){
+        toastLog("点击坐标"+forcePress.x+" "+forcePress.y)
         return true;
     }else{
+        toastLog("点击失败")
         return false;
     };
 }
@@ -191,42 +196,349 @@ function swipUp(){
 //var storage = storages.create("xiangkan");
 //var readlist = storage.get(today);
 
-function forcePress(element){
-    try{
-        console.log(element.bounds())
-        var forcePress = { 
-            x : element.bounds().centerX(),
-            y : element.bounds().centerY()
+function getTIME(AppName){
+    var alreadyTime = (AppName) => {
+        let storage = storages.create("alreadyTime");
+        let result =  storage.get(today);
+        if(result&&result.AppName){
+            return result.AppName
+        }else{
+            return 0;
         };
-    }catch(e){return "无法获取坐标"}
-    if(press(forcePress.x, forcePress.y,50)){
-        return true;
-    }else{
-        return "点击失败";
     };
+    let path = 'public-master/'
+    let AppPool = JSON.parse(files.read(path+'conf.json'));
+    let limitTIME = AppPool[AppName] || 0 ;
+    let atime = alreadyTime(AppName)
+    return {
+        atime : atime,
+        limitTIME : limitTIME,
+        duration : limitTIME - atime
+    };
+};
+
+let elements = {
+    kids : 'qf', //青少年模式
+    titles : 'title', // text= "红包"
+    menu : 'hy', // profile
+    offer : 'android.view.View', // text = javascript:;'
+    checkin : 'android.view.View', // text = 签到;
+    lookAd : 'android.view.View', // text = "领100金币"
+    closelAd : 'android.widget.TextView', //text ='关闭广告'
+    closelAd2 : 'rn', // text = '继续退出'
+    box : 'android.view.View', // text = "开宝箱得金币"
+    boxConfirm : 'android.view.View',
+    videoList : 'y9', // children
+    like : 'o4',
+    follow : 'ol',
+    write : 'gw',
+    coin : 'ru',
+    redPackage : 'a0r',
+    onePice : 'us',
+    onePiceStart : 'android.view.View', // depth(14)[抽奖转盘]  sleep(1500)
 }
 
-threads.start(function(){
-    while(true){
-        try {
-            let child = id("child_icon").findOne(50);
-            if(child)back();
-        }catch(e){};
+function whereIs(intention,timeout){
+    let timeout = timeout | 50
+    switch(intention){
+        case 'index':
+            try{
+                let one = id(elements.menu).findOne(timeout);
+                let two = id(elements.videoList).findOne(timeout);
+                if(one&&two){
+                    return true;
+                };
+                return false;
+            }catch(e){
+                    return false;
+                };
+        case 'menu':
+                try{
+                    let one = className(elements.offer).text("日常任务").findOne(timeout);
+                    let two = id(elements.menu).findOne(timeout);
+                    toastLog(one,two)
+                    if(one&&two){
+                        return true;
+                    };
+                    return false;
+                }catch(e){
+                        return false;
+                    };
+        case 'video':
+            try{
+                let one = id(elements.like).findOne(timeout);
+                let two = id(elements.write).findOne(timeout);
+                let three = id(elements.coin).findOne(timeout);
+                if(one&&two&&three){
+                    return true;
+                };
+                return false;
+            }catch(e){
+                return false;
+            }
+        case 'redPackage':
+            try{
+                let one = id(elements.like).findOne(timeout);
+                let two = id(elements.redPackage).findOne(timeout);
+                if(one&&two){
+                    return true;
+                };
+                return false;
+            }catch(e){
+                return false;
+            }
+        case 'onePice':
+            try{
+                let one = id(elements.onePice).findOne(timeout);
+                let two = id(elements.redPackage).findOne(timeout);
+                let three = id(elements.coin).findOne(timeout);
+                if(one){
+                    if(!two&&!three){
+                        return true;
+                    };
+                };
+                return false;
+            }catch(e){
+                return false;
+            }
+        };
+};
+function swipUpMicro(){
+    function swipeEx(qx, qy, zx, zy, time,excursion) {
+        var xxy = [time];
+        var point = [];
+        if(excursion === undefined){
+            var excursion = 0.08
+        }
+        // x点
+        var dx0 = {
+            "x": qx,
+            "y": qy
+        };
     
-        try {
-            let signIn = desc("立即签到").findOne(50);
-            if(signIn)signIn.click();
-            let ok = id("android.view.View").text("好的").findOne(50);
-            if(ok)ok.click();
-        }catch(e){};
-        try {
-            let ok = id("android.view.View").text("好的").findOne(50);
-            if(ok)ok.click();
-        }catch(e){}; 
-        try {
-            let offer = id("close").findOne(50);
-            if(offer)offer.click();
-        }catch(e){};
-        sleep(1000);
+        // y点
+        var dx1 = {
+            "x": random(qx - 100, qx + 100),
+            "y": random(qy, qy + 50)
+        };
+    
+        // dx0 和 dx1 组成起点
+    
+        var dx2 = {
+            "x": random(zx - 100, zx + 100),
+            "y": random(zy, zy + 50),
+        };
+        var dx3 = {
+            "x": zx,
+            "y": zy
+        };
+    
+        // dx2和dx3 组成终点
+    
+        for (var i = 0; i < 4; i++) {
+    
+            eval("point.push(dx" + i + ")");
+    
+        };
+    
+        //生成4个坐标
+    
+        //console.log(point)
+    
+        var amount = 8
+    
+        for (let i = 0; i < 1; i += excursion) {
+            
+            xxyy = [parseInt(bezier_curves(point, i).x), parseInt(bezier_curves(point, i).y)]
+            xxy.push(xxyy);
+            
+        }
+        //console.log(xxy);
+        gesture.apply(null, xxy);
     };
-});
+    function bezier_curves(cp, t) {
+        cx = 3.0 * (cp[1].x - cp[0].x);
+        bx = 3.0 * (cp[2].x - cp[1].x) - cx;
+        ax = cp[3].x - cp[0].x - cx - bx;
+        cy = 3.0 * (cp[1].y - cp[0].y);
+        by = 3.0 * (cp[2].y - cp[1].y) - cy;
+        ay = cp[3].y - cp[0].y - cy - by;
+    
+        tSquared = t * t;
+        tCubed = tSquared * t;
+        result = {
+            "x": 0,
+            "y": 0
+        };
+        result.x = (ax * tCubed) + (bx * tSquared) + (cx * t) + cp[0].x;
+        result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
+        return result;
+    };    
+    var x1 = random(parseInt(device.width*0.67),parseInt(device.width*0.69))
+    var y1 = random(parseInt(device.height*0.73),parseInt(device.height*0.74))
+    var x2 = random(parseInt(device.width*0.69),parseInt(device.width*0.71))
+    var y2 = random(parseInt(device.height*0.49),parseInt(device.height*0.52))
+    var speed = parseInt((y1-y2)*0.25703);
+    swipeEx(x1,y1, x2,y2, speed, 0.14);
+};
+
+function swipRight(){
+    function swipeEx(qx, qy, zx, zy, time,excursion) {
+        var xxy = [time];
+        var point = [];
+        if(excursion === undefined){
+            var excursion = 0.08
+        }
+        // x点
+        var dx0 = {
+            "x": qx,
+            "y": qy
+        };
+    
+        // y点
+        var dx1 = {
+            "x": random(qx - 100, qx + 100),
+            "y": random(qy, qy + 50)
+        };
+    
+        // dx0 和 dx1 组成起点
+    
+        var dx2 = {
+            "x": random(zx - 100, zx + 100),
+            "y": random(zy, zy + 50),
+        };
+        var dx3 = {
+            "x": zx,
+            "y": zy
+        };
+    
+        // dx2和dx3 组成终点
+    
+        for (var i = 0; i < 4; i++) {
+    
+            eval("point.push(dx" + i + ")");
+    
+        };
+    
+        //生成4个坐标
+    
+        //console.log(point)
+    
+        var amount = 8
+    
+        for (let i = 0; i < 1; i += excursion) {
+            
+            xxyy = [parseInt(bezier_curves(point, i).x), parseInt(bezier_curves(point, i).y)]
+            xxy.push(xxyy);
+            
+        }
+        //console.log(xxy);
+        gesture.apply(null, xxy);
+    };
+    function bezier_curves(cp, t) {
+        cx = 3.0 * (cp[1].x - cp[0].x);
+        bx = 3.0 * (cp[2].x - cp[1].x) - cx;
+        ax = cp[3].x - cp[0].x - cx - bx;
+        cy = 3.0 * (cp[1].y - cp[0].y);
+        by = 3.0 * (cp[2].y - cp[1].y) - cy;
+        ay = cp[3].y - cp[0].y - cy - by;
+    
+        tSquared = t * t;
+        tCubed = tSquared * t;
+        result = {
+            "x": 0,
+            "y": 0
+        };
+        result.x = (ax * tCubed) + (bx * tSquared) + (cx * t) + cp[0].x;
+        result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
+        return result;
+    };    
+    var x1 = random(parseInt(device.width*0.21),parseInt(device.width*0.25))
+    var y1 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
+    var x2 = random(parseInt(device.width*0.77),parseInt(device.width*0.80))
+    var y2 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
+    var speed = parseInt((x2-x1)*0.71703);
+    swipeEx(x1,y1, x2,y2, speed, 0.17);
+};
+
+function swipLift(){
+    function swipeEx(qx, qy, zx, zy, time,excursion) {
+        var xxy = [time];
+        var point = [];
+        if(excursion === undefined){
+            var excursion = 0.08
+        }
+        // x点
+        var dx0 = {
+            "x": qx,
+            "y": qy
+        };
+    
+        // y点
+        var dx1 = {
+            "x": random(qx - 100, qx + 100),
+            "y": random(qy, qy + 50)
+        };
+    
+        // dx0 和 dx1 组成起点
+    
+        var dx2 = {
+            "x": random(zx - 100, zx + 100),
+            "y": random(zy, zy + 50),
+        };
+        var dx3 = {
+            "x": zx,
+            "y": zy
+        };
+    
+        // dx2和dx3 组成终点
+    
+        for (var i = 0; i < 4; i++) {
+    
+            eval("point.push(dx" + i + ")");
+    
+        };
+    
+        //生成4个坐标
+    
+        //console.log(point)
+    
+        var amount = 8
+    
+        for (let i = 0; i < 1; i += excursion) {
+            
+            xxyy = [parseInt(bezier_curves(point, i).x), parseInt(bezier_curves(point, i).y)]
+            xxy.push(xxyy);
+            
+        }
+        //console.log(xxy);
+        gesture.apply(null, xxy);
+    };
+    function bezier_curves(cp, t) {
+        cx = 3.0 * (cp[1].x - cp[0].x);
+        bx = 3.0 * (cp[2].x - cp[1].x) - cx;
+        ax = cp[3].x - cp[0].x - cx - bx;
+        cy = 3.0 * (cp[1].y - cp[0].y);
+        by = 3.0 * (cp[2].y - cp[1].y) - cy;
+        ay = cp[3].y - cp[0].y - cy - by;
+    
+        tSquared = t * t;
+        tCubed = tSquared * t;
+        result = {
+            "x": 0,
+            "y": 0
+        };
+        result.x = (ax * tCubed) + (bx * tSquared) + (cx * t) + cp[0].x;
+        result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
+        return result;
+    };    
+    var x1 = random(parseInt(device.width*0.77),parseInt(device.width*0.81))
+    var y1 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
+    var x2 = random(parseInt(device.width*0.21),parseInt(device.width*0.24))
+    var y2 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
+    var speed = parseInt((x1-x2)*0.6703);
+    swipeEx(x1,y1, x2,y2, speed, 0.17);
+};
+
+swipLift();
+//swipRight();

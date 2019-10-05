@@ -1,5 +1,5 @@
 (function (){
-    //customEvent.emit('log',"slave : 快手极速版准备开始...")
+    customEvent.emit('log',"slave : 快手极速版准备开始...")
     var elements = {
     };
     var array = {
@@ -137,8 +137,7 @@
             clean();
             launchPackage(array.app);
             if(!whereIs('index',12000)){
-                exit();
-                //sum.setAndNotify("slave : 启动失败.");
+                sum.setAndNotify("slave : 启动失败.");
             };
         };
         let myMenu = id(array.myMenu).findOne(1200);

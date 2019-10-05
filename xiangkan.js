@@ -40,7 +40,6 @@
         readlist = [];
         storage.put(today,readlist);
     }
-    
 
 ////////////////////
 
