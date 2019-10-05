@@ -177,6 +177,6 @@ function(){
     openApp();
     openIndex();
     startRead();
-    savePoll(AppName);
+    savePoll(elements.AppName);
     sum.setAndNotify("slave : 阅读结束.");
 }
