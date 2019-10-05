@@ -1,6 +1,7 @@
 function(){
     let elements = {
         packageName : 'com.ss.android.ugc.livelite',
+        AppName : 'huoshan',
         kids : 'qf', //青少年模式
         titles : 'title', // text= "红包"
         menu : 'hy', // profile
