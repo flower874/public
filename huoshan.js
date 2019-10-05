@@ -465,10 +465,10 @@ function(){
         while(r === 0){
             if(whereIs('index')){
                 r = 1;
-            }
+            };
             swipRight();
             sleep(800);
-        }
+        };
         swipRight();
         let fistVideo = id(elements.videoList).findOne(1000);
         if(forcePress(fistVideo)&&whereIs('video',4000)){}
