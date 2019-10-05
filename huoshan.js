@@ -481,9 +481,9 @@ function(){
     };
     function watchVideo() {
         function OP(){
-            let onepice = className(elements.onePice).depth(14).findOne(2000)
+            let onepice = className(elements.onePiceStart).depth(14).findOne(2000)
             if(onepice)forcePress(onepice);
-            sleep(3000);
+            sleep(5000);
             swipUp();
         }
         function redP(){
