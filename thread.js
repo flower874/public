@@ -536,9 +536,6 @@ function swipLift(){
     var y1 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
     var x2 = random(parseInt(device.width*0.21),parseInt(device.width*0.24))
     var y2 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
-    var speed = parseInt((x1-x2)*0.6703);
-    swipeEx(x1,y1, x2,y2, speed, 0.17);
+    var speed = parseInt((x1-x2)*0.71703);
+    swipeEx(x1,y1, x2,y2, speed, 0.21);
 };
-
-swipLift();
-//swipRight();
