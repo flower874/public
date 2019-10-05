@@ -617,7 +617,7 @@ function(){
         let limitTIME = AppPool[AppName] || 0 ;
         toastLog(AppName +"运行时间配置 :" +limitTIME)
         let atime = alreadyTime(AppName)
-        toastLog(AppName +"已运行时间 :"+alreadyTime)
+        toastLog(AppName +"已运行时间 :"+atime)
         return {
             atime : atime,
             limitTIME : limitTIME,
