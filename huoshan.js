@@ -358,15 +358,13 @@ function(){
             clean();
             launchPackage(elements.packageName);
             if(!whereIs('index',12000)){
-                exit();
-                //sum.setAndNotify("slave : 启动失败.");
+                sum.setAndNotify("slave : 启动失败.");
             };
         };
         let myMenu = id(elements.titles).text("红包").findOne(200);
         if(forcePress(myMenu)){
             if(!whereIs('menu',6000)){
-                exit();
-                //sum.setAndNotify("slave : 启动失败.");
+                sum.setAndNotify("slave : 启动失败.");
             };
         };
     };
@@ -651,7 +649,7 @@ function(){
     //内部运行时间(秒)
     let d = random(600,1800);
     let time = getTIME(elements.AppName);
-    //if(d>time.duration)d = time.duration;
+    if(d>time.duration)d = time.duration;
     var count = 0;
     save_start();
     while((e-s)<d){
@@ -661,5 +659,5 @@ function(){
         e = parseInt(Date.now()/1000);
     };
     save_already();
-    //sum.setAndNotify("slave : 运行完成，返回master进程");
+    sum.setAndNotify("slave : 运行完成，返回master进程");
 }
