@@ -483,7 +483,7 @@ function(){
         function OP(){
             let onepice = className(elements.onePice).depth(14).findOne(200)
             if(onepice)forcePress(onepice);
-            sleep(30000);
+            sleep(3000);
             swipUp();
         }
         function redP(){
