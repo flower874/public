@@ -501,15 +501,12 @@ function(){
             let watchVideoTime = random(3000,11000)
             toastLog("第 " + count + " 次观看，持续" + watchVideoTime / 1000 + "秒")        
             if (random(0,49)===0){
-                let __i = 0
-                while(__i<=random(3,9)){
-                    press(random(parseInt(device.width*0.6),parseInt(device.height*0.8)),random(parseInt(device.width*0.3),parseInt(device.height*0.5)),random(13,35));
-                    __i++
-                }
+                let like = id(elements.like).findOne(200);
+                forcePress(like)
             };
             sleep(random(1500,4000));
             if (random(0,999)===0){
-                forcePress(id(elements.like).findOne(200).click())
+                forcePress(id(elements.follow).findOne(200).click())
             }
             sleep(watchVideoTime);
             swipUp();

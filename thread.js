@@ -540,7 +540,5 @@ function swipLift(){
     swipeEx(x1,y1, x2,y2, speed, 0.21);
 };
 
-let onepice = className(elements.onePiceStart).depth(14).findOne(2000)
-if(onepice)forcePress(onepice);
-sleep(3000);
-toastLog("成功")
+let like = id(elements.like).findOne(200)
+forcePress(like)
