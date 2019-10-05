@@ -473,8 +473,7 @@ function(){
         let fistVideo = id(elements.videoList).findOne(1000);
         if(forcePress(fistVideo)&&whereIs('video',4000)){}
         else{
-            exit();
-            //sum.setAndNotify("slave : 启动失败.");
+            sum.setAndNotify("slave : 启动失败.");
         };
     };
     function watchVideo() {
