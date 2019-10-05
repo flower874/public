@@ -471,7 +471,9 @@ function(){
         };
         swipRight();
         let fistVideo = id(elements.videoList).findOne(1000);
-        if(forcePress(fistVideo)&&whereIs('video',4000)){}
+        if(forcePress(fistVideo)&&whereIs('video',4000)){
+            toastLog("开始播放首个视频")
+        }
         else{
             sum.setAndNotify("slave : 启动失败.");
         };
@@ -649,6 +651,7 @@ function(){
     let d = random(600,1800);
     let time = getTIME(elements.AppName);
     if(d>time.duration)d = time.duration;
+    toastLog("本次运行时间 : "+ d +" 秒")
     var count = 0;
     save_start();
     while((e-s)<d){
