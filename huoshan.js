@@ -481,7 +481,7 @@ function(){
     };
     function watchVideo() {
         function OP(){
-            let onepice = className(elements.onePice).depth(14).findOne(200)
+            let onepice = className(elements.onePice).depth(14).findOne(2000)
             if(onepice)forcePress(onepice);
             sleep(3000);
             swipUp();
