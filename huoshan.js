@@ -651,7 +651,7 @@ function(){
     let d = random(600,1800);
     let time = getTIME(elements.AppName);
     if(d>time.duration)d = time.duration;
-    toastLog("本次运行时间 : "+ d +" 秒")
+    toastLog(elements.AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ d +" 秒")
     var count = 0;
     save_start();
     while((e-s)<d){
@@ -660,6 +660,7 @@ function(){
         }catch(e){};
         e = parseInt(Date.now()/1000);
     };
+    toastLog("此次运行结束")
     save_already();
     sum.setAndNotify("slave : 运行完成，返回master进程");
 }
