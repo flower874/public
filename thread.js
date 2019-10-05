@@ -540,5 +540,57 @@ function swipLift(){
     swipeEx(x1,y1, x2,y2, speed, 0.21);
 };
 
-let like = id(elements.like).findOne(200)
-forcePress(like)
+
+let a = text("开始阅读").findOne(50)
+let b = text("停止阅读").findOne(50)
+let d = text("加客服做更多任务").findOne(50)
+function getTIME(AppName){
+    var alreadyTime = (AppName) => {
+        let storage = storages.create("alreadyTime");
+        let result =  storage.get(today);
+        if(result&&result[AppName]){
+            return result[AppName]
+        }else{
+            toastLog(result)
+            return 0;
+        };
+    };
+    let path = 'public-master/'
+    let AppPool = JSON.parse(files.read(path+'conf.json'));
+    toastLog(AppPool)
+    toastLog(AppPool[AppName])
+    let limitTIME = AppPool[AppName] || 0 ;
+    toastLog(AppName +"运行时间配置 :" +limitTIME)
+    let atime = alreadyTime(AppName)
+    toastLog(AppName +"已运行时间 :"+atime)
+    return {
+        atime : atime,
+        limitTIME : limitTIME,
+        duration : limitTIME - atime
+    };
+};
+/*
+let storage = storages.create("alreadyTime");
+let date = {
+    kuaishou : 5000,
+    huoshan : 400
+}
+storage.put(today,date)
+*/
+//let time = getTIME('huoshan')
+let AppName = 'huoshan
+var alreadyTime = (AppName) => {
+    let storage = storages.create("alreadyTime");
+    let result =  storage.get(today);
+    if(result&&result[AppName]){
+        return result[AppName]
+    }else{
+        return 0;
+    };
+};
+let path = 'public-master/'
+let AppPool = JSON.parse(files.read(path+'conf.json'));
+let limitTIME = AppPool[AppName] || 0 ;
+toastLog(AppName +"运行时间配置 :" +limitTIME)
+let atime = alreadyTime(AppName)
+toastLog(AppName +"已运行时间 :"+atime)

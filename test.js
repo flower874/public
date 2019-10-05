@@ -1,8 +1,4 @@
-let a = text("开始阅读").findOne(500)
-let b = text("停止阅读").findOne(500)
-let c = text("加公众号永不失联").findOne(500)
-let d = text("加客服做更多任务").findOne(500)
-console.log(a)
-console.log(b)
-console.log(c)
-console.log(d)
+let path = 'public-master/'
+let AppPool = JSON.parse(files.read(path+'conf.json'));
+let AppName = 'huoshan'
+console.log(AppPool[AppPool])

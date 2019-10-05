@@ -359,12 +359,14 @@ function(){
             clean();
             launchPackage(elements.packageName);
             if(!whereIs('index',12000)){
+                toastLog("启动失败，退出")
                 sum.setAndNotify("slave : 启动失败.");
             };
         };
         let myMenu = id(elements.titles).text("红包").findOne(200);
         if(forcePress(myMenu)){
             if(!whereIs('menu',6000)){
+                toastLog("打开菜单失败，退出")
                 sum.setAndNotify("slave : 启动失败.");
             };
         };
@@ -606,8 +608,8 @@ function(){
         var alreadyTime = (AppName) => {
             let storage = storages.create("alreadyTime");
             let result =  storage.get(today);
-            if(result&&result.AppName){
-                return result.AppName
+            if(result&&result[AppName]){
+                return result[AppName]
             }else{
                 return 0;
             };
