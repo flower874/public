@@ -1,4 +1,4 @@
-
+/*
 function swipeEx(qx, qy, zx, zy, time,excursion) {
         var xxy = [time];
         var point = [];
@@ -216,27 +216,6 @@ function getTIME(AppName){
         duration : limitTIME - atime
     };
 };
-
-let elements = {
-    kids : 'qf', //青少年模式
-    titles : 'title', // text= "红包"
-    menu : 'hy', // profile
-    offer : 'android.view.View', // text = javascript:;'
-    checkin : 'android.view.View', // text = 签到;
-    lookAd : 'android.view.View', // text = "领100金币"
-    closelAd : 'android.widget.TextView', //text ='关闭广告'
-    closelAd2 : 'rn', // text = '继续退出'
-    box : 'android.view.View', // text = "开宝箱得金币"
-    boxConfirm : 'android.view.View',
-    videoList : 'y9', // children
-    like : 'o4',
-    follow : 'ol',
-    write : 'gw',
-    coin : 'ru',
-    redPackage : 'a0r',
-    onePice : 'us',
-    onePiceStart : 'android.view.View', // depth(14)[抽奖转盘]  sleep(1500)
-}
 
 function whereIs(intention,timeout){
     let timeout = timeout | 50
@@ -541,34 +520,7 @@ function swipLift(){
 };
 
 
-let a = text("开始阅读").findOne(50)
-let b = text("停止阅读").findOne(50)
-let d = text("加客服做更多任务").findOne(50)
-function getTIME(AppName){
-    var alreadyTime = (AppName) => {
-        let storage = storages.create("alreadyTime");
-        let result =  storage.get(today);
-        if(result&&result[AppName]){
-            return result[AppName]
-        }else{
-            toastLog(result)
-            return 0;
-        };
-    };
-    let path = 'public-master/'
-    let AppPool = JSON.parse(files.read(path+'conf.json'));
-    toastLog(AppPool)
-    toastLog(AppPool[AppName])
-    let limitTIME = AppPool[AppName] || 0 ;
-    toastLog(AppName +"运行时间配置 :" +limitTIME)
-    let atime = alreadyTime(AppName)
-    toastLog(AppName +"已运行时间 :"+atime)
-    return {
-        atime : atime,
-        limitTIME : limitTIME,
-        duration : limitTIME - atime
-    };
-};
+
 /*
 let storage = storages.create("alreadyTime");
 let date = {
@@ -578,19 +530,251 @@ let date = {
 storage.put(today,date)
 */
 //let time = getTIME('huoshan')
-elements = {
-    PackageName : "com.tencent.mm",
-    AppName : '66',
-    me : 'djv',
-    favour : 'android:id/title', //text = "收藏"
-    read : 'bc', // text = "66阅读"
-    index : '今日成功阅读',
-    index2 : '今日阅读积分',
-    detail : 'img-content',
-    detail2 : 'lz',
-    theEnd : '加客服做更多任务'
-}
-let myfavour = id(elements.favour).text("收藏").findOne(2000);
 
-let Read = id(elements.read).text("66阅读");
-forcePress(Read)
+
+var elements = {
+    AppName : 'huiNews',
+    PackageName : 'com.cashtoutiao',
+
+    //忽略按钮
+    ignore : { id : 'tv_lelf', text : '忽略'},
+    //签到泡泡
+    bubble : {id :'tv_bubble_credit'},
+    //日历页面
+    inDatePage : {id : ['tv_date','tv_today_in_history']},
+    //首页
+    HOME : {className: 'android.widget.TextView', text :'头条'},
+    //任务中心
+    taskCenter : {className: 'android.widget.TextView', text :'任务中心'},
+    //首页元素
+    inHomePage : {id : ['home_search','receive_layout'],depth:8},
+    //任务中心元素
+    inTaskCenter : {id : ['daily_task_fragment','sign_item_container']},
+    //新闻列表
+    // 正常新闻没有 adtag，视频有 videotag
+    pageList : {className: 'android.widget.FrameLayout'},
+    pageTitle : {id:'tv_title'},
+    pageWrite : {id:'tv_src'},
+    pageAdtag : {id:'tv_ad_tag'},
+    pageVideotag : {id:'alivc_player_state'},
+    pageShielding : {id:'shielding'}, 
+    
+    //新闻内容 视频有Video标签
+    detailLike : {text:"关注"},
+    detailFavor : {id : "iv_collection"},
+    detailVideo : {id : "video_container"},
+    unfold : {className:"android.view.View",text:"展开全文"},
+
+    //内容结束
+    // 有 关注，收藏元素的情况下，出现内容列表
+    //
+
+    //翻倍卡 -> 看视频 (等待50秒)
+    doubleCard : {id : 'fl_double_card_containe'},
+    adclose : {className: 'android.widget.Button',text:"点击打开"}
+};
+
+
+function whereIs(intention,timeout){
+    let timeout = timeout || 50;
+    let types = ['home','detail'];
+    if(types.indexOf(intention) === -1){
+        for(type of types){
+            if(select(type)){
+                return type;
+            };
+        };
+    }else{
+        return select(intention);
+    }
+    function select(intention){
+        let one,two,three,other;
+        switch(intention){
+            case types[0]:
+                try{
+                    one = id(elements.inHomePage.id[0]).findOne(timeout);
+                    two = id(elements.inHomePage.id[1]).findOne(timeout);
+                    console.log(one)
+                    console.log(two)
+                    if(one&&two){
+                        return true;
+                    };
+                    return false;
+                }catch(e){
+                        return false;
+                    }
+            case types[1]:
+                try{
+                    one = id(elements.detailFavor.id).findOne(timeout);
+                    two = text(elements.detailLike.text).findOne(timeout);
+                    if(one&&two){
+                        return true;
+                    };
+                    return false;
+                }catch(e){
+                    return false
+                };
+            default :
+                return false;
+        };
+    };
+};
+//swipeEx(400, 666, 400, 200, 210); //向上滑动翻页
+
+//仿真随机带曲线滑动  
+//qx, qy, zx, zy, time 代表起点x,起点y,终点x,终点y,过程耗时单位毫秒
+function swipeEx(qx, qy, zx, zy, time) {
+    var xxy = [time];
+    var point = [];
+    var dx0 = {
+        "x": qx,
+        "y": qy
+    };
+
+    var dx1 = {
+        "x": random(qx - 100, qx + 100),
+        "y": random(qy, qy + 50)
+    };
+    var dx2 = {
+        "x": random(zx - 100, zx + 100),
+        "y": random(zy, zy + 50),
+    };
+    var dx3 = {
+        "x": zx,
+        "y": zy
+    };
+    for (var i = 0; i < 4; i++) {
+
+        eval("point.push(dx" + i + ")");
+
+    };
+    log(point[3].x)
+
+    for (let i = 0; i < 1; i += 0.2) {
+        xxyy = [parseInt(bezier_curves(point, i).x), parseInt(bezier_curves(point, i).y)]
+        xxy.push(xxyy);
+    }
+
+    log(xxy);
+    gesture.apply(null, xxy);
+};
+
+function bezier_curves(cp, t) {
+    cx = 3.0 * (cp[1].x - cp[0].x);
+    bx = 3.0 * (cp[2].x - cp[1].x) - cx;
+    ax = cp[3].x - cp[0].x - cx - bx;
+    cy = 3.0 * (cp[1].y - cp[0].y);
+    by = 3.0 * (cp[2].y - cp[1].y) - cy;
+    ay = cp[3].y - cp[0].y - cy - by;
+
+    tSquared = t * t;
+    tCubed = tSquared * t;
+    result = {
+        "x": 0,
+        "y": 0
+    };
+    result.x = (ax * tCubed) + (bx * tSquared) + (cx * t) + cp[0].x;
+    result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
+    return result;
+};
+
+function swip(frequency,style,extent){
+    function swipeEx(qx, qy, zx, zy, time,excursion) {
+        var xxy = [time];
+        var point = [];
+        if(excursion === undefined){
+            var excursion = 0.08
+        }
+        // x点
+        var dx0 = {
+            "x": qx,
+            "y": qy
+        };
+    
+        // y点
+        var dx1 = {
+            "x": random(qx - 100, qx + 100),
+            "y": random(qy, qy + 50)
+        };
+    
+        // dx0 和 dx1 组成起点
+    
+        var dx2 = {
+            "x": random(zx - 100, zx + 100),
+            "y": random(zy, zy + 50),
+        };
+        var dx3 = {
+            "x": zx,
+            "y": zy
+        };
+    
+        // dx2和dx3 组成终点
+    
+        for (var i = 0; i < 4; i++) {
+    
+            eval("point.push(dx" + i + ")");
+    
+        };
+    
+        //生成4个坐标
+    
+        //console.log(point)
+    
+        var amount = 8
+    
+        for (let i = 0; i < 1; i += excursion) {
+            
+            xxyy = [parseInt(bezier_curves(point, i).x), parseInt(bezier_curves(point, i).y)]
+            xxy.push(xxyy);
+            
+        }
+        //console.log(xxy);
+        gesture.apply(null, xxy);
+    };
+    function bezier_curves(cp, t) {
+        cx = 3.0 * (cp[1].x - cp[0].x);
+        bx = 3.0 * (cp[2].x - cp[1].x) - cx;
+        ax = cp[3].x - cp[0].x - cx - bx;
+        cy = 3.0 * (cp[1].y - cp[0].y);
+        by = 3.0 * (cp[2].y - cp[1].y) - cy;
+        ay = cp[3].y - cp[0].y - cy - by;
+    
+        tSquared = t * t;
+        tCubed = tSquared * t;
+        result = {
+            "x": 0,
+            "y": 0
+        };
+        result.x = (ax * tCubed) + (bx * tSquared) + (cx * t) + cp[0].x;
+        result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
+        return result;
+    };
+    //风格
+    let style = style || 3;
+    //滑动次数
+    let frequency = frequency || 3
+    //以上数值即权重
+    //滚屏长度
+    let swipStart = parseInt(device.height * random(66,73) / 100);
+    let extent = parseInt( ( device.height - swipStart ) * random(77,94) / 100)
+    console.log(extent)
+    let num = weighted(5)
+    let _num = num
+    while(true){
+        let x1 = parseInt(device.width*random(60,68)/100);
+        let x2 = x1
+        let y1 = swipStart;
+        let y2 = extent;
+        let speed = parseInt((y1-y2)*0.7);
+        console.log(x1,y1,x2,y2,speed)
+        swipeEx(x1,y1, x2,y2, speed, 0.28);
+        if(num<=1){
+            return;
+        }else{num--};
+        sleep(random(600,1300))
+    };
+};
+//(242:48) 翻页
+// 0.26/0.21/1.8/0.28 阅读
+//25,27,345,2.3 翻页
+swip()
