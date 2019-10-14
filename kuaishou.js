@@ -28,13 +28,14 @@ function(){
     toastLog(AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ d +" 秒")
     sac.util.savestarttime(AppName);
     while((e-s)<d){
+        exitcountmax--;
         sac.watchVideo(sac.elements);
         e = parseInt(Date.now()/1000);
         if(!sac.whereis('home',5000)){
             if(exitcount>exitcountmax){
                 result.setAndNotify("slave : 运行完成，返回master进程");
             };
-            exitconut++
+            exitcountmax++
             sac.util.clean();
             sac.util.openApp(sac.elements.packageName);        
         };
