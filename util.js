@@ -151,8 +151,10 @@ util.savestarttime=(AppName)=>{
     let now = parseInt(Date.now()/1000) ;
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     let storage = storages.create("AppStartTime");
-    let save = storage.get(today)        
-    if(!save)let save = {};
+    let save = storage.get(today);
+    if(!save){
+        let save = {};
+    };
     log("savestarttime: 写入时间戳 "+now+" 到AppStartTime")
     save[AppName] = now;
     storage.put(today,save);
@@ -184,7 +186,7 @@ util.gettime=(AppName)=>{
     var alreadyTime = (AppName) => {
         let storage = storages.create("alreadyTime");
         let result =  storage.get(today);
-        log("当前alreadytime数据: "+result)
+        log("当前alreadytime数据: "+result);
         if(result&&result[AppName]){
             return result[AppName]
         }else{
