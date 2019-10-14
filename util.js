@@ -157,8 +157,10 @@ util.savestarttime=(AppName)=>{
     };
     log("savestarttime: 写入时间戳 "+now+" 到AppStartTime")
     save[AppName] = now;
+    console.log(save)
     storage.put(today,save);
-    log("写入后状态:" +storage.get(today))
+    save = storage.get(today);
+    log("写入后状态:" + save)
     return true;
 };
 util.savealreadytime=(AppName)=>{
