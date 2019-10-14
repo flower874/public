@@ -26,6 +26,7 @@ function(){
     //内部运行时间(秒)
     let d = random(1810,1820);
     let time = sac.util.gettime(AppName);
+    console.log(time)
     if(d>time.duration)d = time.duration;
     toastLog(AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ d +" 秒")
     sac.util.savestarttime;
