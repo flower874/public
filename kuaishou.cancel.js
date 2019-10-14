@@ -1,8 +1,8 @@
 function cancel(elements) {
     sac = {util:require('./util.js'),}
     //青少年模式
-    let child = text(elements.childClose.text).findOne(50);
-    if(child)sac.util.forcePress(child);
+    let child = text(elements.childClose.id).findOne(50);
+    if(child)back();
     //签到
     let signIn = desc("立即签到").findOne(50);
     if(signIn)sac.util.forcePress(signIn);
