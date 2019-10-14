@@ -1,5 +1,5 @@
-var sac = {util:require('./util.js')}
 function watchvideo(elements){
+    sac = {util:require('./util.js')}
     function getwrite(){
         let writes = id(elements.write.id).find()
         if(!writes)return;

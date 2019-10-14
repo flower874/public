@@ -2,7 +2,7 @@
 function whereis(intention,timeout){
     let AppName = 'kuaishou';
     let Path = './'+AppName+'.';
-    let sac = {
+    sac = {
         util:require('./util.js'),
         elements:require(Path+'elements.js')
     };

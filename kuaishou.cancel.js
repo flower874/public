@@ -1,17 +1,17 @@
 function cancel(elements) {
-    var sac = {util:require('./util.js'),}
+    sac = {util:require('./util.js'),}
     //青少年模式
     let child = text(elements.childClose.text).findOne(50);
-    if(child)forcePress(child);
+    if(child)sac.util.forcePress(child);
     //签到
     let signIn = desc("立即签到").findOne(50);
-    if(signIn)forcePress(signIn);
+    if(signIn)sac.util.forcePress(signIn);
     
-    let ok = text("好的").findOne(50);
-    if(ok)forcePress(ok);
+    let ok = text(elements.ok.text).findOne(50);
+    if(ok)sac.util.forcePress(ok);
     
     //邀请
-    let offer = id("close").findOne(50);
-    if(offer)forcePress(offer);
+    let offer = id(elements.offer.id).findOne(50);
+    if(offer)sac.util.forcePress(offer);
 };
 module.exports = cancel;
