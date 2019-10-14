@@ -9,7 +9,7 @@ function(){
         }
     };
     */
-    toastLog = {};
+    function toastLog(){};
     let elements = {
         AppName : 'huiNews',
         PackageName : 'com.cashtoutiao',

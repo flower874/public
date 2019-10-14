@@ -1,11 +1,10 @@
-function(){
-    /*
+(function(){
+    var sac={util:require('./tools.js')}
     let sum = {
         setAndNotify : function(r){
             toastLog(r + " 异常退出");
         }
     };
-    */
     elements = {
         packageName : "com.tencent.mm",
         AppName : '66',
@@ -41,8 +40,9 @@ function(){
         launchPackage(elements.packageName)
         let me = id(elements.me).text("我").findOne(12000);
         if(me){
-            if(forcePress(me)){
-                return;
+            toastLog("打开 profiles")
+            if(sac.util.forcePress(me,20)){
+                return true
             };
         };
         sum.setAndNotify("slave : 启动失败.");
@@ -50,7 +50,7 @@ function(){
     function openIndex(){
         let myfavour = id(elements.favour).text("收藏").findOne(2000);
         if(myfavour){
-            if(!forcePress(myfavour)){
+            if(!sac.util.forcePress(myfavour,20)){
                 sum.setAndNotify("slave : 打开收藏失败.");
             };    
         }else{
@@ -58,18 +58,16 @@ function(){
         };
     
         let Read = id(elements.read).text("66阅读").findOne(2000);
-        if(forcePress(Read)){
+        if(sac.util.forcePress(Read)){
             return;
         }else{
             sum.setAndNotify("slave : 打开收藏失败.");
         };
-        
     };
     function startRead(){
         if(!whereIs('index',6000)){
-            clean();
-            openApp();
-            openIndex();
+            toastLog("进入首页失败")
+            exit();
         };
         let start = text("开始阅读").findOne(100);
         if(start){
@@ -80,19 +78,18 @@ function(){
                 return;
             };    
         };
-        while(true){
+        let limit = 0;
+        let max = 20;
+        toastLog("阅读公众号")
+        while(limit<max){
             if(whereIs('theEnd',1000)){
                 toastLog("没有更多了，再见")
                 return;
             };
-            if(whereIs('detail',1000)){
-                toastLog("看6秒内容")
-                sleep(8000);
-                back();
-                continue;
-            }
-            toastLog("当前页面类型无法识别")
-            return;
+            sleep(8000);
+            back();
+            limit++
+            continue;
         };
     };
     function whereIs(intention,timeout){
@@ -173,10 +170,10 @@ function(){
         return true;
     };
 
-    clean();
+    sac.util.clean();
     openApp();
     openIndex();
     startRead();
     savePoll(elements.AppName);
     sum.setAndNotify("slave : 阅读结束.");
-}
+})();
