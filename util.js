@@ -152,16 +152,10 @@ util.savestarttime=(AppName)=>{
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     let storage = storages.create("AppStartTime");
     let save = storage.get(today);
-    if(!save){
-        save = {};
-    };
-    log("savestarttime: 写入时间戳 "+now+" 到AppStartTime")
-
+    if(!save)save = {};
     save[AppName] = now;
     console.log(AppName,save)
     storage.put(today,save);
-    save = storage.get(today);
-    log("写入后状态:" + save[AppName])
     return true;
 };
 util.savealreadytime=(AppName)=>{
@@ -175,11 +169,7 @@ util.savealreadytime=(AppName)=>{
         save[AppName] = 0;
     };
     var StoraStartTime = storage.get(today);
-    if(!StoraStartTime){
-        log("savealreadytime : 未发现启动时间戳，退出。")
-        return true;
-    };
-    log("当前时间 "+now+" ，减去 "+ StoraStartTime[AppName])
+    if(!StoraStartTime)return true;
     save[AppName] = now - StoraStartTime[AppName] + save[AppName];
     log("此次运行 "+save[AppName]+" 秒，写入本地存储")
     alreadStorage.put(today,save);
