@@ -28,10 +28,12 @@ function(){
     let time = sac.util.gettime(AppName);
     if(d>time.duration)d = time.duration;
     toastLog(AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ d +" 秒")
+    sac.util.savestarttime;
     while((e-s)<d){
         sac.watchVideo(sac.elements);
         e = parseInt(Date.now()/1000);
     };
+    sac.util.savealreadytime;
     toastLog("此次运行结束")
-    sum.setAndNotify("slave : 运行完成，返回master进程");
+    result.setAndNotify("slave : 运行完成，返回master进程");
 }
