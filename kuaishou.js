@@ -41,5 +41,6 @@ function(){
     };
     sac.util.savealreadytime(AppName);
     toastLog("此次运行结束")
+    home();
     result.setAndNotify("slave : 运行完成，返回master进程");
 }
