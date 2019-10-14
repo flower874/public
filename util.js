@@ -181,6 +181,7 @@ util.gettime=(AppName)=>{
     var alreadyTime = (AppName) => {
         let storage = storages.create("alreadyTime");
         let result =  storage.get(today);
+        console.log(result,AppName)
         if(result&&result[AppName]){
             return result[AppName]
         }else{
