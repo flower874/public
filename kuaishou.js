@@ -15,11 +15,11 @@ function(){
     sac.util.openApp(sac.elements.packageName);
     threads.start(function (){
         while(true){
-            sac.cancel();
+            sac.cancel(sac.elements);
             sleep(1000);
         };
     });
-    sac.interaction();
+    sac.interaction(sac.elements);
     let [exitcountmax,exitconut] = [5,0];
     let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
     let d = random(3600,7200);

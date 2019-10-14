@@ -1,9 +1,7 @@
-function interaction() {
+function interaction(elements) {
     let AppName = 'kuaishou';
-    let Path = './'+AppName+'.';
     let sac = {
         util:require('./util.js'),
-        elements:require(Path+'elements.js')
     };
     let myMenu = id(elements.menu.id).findOne(10000);
     if(sac.util.forcePress(myMenu)){
