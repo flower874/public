@@ -180,7 +180,6 @@ util.gettime=(AppName)=>{
     var alreadyTime = (AppName) => {
         let storage = storages.create("alreadyTime");
         let result =  storage.get(today);
-        log("当前alreadytime数据: "+result);
         if(result&&result[AppName]){
             return result[AppName]
         }else{
@@ -190,7 +189,6 @@ util.gettime=(AppName)=>{
     var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     let AppPool = JSON.parse(files.read('cycle.json'));
     let limitTIME = AppPool[AppName] || 0 ;
-    toastLog(AppName +"运行时间配置 :" +limitTIME)
     let atime = alreadyTime(AppName)
     toastLog(AppName +"已运行时间 :"+atime)
     return {

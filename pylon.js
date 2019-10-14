@@ -63,7 +63,8 @@ function master(){
         log("本地文件升级失败")
         return;
     };
-    let AppName,scriptFile,result,code;
+    let sac = {util:require('./util.js')};
+    let AppName,scriptFile,result,code,time;
     let sign = JSON.parse(files.read('sign.json'));
     for(AppName in sign){
         if(random(0,2) === 1)continue;
@@ -89,7 +90,8 @@ function master(){
         if(random(0,4) === 1)continue;
         scriptFile = AppName+".js";
         if(files.isFile(scriptFile)){
-            log("运行: "+AppName)
+            time = sac.util.gettime(AppName);
+            if(time.duration<0)continue;
             result = threads.disposable();
             code = files.read(scriptFile)
             thread = threads.start(eval(code))
