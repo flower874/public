@@ -188,8 +188,7 @@ util.gettime=(AppName)=>{
         };
     };
     var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
-    let path = 'public-master/'
-    let AppPool = JSON.parse(files.read(path+'conf.json'));
+    let AppPool = JSON.parse(files.read('cycle.json'));
     let limitTIME = AppPool[AppName] || 0 ;
     toastLog(AppName +"运行时间配置 :" +limitTIME)
     let atime = alreadyTime(AppName)
