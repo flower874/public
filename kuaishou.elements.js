@@ -3,7 +3,6 @@ var elements = {
     menuBtn:{id : 'left_btn'}, 
     menuredpackage :{id: 'red_packet_text'},
     checkin:{text:'立即签到'},
-    childClose:{text='我知道了'},
     offer:{id:'close'},
     like:{id:'like_button'},
     follow:{id:'slide_play_right_follow_background'},
