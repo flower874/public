@@ -29,12 +29,12 @@ function(){
     console.log(time)
     if(d>time.duration)d = time.duration;
     toastLog(AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ d +" 秒")
-    sac.util.savestarttime;
+    sac.util.savestarttime();
     while((e-s)<d){
         sac.watchVideo(sac.elements);
         e = parseInt(Date.now()/1000);
     };
-    sac.util.savealreadytime;
+    sac.util.savealreadytime();
     toastLog("此次运行结束")
     result.setAndNotify("slave : 运行完成，返回master进程");
 }
