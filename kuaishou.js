@@ -6,7 +6,6 @@ function(){
         elements:require(Path+'elements.js') ,
         watchVideo:require(Path+'watchshortvideo.js') ,
         whereis:require(Path+'whereis.js'),
-        checkin:require(Path+'checkin.js'),
         cancel:require(Path+'cancel.js'),
         interaction:require(Path+'interaction.js')
     };
