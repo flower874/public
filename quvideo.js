@@ -21,6 +21,15 @@ function(){
         };
     });
     */
+    let task = id(sac.elements.task.id).findOne(14000);
+    let home = id(sac.elements.home.id).findOne(500);
+    if(task){
+        sac.util.forcePress(task);
+        sleep(2000);
+        sac.util.forcePress(home);
+    }else{
+        result.setAndNotify("slave : 运行完成，返回master进程");
+    }
     var today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1]
     //内部运行时间(秒)
