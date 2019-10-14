@@ -153,11 +153,12 @@ util.savestarttime=(AppName)=>{
     let storage = storages.create("AppStartTime");
     let save = storage.get(today);
     if(!save){
-        let save = {};
+        save = {};
     };
     log("savestarttime: 写入时间戳 "+now+" 到AppStartTime")
     save[AppName] = now;
     storage.put(today,save);
+    log("写入后状态:" +storage.get(today))
     return true;
 };
 util.savealreadytime=(AppName)=>{
