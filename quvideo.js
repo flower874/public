@@ -25,7 +25,7 @@ function(){
     let home = id(sac.elements.home.id).findOne(500);
     if(task){
         sac.util.forcePress(task);
-        sleep(2000);
+        sleep(4000);
         sac.util.forcePress(home);
     }else{
         result.setAndNotify("slave : 运行完成，返回master进程");
