@@ -2,7 +2,7 @@ function(){
     let AppName = 'quvideo';
     let Path = 'lib/'+AppName+'.';
     let sac = {
-        util:require('./util.js'),
+        util:require('lib/util.js'),
         elements:require(Path+'elements.js') ,
         watchVideo:require(Path+'watchshortvideo.js') ,
         //lib:{whereis:require(Path+'whereis.js')} ,
