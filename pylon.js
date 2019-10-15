@@ -65,7 +65,7 @@ function master(){
     let sign = JSON.parse(files.read('conf/sign.json'));
     for(AppName in sign){
         if(random(0,2) === 1)continue;
-        scriptFile = AppName+".js";
+        scriptFile = "bin/"+AppName+".js";
         if(files.isFile(scriptFile)){
             log("运行: "+AppName)
             result = threads.disposable();
@@ -85,7 +85,7 @@ function master(){
     let pool = JSON.parse(files.read('conf/cycle.json'));
     for(AppName in pool){                     
         if(random(0,4) === 1)continue;
-        scriptFile = AppName+".js";
+        scriptFile = "bin/"+AppName+".js";
         if(files.isFile(scriptFile)){
             time = sac.util.gettime(AppName);
             if(time.duration<0)continue;
