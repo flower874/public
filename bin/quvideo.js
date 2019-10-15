@@ -1,6 +1,6 @@
 function(){
     let AppName = 'quvideo';
-    let Path = 'lib/'+AppName+'.';
+    let Path = 'lib/'+AppName+'/';
     let sac = {
         util:require('lib/util.js'),
         elements:require(Path+'elements.js') ,
