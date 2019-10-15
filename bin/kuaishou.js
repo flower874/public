@@ -19,7 +19,7 @@ function(){
         };
     });
     sac.interaction(sac.elements);
-    let [exitcountmax,exitconut] = [5,0];
+    let [exitcountmax,exitcount] = [5,0];
     let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
     let d = random(3600,7200);
     let time = sac.util.gettime(AppName);
@@ -27,14 +27,13 @@ function(){
     toastLog(AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ d +" 秒")
     sac.util.savestarttime(AppName);
     while((e-s)<d){
-        exitcountmax--;
         sac.watchVideo(sac.elements);
         e = parseInt(Date.now()/1000);
         if(!sac.whereis('home',5000)){
             if(exitcount>exitcountmax){
                 result.setAndNotify("slave : 运行完成，返回master进程");
             };
-            exitcountmax++
+            exitcount++
             sac.util.clean();
             sac.util.openApp(sac.elements.packageName);        
         };
