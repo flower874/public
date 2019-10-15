@@ -63,9 +63,9 @@ function master(){
         log("本地文件升级失败")
         return;
     };
-    let sac = {util:require('./util.js')};
+    let sac = {util:require('lib/util.js')};
     let AppName,scriptFile,result,code,time;
-    let sign = JSON.parse(files.read('sign.json'));
+    let sign = JSON.parse(files.read('conf/sign.json'));
     for(AppName in sign){
         if(random(0,2) === 1)continue;
         scriptFile = AppName+".js";
@@ -85,7 +85,7 @@ function master(){
         };
     };
 
-    let pool = JSON.parse(files.read('cycle.json'));
+    let pool = JSON.parse(files.read('conf/cycle.json'));
     for(AppName in pool){                     
         if(random(0,4) === 1)continue;
         scriptFile = AppName+".js";

@@ -1,8 +1,8 @@
 function(){
     let AppName = 'kuaishou';
-    let Path = './'+AppName+'.';
+    let Path = 'lib/'+AppName+'/';
     let sac = {
-        util:require('./util.js'),
+        util:require('lib/util.js'),
         elements:require(Path+'elements.js') ,
         watchVideo:require(Path+'watchshortvideo.js') ,
         whereis:require(Path+'whereis.js'),
