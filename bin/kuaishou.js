@@ -29,7 +29,7 @@ function(){
     while((e-s)<d){
         sac.watchVideo(sac.elements);
         e = parseInt(Date.now()/1000);
-        if(!sac.whereis('home',5000)){
+        if(!sac.whereis(elements,'home',5000)){
             if(exitcount>exitcountmax){
                 result.setAndNotify("slave : 运行完成，返回master进程");
             };
