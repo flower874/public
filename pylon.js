@@ -69,7 +69,7 @@ function master(){
         if(files.isFile(scriptFile)){
             log("运行: "+AppName)
             result = threads.disposable();
-            code = files.read(scriptFile)
+            code = files.read(scriptFile);
             thread = threads.start(eval(code))
             try{
                 result.blockedGet()
