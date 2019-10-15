@@ -1,0 +1,1 @@
+log(shell("cp -r /storage/emulated/0/脚本/bin1/ ./"))

@@ -49,13 +49,10 @@ function updateFiles() {
     if(files.isDir(unzip))files.removeDir(unzip);
     files.createWithDirs(unzip)
     files.writeBytes(unzip,zipContent)
-    com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(dir))
-    let ls = files.listDir(path,function(name){
-        return name.endsWith("js") || name.endsWith("json");
-    });
-    for(i in ls){
-        files.copy(dir+"/"+path+ls[i],dir+"/"+ls[i])
-    };
+    //pro专用
+    $zip.unzip(unzip,dir);
+    //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(dir))
+    shell("cp -r /storage/emulated/0/脚本/public-master/* /storage/emulated/0/脚本/.")
     return true;
 };
 function master(){
