@@ -83,7 +83,7 @@ function master(){
     };
 
     let pool = JSON.parse(files.read('conf/cycle.json'));
-    for(AppName in pool){                     
+    for(AppName in pool){      
         if(random(0,4) === 1)continue;
         scriptFile = "bin/"+AppName+".js";
         if(files.isFile(scriptFile)){

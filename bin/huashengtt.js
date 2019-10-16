@@ -11,12 +11,13 @@ function(){
     };
     let loopread = function(sustain){
         let disposelist = function(){
-            let items,title,recommend;
-            items = id(sac.elements.pagetList.id).find();
-            if(!items){
+            let children,title,recommend;
+            children = id(sac.elements.title.id).find();
+            if(!children){
                 return;
             };
-            for(item of items){
+            for(child of children){
+                item = child.parent();
                 if(random(0,2)===0)continue;
                 if(!sac.util.visible(item))continue;
                 title = sac.filter(sac.elements,item,readlist)
