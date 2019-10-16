@@ -106,14 +106,14 @@ function(){
         forcePress(signin);
         sleep(2000);        
     };
-    
+
     //初始化已读列表
     let storage = storages.create(AppName);
     let readlist = storage.get(today);
     if(!readlist){
         readlist = [];
         storage.put(today,readlist);
-        homeBtn = id(elements.homeBtn.id).text(elements.homeBtn.text).findOne(2000);
+        homeBtn = id(sac.elements.homeBtn.id).text(sac.elements.homeBtn.text).findOne(2000);
         forcePress(homeBtn);
         sleep(1000);
     };
