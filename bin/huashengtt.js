@@ -60,9 +60,8 @@ function(){
                 sleep(3000);
                 continue;
             };
-            log("翻页")
             sac.util.swip();
-            sleep(1000);
+            sleep(2000);
             e = parseInt(Date.now()/1000);
             if((e-s)>sustain){
                 log("运行结束")
