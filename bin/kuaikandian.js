@@ -60,6 +60,7 @@ function(){
                 sleep(3000);
                 continue;
             };
+            log("翻页")
             sac.util.swip();
             sleep(1000);
             e = parseInt(Date.now()/1000);
