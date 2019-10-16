@@ -50,8 +50,8 @@ function updateFiles() {
     files.createWithDirs(unzip)
     files.writeBytes(unzip,zipContent)
     //pro专用
-    $zip.unzip(unzip,root);
-    //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(dir))
+    //$zip.unzip(unzip,root);
+    com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
     shell("cp -r "+root+path+"* "+root+".")
     return true;
 };
