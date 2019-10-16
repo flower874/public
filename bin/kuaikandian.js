@@ -64,7 +64,7 @@ function(){
             sac.util.swip();
             sleep(1000);
             e = parseInt(Date.now()/1000);
-            if((e-s)<sustain){
+            if((e-s)>sustain){
                 log("运行结束")
                 return
             };
