@@ -66,7 +66,7 @@ function(){
 
             onepice = id(sac.elements.onepice.id).findOne(100);
             if(onepice){
-                forcePress(onepice);
+                sac.util.forcePress(onepice);
                 sleep(1500);
             };
             sleep(2000);
@@ -103,10 +103,10 @@ function(){
     };
     signin = id(sac.elements.signin.id).findOne(200);
     if(signin){
-        forcePress(signin);
+        sac.util.forcePress(signin);
         sleep(2000);  
         homeBtn = id(sac.elements.homeBtn.id).text(sac.elements.homeBtn.text).findOne(2000);
-        forcePress(homeBtn);
+        sac.util.forcePress(homeBtn);
         sleep(1000);
     };
 
