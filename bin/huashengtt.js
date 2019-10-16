@@ -35,7 +35,7 @@ function(){
                 back();
             };
         };
-        let [backlimit,backmax] = [0,10];
+        let [backlimit,backmax] = [0,3];
         let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1]
         while(true){
             if(disposelist()==='inner'){
