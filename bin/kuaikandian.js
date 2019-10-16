@@ -83,7 +83,7 @@ function(){
     sac.util.openApp(sac.elements.PackageName);
     if(!sac.whereis(sac.elements,'home',14000)){
         log("启动失败")
-        exit();//sum.setAndNotify(AppName+" : 运行完成，返回master进程");
+        result.setAndNotify(AppName+" : 运行完成，返回master进程");
     };
     sac.interaction(sac.elements);
 
@@ -94,11 +94,6 @@ function(){
         readlist = [];
         storage.put(today,readlist);
     }
-    
-
-
-
-    
     //开始循序...
     sac.util.savestarttime(AppName);
     try{loopread(sustain)}catch(e){};
