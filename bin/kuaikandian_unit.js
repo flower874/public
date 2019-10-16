@@ -13,9 +13,7 @@
     };
     let loopread = function(sustain){
         let disposelist = function(){
-            log("获取内容列表...")
             let items,title,recommend;
-            log("扫描 id : "+sac.elements.pagetList.id)
             items = id(sac.elements.pagetList.id).find();
             if(!items){
                 log("未找到任何元素");
@@ -49,13 +47,13 @@
             };
             sleep(500);
             backlimit = 0
-            while(!sac.whereis(elements,'home',2000)){
+            while(!sac.whereis(sac.elements,'home',2000)){
                 backlimit++;
                 back();
                 sleep(500);    
                 if(backlimit>=backmax)break;
             };
-            if(!sac.whereis(elements,'home',2000)){
+            if(!sac.whereis(sac.elements,'home',2000)){
                 sac.util.clean();
                 sac.util.openApp(sac.elements.PackageName);
                 sleep(3000);
