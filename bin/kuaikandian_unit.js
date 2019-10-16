@@ -63,6 +63,7 @@
         };
     };    
 
+    let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     sustain = 300;
     //自动关闭各种提示
     threads.start(function(){

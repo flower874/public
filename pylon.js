@@ -39,20 +39,20 @@ threads.start(function(){
 
 // 更新本地文件
 function updateFiles() {
+    let root = '/storage/emulated/0/脚本/'
     let path = 'public-master/'
     let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
     let r = http.get(gitUrl)
     let zipContent = r.body.bytes()
-    let dir = files.cwd()
     let file = 'master.zip'
-    let unzip = files.join(dir,file)
+    let unzip = files.join(root,file)
     if(files.isDir(unzip))files.removeDir(unzip);
     files.createWithDirs(unzip)
     files.writeBytes(unzip,zipContent)
     //pro专用
-    $zip.unzip(unzip,dir);
+    $zip.unzip(unzip,root);
     //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(dir))
-    shell("cp -r public-master/* /.")
+    shell("cp -r "+root+path+"* "+root+".")
     return true;
 };
 function master(){
