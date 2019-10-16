@@ -32,12 +32,7 @@ function(){
                 sac.whereis(sac.elements,'detail',4000);
                 storage.put(today,readlist);
                 sac.reader(sac.elements,sac.whereis);
-                if(random(0,2)!==0){
-                    recommend  = 'inner';  
-                    return recommend;
-                }else{
-                    back();
-                };
+                back();
             };
         };
         let [backlimit,backmax] = [0,10];
