@@ -63,8 +63,10 @@
         };
     };    
 
+
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     sustain = 300;
+    
     //自动关闭各种提示
     threads.start(function(){
         while(true){
@@ -76,7 +78,7 @@
     //启动APP
     sac.util.clean();
     sac.util.openApp(sac.elements.PackageName);
-    //sac.interaction();
+    sac.interaction();
 
     //初始化已读列表
     let storage = storages.create(AppName);
@@ -86,7 +88,7 @@
         storage.put(today,readlist);
     };
     
-    //开始循序...
+    log("开始循序...")
     //sac.util.savestarttime(AppName);
     try{loopread(sustain)}catch(e){};
     //loopminivideo(sustain);
