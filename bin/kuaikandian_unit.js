@@ -13,6 +13,7 @@
     };
     let loopread = function(sustain){
         let disposelist = function(){
+            log("获取内容列表...")
             let items,title,recommend;
             items = id(sac.elements.pagetList.id).find();
             if(!items){
@@ -25,8 +26,9 @@
                 if(!sac.util.forcePress(item,random(9,35))){
                     continue;
                 };
+                log("即将打开 -> "+ title);
                 readlist.push(title);
-                sac.whereis('detail',4000);
+                sac.whereis(elements,'detail',4000);
                 storage.put(today,readlist);
                 reader();
                 if(random(0,2)!==0){
@@ -78,7 +80,12 @@
     //启动APP
     sac.util.clean();
     sac.util.openApp(sac.elements.PackageName);
-    sac.interaction();
+    if(!sac.whereis(sac.elements,'home',14000)){
+        log("启动失败")
+        exit();//sum.setAndNotify(AppName+" : 运行完成，返回master进程");
+    };
+    log("互动")
+    sac.interaction(sac.elements);
 
     //初始化已读列表
     let storage = storages.create(AppName);
@@ -87,10 +94,9 @@
         readlist = [];
         storage.put(today,readlist);
     };
-    
-    log("开始循序...")
+    log("开始阅读")
     //sac.util.savestarttime(AppName);
-    try{loopread(sustain)}catch(e){};
+    try{loopread(sustain)}catch(e){log(e)};
     //loopminivideo(sustain);
     //保存已运行时间
     //sac.util.savealreadytime(AppName);

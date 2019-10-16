@@ -82,7 +82,7 @@ function(){
     //启动APP
     sac.util.clean();
     sac.util.openApp(sac.elements.PackageName);
-    sac.interaction();
+    sac.interaction(sac.elements);
 
     //初始化已读列表
     let storage = storages.create(AppName);

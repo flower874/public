@@ -1,15 +1,18 @@
 function(){
 //////////////////// 通用工具 ////////////////
-    var sac={util:require('lib/util.js')}
+    let AppName = 'hongbaohezi';
+    let Path = 'lib/'+AppName+'/';
+    var sac={
+        util:require('lib/util.js'),
+        elements:require(Path+'elements.js') ,
+        watchVideo:require(Path+'watchshortvideo.js') ,
+        whereis:require(Path+'whereis.js'),
+        cancel:require(Path+'cancel.js'),
+        interaction:require(Path+'interaction.js')
+    };
 ////////////////////////////////////////////
     let elements = {
-        AppName : 'huiNews',
         PackageName : 'com.cashtoutiao',
-
-        //烦人的双倍卡
-        doubleCARD:{id:'ll_card_draw_container'},
-        doubleCARDclosead:{id:'tt_video_ad_close'},
-
         //忽略按钮
         ignore : { id : 'tv_left', text : '忽略'},
         //签到泡泡
