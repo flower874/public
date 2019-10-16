@@ -93,7 +93,6 @@ function(){
         log("启动失败")
         result.setAndNotify(AppName+" : 运行完成，返回master进程");
     };
-    sac.interaction(sac.elements);
 
     //初始化已读列表
     let storage = storages.create(AppName);
