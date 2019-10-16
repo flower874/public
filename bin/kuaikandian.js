@@ -80,8 +80,7 @@ function(){
     //启动APP
     sac.util.clean();
     sac.util.openApp(sac.elements.PackageName);
-    sac.whereis(sac.elements,'home',14000)
-    if(!sac.whereis(sac.elements,'home',800)){
+    if(!sac.whereis(sac.elements,'home',14000)){
         log("启动失败")
         exit();//sum.setAndNotify(AppName+" : 运行完成，返回master进程");
     };
