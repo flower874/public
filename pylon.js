@@ -52,7 +52,7 @@ function updateFiles() {
     //pro专用
     $zip.unzip(unzip,dir);
     //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(dir))
-    shell("cp -r /storage/emulated/0/脚本/public-master/* /storage/emulated/0/脚本/.")
+    shell("cp -r public-master/* /.")
     return true;
 };
 function master(){
