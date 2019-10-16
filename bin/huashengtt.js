@@ -20,7 +20,7 @@ function(){
             };
             for(child of children){
                 item = child.parent();
-                if(random(0,2)===0)continue;
+                if(random(0,3)!==0)continue;
                 if(!sac.util.visible(item))continue;
                 title = sac.filter(sac.elements,item,readlist)
                 if(!title)continue;
