@@ -20,7 +20,9 @@ function(){
             for(item of items){
                 if(random(0,2)===0)continue;
                 if(!sac.util.visible(item))continue;
-                if(!sac.filter(sac.elements,item,readlist))continue;
+                title = sac.filter(sac.elements,item,readlist)
+                if(!title)continue;
+                log("标题: "+title)
                 if(!sac.util.forcePress(item,random(9,35))){
                     continue;
                 };
@@ -38,19 +40,21 @@ function(){
         };
         let [backlimit,backmax] = [0,10];
         let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1]
-        while((e-s)<sustain){
+        while(true){
             if(disposelist()==='inner'){
                 continue;
             };
             sleep(500);
             backlimit = 0
             while(!sac.whereis(sac.elements,'home',2000)){
+                log("尝试返回首页")
                 backlimit++;
                 back();
                 sleep(500);    
                 if(backlimit>=backmax)break;
             };
             if(!sac.whereis(sac.elements,'home',2000)){
+                log("重新打开APP")
                 sac.util.clean();
                 sac.util.openApp(sac.elements.PackageName);
                 sleep(3000);
@@ -59,6 +63,10 @@ function(){
             sac.util.swip();
             sleep(1000);
             e = parseInt(Date.now()/1000);
+            if((e-s)<sustain){
+                log("运行结束")
+                return
+            };
         };
     };    
 
