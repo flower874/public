@@ -1,4 +1,5 @@
 function(){
+    let signin,homeBtn;
     let AppName = 'huashengtt';
     let Path = 'lib/'+AppName+'/';
     var sac={
@@ -10,6 +11,7 @@ function(){
         whereis:require(Path+'whereis.js')
     };
     let loopread = function(sustain){
+        let onepice;
         let disposelist = function(){
             let children,title,recommend;
             children = id(sac.elements.title.id).find();
@@ -61,6 +63,12 @@ function(){
                 continue;
             };
             sac.util.swip();
+
+            onepice = id(sac.elements.onepice.id).findOne(100);
+            if(onepice){
+                forcePress(onepice);
+                sleep(1500);
+            };
             sleep(2000);
             e = parseInt(Date.now()/1000);
             if((e-s)>sustain){
@@ -93,14 +101,23 @@ function(){
         log("启动失败")
         result.setAndNotify(AppName+" : 运行完成，返回master进程");
     };
-
+    signin = id(elements.signin.id).findOne(200);
+    if(signin){
+        forcePress(signin);
+        sleep(2000);        
+    };
+    
     //初始化已读列表
     let storage = storages.create(AppName);
     let readlist = storage.get(today);
     if(!readlist){
         readlist = [];
         storage.put(today,readlist);
-    }
+        homeBtn = id(elements.homeBtn.id).text(elements.homeBtn.text).findOne(2000);
+        forcePress(homeBtn);
+        sleep(1000);
+    };
+
     //开始循序...
     sac.util.savestarttime(AppName);
     try{loopread(sustain)}catch(e){};
