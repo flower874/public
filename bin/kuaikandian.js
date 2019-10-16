@@ -82,6 +82,10 @@ function(){
     //启动APP
     sac.util.clean();
     sac.util.openApp(sac.elements.PackageName);
+    if(!sac.whereis(sac.elements,'home',14000)){
+        log("启动失败")
+        exit();//sum.setAndNotify(AppName+" : 运行完成，返回master进程");
+    };
     sac.interaction(sac.elements);
 
     //初始化已读列表

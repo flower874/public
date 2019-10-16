@@ -15,18 +15,23 @@
         let disposelist = function(){
             log("获取内容列表...")
             let items,title,recommend;
+            log("扫描 id : "+sac.elements.pagetList.id)
             items = id(sac.elements.pagetList.id).find();
             if(!items){
+                log("未找到任何元素");
                 return;
+            }else{
+                log("找到 "+ items.length +" 个");
             };
+
             for(item of items){
-                if(random(0,2)===0)continue;
                 if(!sac.util.visible(item))continue;
-                if(!filter(sac.elements,item,readlist))continue;
+                title = filter(sac.elements,item,readlist)
+                if(!title)continue;
+                log("即将打开 -> "+ title);
                 if(!sac.util.forcePress(item,random(9,35))){
                     continue;
                 };
-                log("即将打开 -> "+ title);
                 readlist.push(title);
                 sac.whereis(elements,'detail',4000);
                 storage.put(today,readlist);
@@ -47,13 +52,13 @@
             };
             sleep(500);
             backlimit = 0
-            while(!sac.whereis('home',2000)){
+            while(!sac.whereis(elements,'home',2000)){
                 backlimit++;
                 back();
                 sleep(500);    
                 if(backlimit>=backmax)break;
             };
-            if(!sac.whereis('home',2000)){
+            if(!sac.whereis(elements,'home',2000)){
                 sac.util.clean();
                 sac.util.openApp(sac.elements.PackageName);
                 sleep(3000);
@@ -78,8 +83,8 @@
     });
 
     //启动APP
-    sac.util.clean();
-    sac.util.openApp(sac.elements.PackageName);
+//    sac.util.clean();
+//    sac.util.openApp(sac.elements.PackageName);
     if(!sac.whereis(sac.elements,'home',14000)){
         log("启动失败")
         exit();//sum.setAndNotify(AppName+" : 运行完成，返回master进程");
@@ -100,7 +105,6 @@
     //loopminivideo(sustain);
     //保存已运行时间
     //sac.util.savealreadytime(AppName);
-    home();
     exit();
     //返回主进程
     //sum.setAndNotify(AppName+" : 运行完成，返回master进程");
