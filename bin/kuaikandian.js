@@ -68,7 +68,7 @@ function(){
     let time = sac.util.gettime(AppName);
     if(time.duration<=0)return;
     if(sustain>time.duration)sustain = time.duration;
-    toastLog(AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ d +" 秒")
+    toastLog(AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ sustain +" 秒")
 
     //自动关闭各种提示
     threads.start(function(){
@@ -94,6 +94,10 @@ function(){
         readlist = [];
         storage.put(today,readlist);
     }
+    
+
+
+
     
     //开始循序...
     sac.util.savestarttime(AppName);

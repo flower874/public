@@ -91,8 +91,8 @@ function master(){
             if(time.duration<0)continue;
             result = threads.disposable();
             code = files.read(scriptFile)
-            thread = threads.start(eval(code))
             try{
+                thread = threads.start(eval(code))
                 result.blockedGet()
             }catch(e){
                 toastLog(e)
