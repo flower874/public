@@ -14,24 +14,27 @@
     let loopread = function(sustain){
         let disposelist = function(){
             let items,title,recommend;
+            sleep(1000);
             items = id(sac.elements.pagetList.id).find();
             if(!items){
-                log("未找到任何元素");
                 return
             };
             for(item of items){
                 if(!sac.util.visible(item))continue;
                 title = sac.filter(sac.elements,item,readlist)
                 if(!title)continue;
-                log("即将打开... ");
+                log("标题: "+title)
                 if(!sac.util.forcePress(item,random(9,35))){
                     continue;
                 };
                 readlist.push(title);
+                log("加载页面...")
                 sac.whereis(sac.elements,'detail',4000);
+                log("写入已读列表")
                 storage.put(today,readlist);
                 sac.reader(sac.elements,sac.whereis);
                 if(random(0,2)!==0){
+                    log("阅读推荐内容")
                     recommend  = 'inner';  
                     return recommend;
                 }else{
@@ -39,21 +42,24 @@
                 };
             };
         };
-        let [backlimit,backmax] = [0,10];
+        let [backlimit,backmax] = [0,5];
         let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1]
         while((e-s)<sustain){
+            log("获取屏幕内容")
             if(disposelist()==='inner'){
                 continue;
             };
             sleep(500);
             backlimit = 0
             while(!sac.whereis(sac.elements,'home',2000)){
+                log("尝试返回首页")
                 backlimit++;
                 back();
                 sleep(500);    
                 if(backlimit>=backmax)break;
             };
             if(!sac.whereis(sac.elements,'home',2000)){
+                log("重新打开 "+AppName)
                 sac.util.clean();
                 sac.util.openApp(sac.elements.PackageName);
                 sleep(3000);
@@ -64,7 +70,6 @@
             e = parseInt(Date.now()/1000);
         };
     };    
-
 
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     sustain = 300;

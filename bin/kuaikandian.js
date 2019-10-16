@@ -18,7 +18,6 @@ function(){
             if(!items){
                 return;
             };
-            //逐一进入这些内容
             for(item of items){
                 if(random(0,2)===0)continue;
                 if(!sac.util.visible(item))continue;
