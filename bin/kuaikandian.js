@@ -1,5 +1,5 @@
 function(){
-    let AppName = 'kuaidiankan';
+    let AppName = 'kuaikandian';
     let Path = 'lib/'+AppName+'/';
     var sac={
         util:require('lib/util.js'),
