@@ -25,14 +25,14 @@
                 if(!sac.util.visible(item))continue;
                 title = sac.filter(sac.elements,item,readlist)
                 if(!title)continue;
-                log("即将打开 -> "+ title);
+                log("即将打开... ");
                 if(!sac.util.forcePress(item,random(9,35))){
                     continue;
                 };
                 readlist.push(title);
                 sac.whereis(sac.elements,'detail',4000);
                 storage.put(today,readlist);
-                reader(sac.elements);
+                sac.reader(sac.elements,sac.whereis);
                 if(random(0,2)!==0){
                     recommend  = 'inner';  
                     return recommend;

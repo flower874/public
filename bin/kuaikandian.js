@@ -29,7 +29,7 @@ function(){
                 readlist.push(title);
                 sac.whereis(sac.elements,'detail',4000);
                 storage.put(today,readlist);
-                reader(sac.elements);
+                sac.reader(sac.elements,sac.whereis);
                 if(random(0,2)!==0){
                     recommend  = 'inner';  
                     return recommend;
