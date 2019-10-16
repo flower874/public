@@ -10,7 +10,7 @@
         interaction:require(Path+'interaction.js'),
         reader:require(Path+'reader.js'),
         whereis:require(Path+'whereis.js')
-    };
+    }; 
     let loopread = function(sustain){
         let disposelist = function(){
             let items,title,recommend;
