@@ -22,14 +22,14 @@ function(){
             for(item of items){
                 if(random(0,2)===0)continue;
                 if(!sac.util.visible(item))continue;
-                if(!filter(sac.elements,item,readlist))continue;
+                if(!sac.filter(sac.elements,item,readlist))continue;
                 if(!sac.util.forcePress(item,random(9,35))){
                     continue;
                 };
                 readlist.push(title);
-                sac.whereis('detail',4000);
+                sac.whereis(sac.elements,'detail',4000);
                 storage.put(today,readlist);
-                reader();
+                reader(sac.elements);
                 if(random(0,2)!==0){
                     recommend  = 'inner';  
                     return recommend;
@@ -46,13 +46,13 @@ function(){
             };
             sleep(500);
             backlimit = 0
-            while(!sac.whereis('home',2000)){
+            while(!sac.whereis(sac.elements,'home',2000)){
                 backlimit++;
                 back();
                 sleep(500);    
                 if(backlimit>=backmax)break;
             };
-            if(!sac.whereis('home',2000)){
+            if(!sac.whereis(sac.elements,'home',2000)){
                 sac.util.clean();
                 sac.util.openApp(sac.elements.PackageName);
                 sleep(3000);

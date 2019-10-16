@@ -19,23 +19,20 @@
             items = id(sac.elements.pagetList.id).find();
             if(!items){
                 log("未找到任何元素");
-                return;
-            }else{
-                log("找到 "+ items.length +" 个");
+                return
             };
-
             for(item of items){
                 if(!sac.util.visible(item))continue;
-                title = filter(sac.elements,item,readlist)
+                title = sac.filter(sac.elements,item,readlist)
                 if(!title)continue;
                 log("即将打开 -> "+ title);
                 if(!sac.util.forcePress(item,random(9,35))){
                     continue;
                 };
                 readlist.push(title);
-                sac.whereis(elements,'detail',4000);
+                sac.whereis(sac.elements,'detail',4000);
                 storage.put(today,readlist);
-                reader();
+                reader(sac.elements);
                 if(random(0,2)!==0){
                     recommend  = 'inner';  
                     return recommend;
