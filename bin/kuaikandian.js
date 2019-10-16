@@ -6,7 +6,6 @@ function(){
         elements:require(Path+'elements.js'),
         cancel:require(Path+'cancel.js'),
         filter:require(Path+'filter.js'),
-        goldegg:require(Path+'goldegg.js'),
         interaction:require(Path+'interaction.js'),
         reader:require(Path+'reader.js'),
         whereis:require(Path+'whereis.js')
@@ -81,7 +80,8 @@ function(){
     //启动APP
     sac.util.clean();
     sac.util.openApp(sac.elements.PackageName);
-    if(!sac.whereis(sac.elements,'home',14000)){
+    sac.whereis(sac.elements,'home',14000)
+    if(!sac.whereis(sac.elements,'home',800)){
         log("启动失败")
         exit();//sum.setAndNotify(AppName+" : 运行完成，返回master进程");
     };
@@ -104,5 +104,5 @@ function(){
     sac.util.savealreadytime(AppName);
     home();
     //返回主进程
-    sum.setAndNotify(AppName+" : 运行完成，返回master进程");
+    result.setAndNotify(AppName+" : 运行完成，返回master进程");
 };
