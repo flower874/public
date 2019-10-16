@@ -101,10 +101,13 @@ function(){
         log("启动失败")
         result.setAndNotify(AppName+" : 运行完成，返回master进程");
     };
-    signin = id(elements.signin.id).findOne(200);
+    signin = id(sac.elements.signin.id).findOne(200);
     if(signin){
         forcePress(signin);
-        sleep(2000);        
+        sleep(2000);  
+        homeBtn = id(sac.elements.homeBtn.id).text(sac.elements.homeBtn.text).findOne(2000);
+        forcePress(homeBtn);
+        sleep(1000);
     };
 
     //初始化已读列表
@@ -113,9 +116,6 @@ function(){
     if(!readlist){
         readlist = [];
         storage.put(today,readlist);
-        homeBtn = id(sac.elements.homeBtn.id).text(sac.elements.homeBtn.text).findOne(2000);
-        forcePress(homeBtn);
-        sleep(1000);
     };
 
     //开始循序...
