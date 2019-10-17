@@ -1,4 +1,4 @@
-let AppName = 'huashengtt';
+let AppName = 'qukankan';
 let Path = 'lib/'+AppName+'/';
 var sac={
     util:require('lib/util.js'),
@@ -6,6 +6,3 @@ var sac={
     whereis:require(Path+'whereis.js')
 };
 
-
-
-end = id(elements.pageend.className).text(elements.pageend.text).findOne(500);

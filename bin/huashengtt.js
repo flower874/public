@@ -63,15 +63,16 @@ function(){
                 continue;
             };
             log("上滑")
-            sac.util.swip();
-
+            sac.util.swip(2);
+            sleep(800);
             onepice = id(sac.elements.onepice.id).findOne(100);
             if(onepice){
                 log("领取小宝藏")
                 sac.util.forcePress(onepice);
                 sleep(1500);
+            }else{
+                sleep(2000);
             };
-            sleep(2000);
             e = parseInt(Date.now()/1000);
             if((e-s)>sustain){
                 log("运行结束")

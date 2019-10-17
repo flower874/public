@@ -1,29 +1,25 @@
-(function(){
-    let signin,homeBtn;
-    let AppName = 'huashengtt';
+function(){
+    let AppName = 'kuaikandian';
     let Path = 'lib/'+AppName+'/';
     var sac={
         util:require('lib/util.js'),
         elements:require(Path+'elements.js'),
         cancel:require(Path+'cancel.js'),
         filter:require(Path+'filter.js'),
+        interaction:require(Path+'interaction.js'),
         reader:require(Path+'reader.js'),
         whereis:require(Path+'whereis.js')
     };
     let loopread = function(sustain){
-        let onepice;
         let disposelist = function(){
-            let child,children,title,recommend;
-            children = id(sac.elements.title.id).find();
-            if(children){
-                log("找到 "+children.length+ " 篇文章")
-            }else{
+            let items,title,recommend;
+            items = id(sac.elements.pagetList.id).find();
+            if(!items){
                 return;
             };
-            for(child of children){
-                try{item = child.parent()}catch(e){continue};
-                log("处理对象 :" +item)
-                if(random(0,3)!==0)continue;
+            for(item of items){
+                if(random(0,2)===0)continue;
+                if(!sac.util.visible(item))continue;
                 title = sac.filter(sac.elements,item,readlist)
                 if(!title)continue;
                 log("标题: "+title)
@@ -32,14 +28,17 @@
                 };
                 readlist.push(title);
                 sac.whereis(sac.elements,'detail',4000);
-                log("写入已读列表")
                 storage.put(today,readlist);
                 sac.reader(sac.elements,sac.whereis);
-                back();
-                sleep(1500);
+                if(random(0,2)!==0){
+                    recommend  = 'inner';  
+                    return recommend;
+                }else{
+                    back();
+                };
             };
         };
-        let [backlimit,backmax] = [0,3];
+        let [backlimit,backmax] = [0,10];
         let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1]
         while(true){
             if(disposelist()==='inner'){
@@ -58,21 +57,12 @@
                 log("重新打开APP")
                 sac.util.clean();
                 sac.util.openApp(sac.elements.PackageName);
-                sleep(5000);
-                sac.whereis(sac.elements,'home',14000);
+                sleep(3000);
                 continue;
             };
-            log("列表页: 上滑")
+            log("翻页")
             sac.util.swip();
-
-            onepice = id(sac.elements.onepice.id).findOne(100);
-            if(onepice){
-                sleep(1000)
-                log("领取小宝藏")
-                sac.util.forcePress(onepice);
-                sleep(1500);
-            };
-            sleep(2000);
+            sleep(1000);
             e = parseInt(Date.now()/1000);
             if((e-s)>sustain){
                 log("运行结束")
@@ -102,16 +92,9 @@
     sac.util.openApp(sac.elements.PackageName);
     if(!sac.whereis(sac.elements,'home',14000)){
         log("启动失败")
-        //result.setAndNotify(AppName+" : 运行完成，返回master进程");
+        result.setAndNotify(AppName+" : 运行完成，返回master进程");
     };
-    signin = id(sac.elements.signin.id).findOne(200);
-    if(signin){
-        sac.util.forcePress(signin);
-        sleep(2000);  
-        homeBtn = id(sac.elements.homeBtn.id).text(sac.elements.homeBtn.text).findOne(2000);
-        sac.util.forcePress(homeBtn);
-        sleep(1000);
-    };
+    sac.interaction(sac.elements);
 
     //初始化已读列表
     let storage = storages.create(AppName);
@@ -119,16 +102,15 @@
     if(!readlist){
         readlist = [];
         storage.put(today,readlist);
-    };
-
+    }
     //开始循序...
     sac.util.savestarttime(AppName);
-    try{loopread(sustain)}catch(e){log(e)};
+    try{loopread(sustain)}catch(e){};
     //loopminivideo(sustain);
 
     //保存已运行时间
     sac.util.savealreadytime(AppName);
     home();
     //返回主进程
-    //result.setAndNotify(AppName+" : 运行完成，返回master进程");
-})();
+    result.setAndNotify(AppName+" : 运行完成，返回master进程");
+};
