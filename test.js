@@ -6,3 +6,6 @@ var sac={
     whereis:require(Path+'whereis.js')
 };
 
+sac.util.openApp(sac.elements.PackageName);
+
+console.log(sac.elements.PackageName)
