@@ -21,7 +21,10 @@ function(){
             for(child of children){
                 item = child.parent();
                 if(random(0,3)!==0)continue;
-                if(!sac.util.visible(item))continue;
+                if(!sac.util.visible(item)){
+                    log("不在屏幕内，跳过 ->"+ title)
+                    continue;
+                };
                 title = sac.filter(sac.elements,item,readlist)
                 if(!title)continue;
                 log("标题: "+title)
@@ -30,6 +33,7 @@ function(){
                 };
                 readlist.push(title);
                 sac.whereis(sac.elements,'detail',4000);
+                log("阅读完成，写入已读列表")
                 storage.put(today,readlist);
                 sac.reader(sac.elements,sac.whereis);
                 back();
@@ -54,13 +58,16 @@ function(){
                 log("重新打开APP")
                 sac.util.clean();
                 sac.util.openApp(sac.elements.PackageName);
-                sleep(3000);
+                sleep(5000);
+                sac.whereis(sac.elements,'home',14000);
                 continue;
             };
+            log("上滑")
             sac.util.swip();
 
             onepice = id(sac.elements.onepice.id).findOne(100);
             if(onepice){
+                log("领取小宝藏")
                 sac.util.forcePress(onepice);
                 sleep(1500);
             };
