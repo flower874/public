@@ -1,29 +1,56 @@
 var util={};
+util.print=(message,level)=>{
+    level = level || 1;
+    //1 = error    2 = warning  3 = info
+    // 在执行方法之前定义 LEVEL 变量，可以控制调试信息输出等级
+    if(level===1||level===2||level===3){
+        try{if(LEVEL)level = LEVEL}catch(e){};
+        if(level>=1){
+            console.log(message)
+        };
+    };
+};
 util.visible=(element)=>{
-//    log("输入对象: "+element)
     let pSizeX,pSizeY,sizeX,sizeY,cX,cY,parent;
     try{
-        let parent = element.parent();
+        parent = element.parent();
         if(parent){
+            util.print("检测父元素可见性",3);
             pSizeX = parent.bounds().width();
             pSizeY = parent.bounds().height();
-            //log(pSizeX,pSizeY);
+            util.print("宽:"+pSizeX+",高:"+pSizeY,3);
             if(pSizeX<4||pSizeY<4){
+                util.print("父元素在当前屏幕不可见",3)
+                util.print("返回失败，退出当前方法",3)
                 return false;
             };
         };
-    }catch(e){};
+    }catch(e){
+        util.print("获取父元素失败，但并不会造成验证失败 :",2);
+        util.print(e,2);
+    };
     try{
         sizeX = element.bounds().width();
         sizeY = element.bounds().height();
         cX = element.bounds().centerX();
         cY = element.bounds().centerY();
+        util.print("检测元素属性",3)
+        util.print("宽: "+sizeX+" 高:"+sizeY,3)
+        util.print("X轴中心点: "+cX+" Y轴中心点: "+cY,3);
+        util.print("屏幕宽: "+device.width+" 屏幕高: "+device.height,3);
         if(sizeX>1&&sizeY>1&&cX<device.width&&cY<device.height){
-            //log("坐标: "+sizeX,sizeY,cX,device.width,cY,device.height)
-            return true
+            util.print("检测通过",3)
+            return true;
+        }else{
+            util.print("元素不在屏幕内",2)
+            return false;
         };
-    }catch(e){return false}
-    return false;
+    }catch(e){
+        util.print(element,2);
+        util.print(e,2);
+        util.print("未检测到对象的坐标属性，错误退出",2);
+        return false;
+    };
 };
 util.swipeEx=(qx, qy, zx, zy, time,excursion)=>{
     var xxy = [time];
@@ -74,7 +101,7 @@ util.swipeEx=(qx, qy, zx, zy, time,excursion)=>{
         xxy.push(xxyy);
         
     }
-    //console.log(xxy);
+    util.print("滑动路径坐标"+ xxy,3);
     gesture.apply(null, xxy);
 };
 util.bezier_curves=(cp, t)=>{
@@ -105,6 +132,8 @@ util.swip=(frequency,style,extent)=>{
     let swipStart = parseInt(device.height * random(66,73) / 100);
     let extent = parseInt( ( device.height - swipStart ) * random(77,94) / 100)
     let num = util.weighted(3)
+    util.print("滑动起点: "+swipStart+" 滑动终点: "+extent,3);
+    util.print("滑动次数 :"+num,3);
     while(true){
         let x1 = parseInt(device.width*random(60,68)/100);
         let x2 = x1
@@ -115,36 +144,81 @@ util.swip=(frequency,style,extent)=>{
         if(num<=1){
             return;
         }else{num--};
+        util.print("滑动间停顿",3);
         sleep(random(600,1300))
     };
 };
-util.forcePress=(element,excursion,time)=>{
+util.forcePress=(ele,timeout)=>{
     let time = time || random(15,93);
     let excursion = excursion || random(0,3);
     let excursionX,excursionY
+    let x,y;
+    try{
+        x = ele.x;
+        y = ele.y;
+    }catch(e){};
+    if(x&&y){
+        util.print("收到XY轴对象，开始生成点击坐标",3)
+        x = parseInt( device.width * (x / 100) );
+        y = parseInt( device.height * (y / 100) );
+        excursionX = parseInt( x * excursion / 100 );
+        excursionY = parseInt( y * excursion / 100 );
+        util.print("x轴: "+x+" y轴: "+y+"; 偏移: "+excursionX+" "+excursionY,3)
+        //刘海屏
+        if(device.brand==='OPPO'||device.brand==='HONOR'){
+            util.print("适应OPPO刘海屏，高度+50",3)
+            y = y + 50
+        };
+        util.print("即将点击 :"+(x+excursionX)+" "+(y+excursionY),3);
+        if(press(x+excursionX,y-excursionY,time)){
+            return true;
+        }else{
+            util.print("点击失败，失败退出",2);
+            return false;
+        };
+    };
+
+    //自动转换成对象
+    if(typeof(ele.bounds) !== 'function'){
+        util.print("收到元素描述对象，开始生成Ui对象",3)
+        let obj = util.prove(ele,timeout)
+        if(obj){
+            util.print("生成Ui对象成功",3)
+            var element = obj;
+        }else{
+            util.print("Ui对象无法识别，错误返回",2)
+            return false;
+        };
+    }else{
+        var element = ele;
+    };
+
+    util.print("forcePress方法内验证Ui对象的可见性:",3)
     if(!util.visible(element)){
-        log("对象不可见，无法点击");
+        util.print("forcePress方法内验证Ui对象的可见性失败，错误返回",2)
         return false;
     };
     try{
-
         excursionX = parseInt( element.bounds().height() * excursion / 100 );
         excursionY = parseInt( element.bounds().width() * excursion / 100 );
         coordinate = { 
             x : element.bounds().centerX()+excursionX,
             y : element.bounds().centerY()-excursionY
         };
-        
+        util.print("Ui对象 宽: "+element.bounds().height()+" 高: "+element.bounds().width(),3);
+        util.print("偏移 x:"+excursionX+" y:"+excursionY,3);
     }catch(e){
-        log("对象无bounds属性"+e)
+        util.print(e,2)
+        util.print("对象无bounds属性，无法点击",2)
         return false;
     };
     try{
-        //偏移
-
-        press(coordinate.x, coordinate.y,time)
+        util.print("即将点击坐标: "+coordinate.x+" "+coordinate.y,3);
+        press(coordinate.x, coordinate.y,time);
         return true;
     }catch(e){
+        util.print(e,2)
+        util.print("点击失败，错误返回",2)
         return false;
     };
 };
@@ -158,7 +232,7 @@ util.clean=()=>{
     if(device.brand === 'HONOR'){
         id("clear_all_recents_image_button").findOne(2000).click(); 
     };
-    if(device.brand == 'OPPO'){
+    if(device.brand === 'OPPO'){
         //forcePress(id("clear_panel").findOne(2000));
         util.forcePress(id("clear_button").findOne(2000));
 
@@ -179,7 +253,7 @@ util.savestarttime=(AppName)=>{
     let save = storage.get(today);
     if(!save)save = {};
     save[AppName] = now;
-    log("写入启动时间戳: "+save[AppName])
+    util.print("写入启动时间戳: "+save[AppName],3)
     storage.put(today,save);
     return true;
 };
@@ -187,7 +261,11 @@ util.getreadlist=(AppName)=>{
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     storage = storages.create(AppName);
     readlist = storage.get(today+"_readlist");
-    if(!readlist){
+    if(readlist){
+        util.print("今日阅读列表:",3);
+        util.print(readlist,3);
+    }else{
+        util.print("今日阅读列表为空，初始化列表",3)
         readlist = [];
         storage.put(today+"_readlist",readlist);
     };
@@ -200,6 +278,7 @@ util.savereadlist=(AppName,title)=>{
     readlist = storage.get(today+"_readlist");
     readlist.push(title);
     storage.put(today+"_readlist",readlist);
+    util.print("写入已读列表 ====> "+title,3)
 };
 util.savecoins=(AppName,finance)=>{
     /*eg. [1571454812091:{
@@ -227,11 +306,18 @@ util.savealreadytime=(AppName)=>{
         var save = {};
         save[AppName] = 0;
     };
+    util.print("读取启动时间戳",3);
     let StoraStartTime = storage.get(today);
-    if(!StoraStartTime)return true;
+    if(!StoraStartTime){
+        util.print("未发现启动时间戳，跳过记录时间",3);
+        return true;
+    };
+    util.print("计算本次运行时间: 当前时间 - 启动时间 + 历史已运行时间",3);
+    util.print(now+"-"+StoraStartTime[AppName]+"+"+save[AppName],3);
     save[AppName] = now - StoraStartTime[AppName] + save[AppName];
-    log("此次运行 "+save[AppName]+" 秒，写入本地存储")
+    util.print("此次运行 "+save[AppName]+" 秒，写入本地存储",3)
     alreadStorage.put(today,save);
+    util.print("清空启动时间戳",3);
     storage.put(today,"");
     return true;
 };
@@ -240,16 +326,21 @@ util.gettime=(AppName)=>{
         let storage = storages.create("alreadyTime");
         let result =  storage.get(today);
         if(result&&result[AppName]){
+            util.print("查询到本机运行时间数据:",3);
+            util.print(result,3);
             return result[AppName]
         }else{
+            util.print("今日无运行数据，返回0",3)
             return 0;
         };
     };
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
+    util.print("加载应用池与运行时间配置",3)
     let AppPool = JSON.parse(files.read('./cycle.json'));
     let limitTIME = AppPool[AppName] || 0 ;
-    let atime = alreadyTime(AppName)
-    toastLog(AppName +"已运行时间 :"+atime)
+    let atime = alreadyTime(AppName);
+    util.print(AppName+"已运行时间: "+atime,3);
+    util.print(AppName+"总运行时间: "+limitTIME,3);
     return {
         atime : atime,
         limitTIME : limitTIME,
@@ -274,8 +365,8 @@ util.shortvideoswipup=()=>{
     let y1 = random(parseInt(device.height*0.88),parseInt(device.height*0.93))
     let x2 = random(parseInt(device.width*0.69),parseInt(device.width*0.71))
     let y2 = random(parseInt(device.height*0.17),parseInt(device.height*0.24))
-    let speed = parseInt((y1-y2)*0.55703);
-    util.swipeEx(x1,y1, x2,y2, speed, 0.07);
+    let speed = parseInt((y1-y2)*0.45703);
+    util.swipeEx(x1,y1, x2,y2, speed, 0.047);
 };
 util.prove=(ele,timeout,func)=>{
     let obj,condtion,target
@@ -294,8 +385,16 @@ util.prove=(ele,timeout,func)=>{
             condtion = obj+"(\""+ele[obj]+"\")";
         };
     };
-    try{target = eval(condtion+"."+func)}catch(e){return false}
-    if(!target)return false;
+    util.print("生成定位元素CLI :"+condtion,3)
+    try{target = eval(condtion+"."+func)}catch(e){
+        util.print(e,3)
+        util.print("定位失败，错误返回",3)
+        return false
+    }
+    if(!target){
+        util.print("未找到元素",3)
+        return false;
+    };
     return target;
 };
 module.exports = util;

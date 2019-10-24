@@ -1,5 +1,6 @@
 (function(){
-    let result = {setAndNotify:()=>{}};
+    var LEVEL = 3;
+    let result = {setAndNotify:()=>{exit();}};
     let readlist,sustain,time,disposelist,loopread;
     let total = 0;
     let countdown = 0;
@@ -24,17 +25,12 @@
         },
     
         //首页按钮
-        home : { 
-            elements:{
-                className:"android.widget.TextView",
-                textEndsWith:"位推友"
-            }
-        },
         i:{
             coin:{},
-            cardchannel:{
+            card:{
                 channelbtn:{
-                    id:"com.tuitui.video.home:id/op"
+                    x:65,
+                    y:2.56
                 },
                 open:{
                     className:"android.view.View",
@@ -49,7 +45,7 @@
                 },
                 next:{
                     className:"android.view.View",
-                    textEndsWith:"刮出现金"
+                    textStartsWith:"再刮一次"
                 },
                 nextbtn:{
                     className:"android.view.View",
@@ -75,7 +71,8 @@
             },
             sign:{
                 channelbtn:{
-                    id:"com.tuitui.video.home:id/ou"
+                    x:87,
+                    y:2.65
                 },
                 signbtn:{
                     className:"android.view.View",
@@ -118,134 +115,177 @@
         },
         backtrack:{
             homebtn:{
-                id:"com.tuitui.video.home:id/p5"
+                x:50,
+                y:97.5
             }
         },
-        detail:{
-            like:{
-                id:"li"
-            },
-            comment:{
-                id:"lk"
-            },
-            share:{
-                id:"sa"
-            },
+        home:{
             write:{
-                id:"dc"
+                className:"android.widget.TextView",
+                textEndsWith:"·"
             },
             follow:{
                 className:"android.widget.TextView",
                 text:"关注"
             },
+            like:{
+                x:60,
+                y:60
+            }
         }
     };
     var sac={
         util:require('./util.js'),
         scrape:(obj,sacle)=>{
+            sac.util.print("横向刮卡器",3)
             let size,x1,y1,x2,y2,time,excursion;
             let [count,max] = [0,10]
             let height = 0;
             try{size = obj.bounds()}catch(e){};
-            if(!size)return false;
+            if(!size){
+                sac.util.print("无法获取Ui对象的bounds属性，错误返回",2)
+                return false;
+            };
             let _height = parseInt((size.height()*sacle)/2);
-            // 横向刮
-            while(!sac.util.prove(elements.i.cardchannel.done)){
-                if(count>=max)return false;
+            sac.util.print("首刮边缘修正: "+_height,3)
+            
+            while(true){
+                if(count>=max){
+                    sac.util.print("超出最大滑动次数，结束滑动",2)
+                    return false;
+                };
+
                 time = random(320,410);
                 excursion = random(40,60)/100;
                 x1 = size.left + random(15,25)
                 x2 = size.right - random(3,8)
                 y1 = size.top + _height + height - random(15,25) 
                 y2 = y1+random(-5,5);
+                sac.util.print("滑动时间: " +time,3);
+                sac.util.print("坐标: "+x1+" "+y1+" "+x2+" "+y2,3);
+                sac.util.print("精度偏移: " +excursion,3);
+
                 sac.util.swipeEx(x1,y1,x2,y2,time,excursion);
                 sleep(800);
+                
+                if(y1>size.bottom){
+                    sac.util.print("y轴目标超出Ui对象坐标，返回",3)
+                    return true;
+                };
+
                 height = parseInt(size.height()*sacle) + _height + height
                 _height = 0;
+                sac.util.print("滑动坐标下移至: "+height,3)
+
+                sac.util.print("滑动计数器+1，当前值:"+count+" 最大允许值: "+max,3)
                 count++
+                if(sac.util.prove(elements.i.card.done)){
+                    sac.util.print("刮卡完成，返回",3);
+                    return true;
+                };
             };
         },  
         cancel:()=>{
             let btn;
-            try{
-                btn = id(elements.close.id[0]).findOne(50);
-                if(btn)sac.util.forcePress(btn);
-            }catch(e){};
-    
-            try{
-                btn = id(elements.close.id[1]).findOne(50);
-                if(btn)sac.util.forcePress(btn,15);
-            }catch(e){};
-    
-            try{
-                btn = className(elements.close.signin.className)
-                      .clickable(elements.close.signin.clickable)
-                      .depth(elements.close.signin.depth)
-                      .findOne(50);
-                if(btn)sac.util.forcePress(btn,15);
-            }catch(e){};
         },
         signin:()=>{
-            if(!sac.util.forcePress(sac.util.prove(elements.i.sign.channelbtn))){
+            sleep(800)
+            sac.util.print("进入任务频道",3);
+            if(!sac.util.forcePress(elements.i.sign.channelbtn,4000)){
+                sac.util.print("错误返回",3);
                 return false;
             };
             sleep(800);
-            if(!sac.util.forcePress(sac.util.prove(elements.i.sign.signbtn))){
+            sac.util.print("点击签到按钮",3)
+            if(!sac.util.forcePress(elements.i.sign.signbtn,3000)){
+                sac.util.print("错误返回",3);
                 return false;
             };
             sleep(800);
-            if(!sac.util.forcePress(sac.util.prove(elements.i.sign.addcoin))){
+            sac.util.print("收下签到金币",3)
+            if(!sac.util.forcePress(elements.i.sign.addcoin,2000)){
+                sac.util.print("错误返回",3);
                 return false;
             };
             sleep(800);
-            sac.util.forcePress(sac.util.prove(elements.closead.video,31000))
-            sac.backtrack();
+            log("观看广告视频得金币")
+            sac.util.forcePress(elements.closead.video,31000)
         },
         finance:()=>{
         },
-        watchvideo:()=>{
-            function getwrite(){
-                let writes = sac.util.prove(elements.detail.write,"",'find');
-                if(!writes)return;
-                for(write of writes){
-                    if(sac.util.visible(write)){
-                        return write.text();
+        shortvideolike:(prob)=>{
+            if(random(0,prob)!==0)return;
+            log("给点个小心心")
+            let i;
+            let x = parseInt(device.width*0.6);
+            let y = parseInt(device.height*0.4);
+            for(i=0;i<random(2,3);i++){
+                press(x+random(-6,8),y-random(-6,8),random(9,38)); 
+                sleep(random(15,69)); 
+            };
+        },
+        shortvideofollow:(ele,prob)=>{
+            prob = prob || 99;
+            if(random(0,prob)===0){
+                sac.util.forcePress(ele)
+            };
+        },
+        loopvideo:(sustain)=>{
+            let write,_write;
+            getwrite=()=>{
+                let text,w
+                let writes = sac.util.prove(elements.home.write,"","find")
+                if(!writes)return false;
+                for(w of writes){
+                    if(sac.util.visible(w)){
+                        try{
+                            text = w.text()
+                        }catch(e){};
+                        if(text){
+                            return text;
+                        }
                     };
                 };
                 return false;
             };
-            let write,_write;
             let count = 0;
-            let enjoy = random(5000,7000)
-            write = getwrite();
-            if(write){
-                log("当前作者: "+write)
-                _write = write;
-            };
-            while(write===_write){
-                count += 1;
+            let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
+            while((e-s)<sustain){
+                log("获取原始作者")
+                write = getwrite();
+                if(count>5)return;
+                if(!sac.whereis('home',4000)){
+                    log("当前页面错误，尝试返回")
+                    count++
+                    sac.backtrack();
+                    continue;
+                };
                 sac.util.shortvideoswipup();
                 sleep(800);
-                _write = getwrite();
-                log("上划后作者: "+_write)
-                if(_write!==write){
-                    write = undefined;
+                _write = getwrite()
+                if(write===_write){
+                    count++
+                    continue;
+                }else{
+                    count = 0;
+                    _write = undefined;
                 };
-                if(count>5)return
+                sac.shortvideolike(9);
+                sleep(6000,11000);
+                sac.shortvideofollow();
+                e = parseInt(Date.now()/1000);
             };
-            log("停留 "+enjoy/1000+" 秒")
-            sleep(enjoy);        
         },
         whereis:(intention,timeout)=>{
             let select,type;
             let timeout = timeout || 50;
-            let types = ['home','detail','card','task'];
+            let types = ['home','card','task'];
             select=(intention)=>{
                 let one,two,three;
                 switch(intention){
                     case types[0]:
                         try{
-                            one = sac.util.prove(elements.home.elements,timeout);
+                            one = sac.util.prove(elements.home.write,timeout);
                             if(sac.util.visible(one)){
                                 return true;
                             };
@@ -255,18 +295,7 @@
                             }
                     case types[1]:
                         try{
-                            one = sac.util.prove(elements.detail.like,timeout);
-                            two = sac.util.prove(elements.detail.comment,timeout);
-                            if(sac.util.visible(one)&&sac.util.visible(two)){
-                                return true;
-                            };
-                            return false;
-                        }catch(e){
-                            return false
-                        };
-                    case types[2]:
-                        try{
-                            one = sac.util.prove(elements.i.cardchannel.elements,timeout)
+                            one = sac.util.prove(elements.i.card.elements,timeout)
                             if(sac.util.visible(one)){
                                 return true;
                             };
@@ -297,36 +326,37 @@
                     back();
                     sleep(500);
                 };
-                sac.util.forcePress(sac.util.prove(elements.backtrack.homebtn));
+                count++
             };
             sac.util.clean();
             sac.util.openApp(elements.PackageName);
-            sac.util.prove(elements.home.elements,10000);
+            sac.util.prove(elements.home.elements,12000);
         },
         scrapecard:()=>{
             let [card,maxcard] = [0,25];
-            let cardchannel,opencard,next,addcoin,card1,card2,close;
+            let card1,card2
             //进入刮卡标签
-            try{cardchannel = sac.util.prove(elements.i.cardchannel.channelbtn)}catch(e){log(e)};
-            if(cardchannel)sac.util.forcePress(cardchannel);
+            log("点击刮卡频道按钮")
+            sac.util.forcePress(elements.i.card.channelbtn);
+            sleep(2000);
             if(!sac.whereis('card',4000)){
-                log("进入刮卡频道失败");
+                log("没有卡");
                 return;
             };
-            try{opencard = sac.util.prove(elements.i.cardchannel.open)}catch(e){};
-            if(!opencard||!sac.util.forcePress(opencard)){
+            if(!sac.util.forcePress(elements.i.card.open,2000)){
                 log("打开第一张卡失败")
                 return;
             };
+
             sleep(1000);
             while(card<maxcard){
-                try{card1 = sac.util.prove(elements.i.cardchannel.maincard,4000)}catch(e){};
+                card1 = sac.util.prove(elements.i.card.maincard,4000);
                 sleep(1000);
                 if(card1){
                     sac.scrape(card1,0.15)
                 };
                 sleep(500);
-                try{card2 = sac.util.prove(elements.i.cardchannel.subcard).parent()}catch(e){};
+                try{card2 = sac.util.prove(elements.i.card.subcard).parent()}catch(e){};
                 if(card2){
                     sac.scrape(card2,0.43);
                 }else{
@@ -334,76 +364,63 @@
                     return;
                 };
                 card++
-                try{addcoin = sac.util.prove(elements.i.cardchannel.addcoin,2000)}catch(e){};
-                if(addcoin){
-                    if(sac.util.forcePress(addcoin)){
-                        try{close = sac.util.prove(elements.closead.video,30000)}catch(e){};
-                        sleep(1000);
-                        if(!close){
-                            log("视频关闭按钮未找到");
-                            return;
-                        };
-                        sac.util.forcePress(close);
+                if(sac.util.forcePress(elements.i.card.addcoin,2000)){
+                    sac.util.prove(elements.closead.video,30000);
+                    sleep(1000);
+                    if(!sac.util.forcePress(elements.closead.video)){
+                        return;
                     };
                 };
                 //视频返回后可能无法获取金币，需要关闭 dialog
-                try{getcoin = sac.util.prove(elements.i.cardchannel.getcoin,1500)}catch(e){};
-                if(getcoin){
-                    sac.util.forcePress(getcoin);
+                log("收下视频奖励")
+                sac.util.forcePress(elements.i.card.getcoin,1500)
+                sleep(2000);
+                if(sac.util.forcePress(elements.i.card.next,3000)){
+                    log("下一张")
                 }else{
-                    //点击关闭dialog
-                };
-                //下一张卡
-                try{next = sac.util.prove(elements.i.cardchannel.next,2000).parent()}catch(e){};
-                if(next){
-                    sac.util.forcePress(next)
-                }else{
-                    return;
-                };
-                sleep(1000);
-                //如果点击next没变化，就是没有卡了
-                try{next = sac.util.prove(elements.i.cardchannel.next,1000).parent()}catch(e){};
-                if(next){
-                    card = card + 25
+                    log("没有卡了")
+                    card = card + 25;
                 };
             };
-            sac.backtrack();
         }
     };
     //配置运行时间
     today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     sustain = random(1200,3600);
+    sac.util.print("计划运行时间: "+sustain,2)
     time = sac.util.gettime(elements.AppName);
-    //if(time.duration<=0)return;
-    //if(sustain>time.duration)sustain = time.duration;
-    toastLog(elements.AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ sustain +" 秒")
+    if(time.duration<=0){
+        sac.util.print("今天的时间配额已经用完",1)
+        return;
+    };
+    if(sustain>time.duration){
+        sac.util.print("配额时间低于计划时间，运行时间依从于配额剩余时间",1)
+        sustain = time.duration;
+    };
+    sac.util.print(elements.AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ sustain +" 秒",1)
 
     //自动关闭各种提示(子进程)
     threads.start(function(){
+        sac.util.print("关闭弹窗 -- 子进程",1);
         while(true){
             sac.cancel();
             sleep(1000);
         };
     });
-
-    //启动APP
+    sac.util.print("初始化运行环境",3);    
     sac.util.clean();
+    sac.util.print("启动包: "+elements.PackageName,3)
     sac.util.openApp(elements.PackageName);
-    log(sac.whereis('home',2000))
+    sac.util.print("等待加载首页...",3)
     if(!sac.whereis('home',14000)){
-        log("启动失败");
+        sac.util.print("失败，返回主线程",2)
         result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");
     };
-
-    //签到、记账
     sac.signin();
-
-    //开始阅读
+    sac.backtrack();
     sac.util.savestarttime(elements.AppName);
-    //sac.watchvideo();
+    sac.loopvideo(sustain);
     sac.scrapecard();
-    //结束
     sac.util.savealreadytime(elements.AppName);
-    home();
     result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");
 })()

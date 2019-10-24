@@ -19,17 +19,12 @@ var elements = {
     },
 
     //首页按钮
-    home : { 
-        elements:{
-            className:"android.widget.TextView",
-            textEndsWith:"位推友"
-        }
-    },
     i:{
         coin:{},
-        cardchannel:{
+        card:{
             channelbtn:{
-                id:"com.tuitui.video.home:id/op"
+                x:65,
+                y:2.56
             },
             open:{
                 className:"android.view.View",
@@ -44,7 +39,7 @@ var elements = {
             },
             next:{
                 className:"android.view.View",
-                textEndsWith:"刮出现金"
+                textStartsWith:"再刮一次"
             },
             nextbtn:{
                 className:"android.view.View",
@@ -70,7 +65,8 @@ var elements = {
         },
         sign:{
             channelbtn:{
-                id:"com.tuitui.video.home:id/ou"
+                x:87,
+                y:2.65
             },
             signbtn:{
                 className:"android.view.View",
@@ -113,26 +109,23 @@ var elements = {
     },
     backtrack:{
         homebtn:{
-            id:"com.tuitui.video.home:id/p5"
+            x:50,
+            y:97.5
         }
     },
-    detail:{
-        like:{
-            id:"li"
-        },
-        comment:{
-            id:"lk"
-        },
-        share:{
-            id:"sa"
-        },
+    home:{
         write:{
-            id:"dc"
+            className:"android.widget.TextView",
+            textEndsWith:"·"
         },
         follow:{
             className:"android.widget.TextView",
             text:"关注"
         },
+        like:{
+            x:60,
+            y:60
+        }
     }
 };
 var sac={
@@ -162,85 +155,83 @@ var sac={
     },  
     cancel:()=>{
         let btn;
-        try{
-            btn = id(elements.close.id[0]).findOne(50);
-            if(btn)sac.util.forcePress(btn);
-        }catch(e){};
-
-        try{
-            btn = id(elements.close.id[1]).findOne(50);
-            if(btn)sac.util.forcePress(btn,15);
-        }catch(e){};
-
-        try{
-            btn = className(elements.close.signin.className)
-                  .clickable(elements.close.signin.clickable)
-                  .depth(elements.close.signin.depth)
-                  .findOne(50);
-            if(btn)sac.util.forcePress(btn,15);
-        }catch(e){};
     },
     signin:()=>{
-        if(!sac.util.forcePress(sac.util.prove(elements.i.sign.channelbtn))){
+        if(!sac.util.forcePress(elements.i.sign.channelbtn)){
             return false;
         };
         sleep(800);
-        if(!sac.util.forcePress(sac.util.prove(elements.i.sign.signbtn))){
-            return false;
+        if(!sac.util.forcePress(elements.i.sign.signbtn)){
+            return;
         };
         sleep(800);
-        if(!sac.util.forcePress(sac.util.prove(elements.i.sign.addcoin))){
-            return false;
+        if(!sac.util.forcePress(elements.i.sign.addcoin)){
+            return;
         };
         sleep(800);
-        sac.util.forcePress(sac.util.prove(elements.closead.video,31000))
+        sac.util.forcePress(elements.closead.video,31000)
         sac.backtrack();
     },
     finance:()=>{
     },
-    watchvideo:()=>{
-        function getwrite(){
-            let writes = sac.util.prove(elements.detail.write,"",'find');
-            if(!writes)return;
-            for(write of writes){
-                if(sac.util.visible(write)){
-                    return write.text();
+    shortvideolike:(prob)=>{
+        if(random(0,prob)!==0)return;
+        let i;
+        let x = parseInt(device.width*0.6);
+        let y = parseInt(device.height*0.4);
+        for(i=0;i<random(2,5);i++){
+            press(x+random(-6,8),y-random(-6,8),random(9,38)); 
+            sleep(random(15,69)); 
+        };
+    },
+    shortvideofollow:(ele,prob)=>{
+        prob = prob || 99;
+        if(random(0,prob)===0){
+            sac.util.forcePress(ele)
+        };
+    },
+    loopvideo:(sustain)=>{
+        getwrite=()=>{
+            let writes = sac.util.prove(elements.home.write,"","find")
+            if(!writes)return false;
+            for(w of writes){
+                if(sac.util.visible(w)){
+                    try{
+                        write = w.text()
+                    }catch(e){};
+                    if(write)return write;
                 };
             };
             return false;
         };
-        let write,_write;
         let count = 0;
-        let enjoy = random(5000,7000)
-        write = getwrite();
-        if(write){
-            log("当前作者: "+write)
-            _write = write;
-        };
-        while(write===_write){
-            count += 1;
+        let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
+        while((e-s)<sustain){
+            if(count>5)return;
+            write = getwrite();
             sac.util.shortvideoswipup();
-            sleep(800);
-            _write = getwrite();
-            log("上划后作者: "+_write)
-            if(_write!==write){
-                write = undefined;
+            sleep(1000);
+            if(write===getwrite()){
+                count++
+                continue;
             };
-            if(count>5)return
+            count = 0;
+            sac.shortvideolike(9);
+            sleep(5000,8000);
+            sac.shortvideofollow();
+            e = parseInt(Date.now()/1000);
         };
-        log("停留 "+enjoy/1000+" 秒")
-        sleep(enjoy);        
     },
     whereis:(intention,timeout)=>{
         let select,type;
         let timeout = timeout || 50;
-        let types = ['home','detail','card','task'];
+        let types = ['home','card','task'];
         select=(intention)=>{
             let one,two,three;
             switch(intention){
                 case types[0]:
                     try{
-                        one = sac.util.prove(elements.home.elements);
+                        one = sac.util.prove(elements.home.write,timeout);
                         if(sac.util.visible(one)){
                             return true;
                         };
@@ -250,18 +241,7 @@ var sac={
                         }
                 case types[1]:
                     try{
-                        one = sac.util.prove(elements.detail.like);
-                        two = sac.util.prove(elements.detail.comment);
-                        if(sac.util.visible(one)&&sac.util.visible(two)){
-                            return true;
-                        };
-                        return false;
-                    }catch(e){
-                        return false
-                    };
-                case types[2]:
-                    try{
-                        one = sac.util.prove(elements.i.cardchannel.elements)
+                        one = sac.util.prove(elements.i.cardchannel.elements,timeout)
                         if(sac.util.visible(one)){
                             return true;
                         };
@@ -286,13 +266,12 @@ var sac={
     backtrack:()=>{
         let [count,max] = [0,3]
         while(count<max){
-            if(sac.whereis('home',1000)){
+            if(sac.whereis('home',2000)){
                 return true;
             }else{
                 back();
                 sleep(500);
             };
-            sac.util.forcePress(sac.util.prove(elements.backtrack.homebtn));
         };
         sac.util.clean();
         sac.util.openApp(elements.PackageName);
@@ -322,8 +301,6 @@ var sac={
             };
             sleep(500);
             try{card2 = sac.util.prove(elements.i.cardchannel.subcard).parent()}catch(e){};
-            log("额外奖励")
-            log(card2)
             if(card2){
                 sac.scrape(card2,0.43);
             }else{
@@ -351,15 +328,10 @@ var sac={
                 //点击关闭dialog
             };
             //下一张卡
-            try{next = sac.util.prove(elements.i.cardchannel.next,2000).parent()}catch(e){};
-            if(next){
-                sac.util.forcePress(next)
-            }else{
-                return;
-            };
+            sac.util.forcePress(card2)
             sleep(1000);
             //如果点击next没变化，就是没有卡了
-            try{next = sac.util.prove(elements.i.cardchannel.next,1000).parent()}catch(e){};
+            try{next = sac.util.prove(elements.i.cardchannel.next,50).parent()}catch(e){};
             if(next){
                 card = card + 25
             };
@@ -391,4 +363,29 @@ sac.util.forcePress(back);
 //sac.scrape(sac.util.prove(elements.i.cardchannel.maincard),0.15)
 //sac.backtrack();
 //log(sac.util.prove(elements.i.cardchannel.subcard).parent())
-log(sac.whereis('home',2000))
+//log(sac.whereis('home',2000))
+
+
+//sleep(40)
+//click(parseInt(device.height*0.6),parseInt(device.width*0.6))
+
+
+var e = {
+    id:"positive"
+}
+
+var signin = {
+    text:"好的"
+}
+sac.util.forcePress(signin)
+/*
+青少年模式
+com.kuaishou.nebula:id/positive, 
+sourceNodeId=-4294966819, 
+packageName=com.kuaishou.nebula, 
+className=android.widget.TextView, 
+text=我知道了, desc=null, indexInParent=0, boundsInParent=[524010,0][524570,96], 
+boundsInScreen=[80,1021][640,1116], checkable=false, checked=false, 
+focusable=true, focused=false, selected=false, clickable=true, 
+longClickable=false, enabled=true, password=false, scrollable=false
+*/
