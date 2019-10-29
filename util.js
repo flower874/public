@@ -375,12 +375,15 @@ util.shortvideoswipup=(author)=>{
     };
     let [count,max] = [0,3]
     while(true){
-        if(count>max)return false;
-        let originauthoruiobj = util.prove(author,1000);
+        if(count>max){
+            return false;
+        }
+        let originauthoruiobj = util.prove(author);
         try{var origiinauthor = originauthoruiobj.text()}catch(e){}
         svs();
-        let newauthoruiobj = util.prove(author,1000);
-        try{var newauthor = newauthoruiobj.text()}catch(e){}
+        sleep(2000);
+        let newauthoruiobj = util.prove(author);
+        try{var newauthor = newauthoruiobj.text()}catch(e){};
         if(origiinauthor === newauthor){
             count++;
             continue;
@@ -626,11 +629,12 @@ util.savesigin=(AppName)=>{
     save[AppName] = 'mark';
     storage.put(today,save);
     return true;
-}
+};
 util.getsigin=(AppName)=>{
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     let storage = storages.create("sigin");
     let mark = storage.get(today);
+    if(!mark)mark = {};
     util.print("读取签到标记",3)
     if(mark[AppName] === 'mark'){
         util.print(AppName+" 今日已经签到过了",3)

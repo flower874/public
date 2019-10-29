@@ -69,9 +69,8 @@ var sac={
 
 sac.util.loglevel = 3
 
-var foo = sac.util.prove(e.detail.write)
-log(foo)
-
+var foo = className("android.view.View").text("javascript:;")
+foo.clieck()
 /*
 var list = className(open.className).text(open.text).findOne(50)
 if(list)sac.util.forcePress(list)

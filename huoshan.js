@@ -24,7 +24,7 @@
             },
             follow:'className("android.widget.TextView").text("关注")',
             write:'className("android.widget.TextView").find()[4]',
-            onepice:'className("android.view.View").depth(15)',
+            onepice:'className("android.view.View").depth(14)',
             getpacket:'className("android.widget.TextView").text("点击领取")'
         },
         i:{
@@ -47,8 +47,7 @@
         },
         where:{
             home:{
-                adtext:'className("android.widget.TextView").text("查看详情")',
-                addetail:'className("android.widget.TextView").text("广告")',
+                ad:'className("android.widget.TextView").text("广告")',
                 btn:'className("android.widget.TextView").id("title").text("红包")'
             },
             task:{
@@ -70,68 +69,68 @@
     var sac = {util:require("./util.js")};
     sac.open=()=>{
         sac.util.clean();
-        sleep(800)
+        sleep(800);
         sac.util.openApp(e.packageName);
         if(sac.util.grope(e.where,'home',14000)){
-            sac.util.print("打开 "+e.packageName+" 成功",3)
+            sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
-            sac.util.print("打开 "+e.packageName+" 失败",2)
+            sac.util.print("打开 "+e.packageName+" 失败",2);
             result.setAndNotify("启动 "+e.packageName+" 失败，返回");
         };
     };
     sac.i=()=>{
         //检测签到标记
-        if(sac.util.getsigin()){
+        if(sac.util.getsigin(e.appName)){
             return true;
         };
         
         //验证当前页
         sac.util.forcePress(e.task.btn,2000);
+        sac.util.forcePress(e.closead.close,1000);
         if(!sac.util.grope(e.where,'task',4000)){
             return false;
         };
 
         //时段宝箱
         sac.util.print("时段宝箱",3);
-        sac.util.forcePress(e.i.box.open,2000);
+        sac.util.forcePress(e.i.box.open,500);
         sac.util.forcePress(e.closead.close,2000);
 
         //签到
-        sac.util.print("签到",3)
-        sac.util.forcePress(e.task.sign.btn,3000)
-        sac.util.forcePress(e.closead.close,3000);
+        sac.util.print("签到",3);
+        sac.util.forcePress(e.i.sign.btn,800);
+        sac.util.forcePress(e.closead.close,100);
         
+        sac.util.swip(1);
         //广告视频
         sac.util.print("看视频领金币",3);
         while(true){
-            if(!sac.util.forcePress(e.i.advideo.open,2000)){
+            if(!sac.util.forcePress(e.i.advideo.open,1000)){
                 sac.util.print("看视完了",3)
                 break;
             }
             sac.util.forcePress(e.i.advideo.close,30000);
-            sac.util.forcePress(e.i.advideo.close2,2000);
+            sac.util.forcePress(e.i.advideo.nextclose,1000);
         };
 
+        sac.util.swip(1);
         //分享
         sac.util.print("分享收入得金币",3)
-        sac.util.forcePress(e.i.sharecoin.open,2000)
-        for(let i=1;i<3;i++){
-            sac.util.forcePress(e.i.sharecoin.openWithVX,3000)
-            sac.util.forcePress(e.i.sharecoin.toVx,1000);
-            back();
+        if(sac.util.forcePress(e.i.sharecoin.open,1000)){
+            sleep(1000)
+            for(let i=1;i<3;i++){
+                sac.util.forcePress(e.i.sharecoin.openWithVX,1000);
+                sleep(1000)
+                sac.util.forcePress(e.i.sharecoin.toVx,1000);
+                sleep(3000);
+                back();
+            };
         };
-
         //保存签到标记，返回首页
         sleep(1000);
-        sac.util.savesigin();
-        sac.backtrack();
-    };
-    sac.backtrack=()=>{
-        sleep(1000)
-        let page = sac.util.grope(e.where);
-        if(page === 'home')return true;
-        if(page === 'task')sac.util.forcePress(e.home.btn);
-        if(page === 'detail')back();
+        sac.util.savesigin(e.appName);
+        sac.util.forcePress(e.home.btn);
+        sleep(1500);
     };
     sac.ad=()=>{
         if(!sac.util.grope(e.where,'ad',2000)){
@@ -156,24 +155,27 @@
         sac.util.follow(e.detail.follow,200);
         sac.util.print("上划翻页",3);
         if(sac.util.shortvideoswipup(e.detail.write)){
+            sac.util.print("完成返回",3)
             return true;
         };
         return false;
     };
     sac.loop=(duration)=>{
         
-        if(!sac.util.grope(e.where,'home',2000)||!sac.util.grope(e.where,'detail',2000)){
+        if(!sac.util.grope(e.where,'home',4000)&&!sac.util.grope(e.where,'detail',4000) ){
             sac.util.print("重新打开App",2)
             sac.open();
-            sac.util.forcePress(e.home.video);
+            sac.util.forcePress(e.home.enterDetail);
             sleep(1000);
         };
 
+        let [exitcount,exitcountmax] = [0,5]
+        let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
         sac.util.forcePress(e.home.enterDetail,1000);
         
         while(true){
             //计时器
-            if((e-s)>duration){
+            if((end-start)>duration){
                 sac.util.print("此次运行结束",3)
                 return true;
             };
@@ -192,39 +194,34 @@
                 exitcount++
             };
 
-            e = parseInt(Date.now()/1000);
+            end = parseInt(Date.now()/1000);
         
         };
     };
 
     //测试模式，去掉返回master进程的方法//
-    let result = {setAndNotify:()=>{exit();}};
+    //let result = {setAndNotify:()=>{exit();}};
 
     //------------  日志等级  ------------
-    sac.util.loglevel = 3;
+    sac.util.loglevel = 1;
     //-----------------------------------
 
-    function main(){
-        let time = sac.util.gettime(AppName);
-        if(time.duration<=0){
-            result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");
-            return true;
-        };
-        
-        sac.open();
-        sac.i();
-
-        let d = random(3600,7200);
-        if(d>time.duration)d = time.duration;
-        sac.util.print(AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ d +" 秒",3)
-        sac.util.savestarttime(AppName);
-        
-        sac.loop(d);
-
-        sac.util.savealreadytime(AppName);
-        home();
-        result.setAndNotify("slave : 运行完成，返回master进程");
+    let time = sac.util.gettime(e.appName);
+    if(time.duration<=0){
+        result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
-    //main();
-    sac.watchVideo()
+    
+    sac.open();
+    sac.i();
+
+    let duration = random(2830,4284);
+    if(duration>time.duration)d = time.duration;
+    sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
+    sac.util.savestarttime(e.appName);
+    duration = 10000
+    sac.loop(duration);
+
+    sac.util.savealreadytime(e.appName);
+    home();
+    result.setAndNotify("slave : 运行完成，返回master进程");
 })()
