@@ -69,11 +69,7 @@ var sac={
 
 sac.util.loglevel = 3
 
-sac.util.grope(e.where,'detail',4000)
-
-
-var foo = sac.util.prove(e.where.detail.say)
-
+var foo = sac.util.prove(e.detail.write)
 log(foo)
 
 /*

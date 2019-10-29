@@ -3,7 +3,11 @@
         packageName : 'com.ss.android.ugc.livelite',
         appName : 'huoshan',
         home:{
-            btn:'className("android.widget.TextView").id("title").text("视频")'
+            btn:'className("android.widget.TextView").id("title").text("视频")',
+            enterDetail:{
+                x:25,
+                y:25
+            }
         },
         task:{
             btn:'className("android.widget.TextView").id("title").text("红包")'
@@ -13,7 +17,6 @@
             close:'className("android.view.View").text("javascript:;")',
             ad3:''
         },
-
         detail:{
             share:{
                 x:68,
@@ -119,18 +122,44 @@
         };
 
         //保存签到标记，返回首页
-        sleep(2000);
+        sleep(1000);
         sac.util.savesigin();
         sac.backtrack();
     };
-    sac.backtrack=()=>{};
-    sac.ad=()=>{};
-    sac.onepice=()=>{};
-    sac.watchVideo=()=>{};
-    sac.util.like=()=>{};
-    sac.util.share=(ele)=>{
+    sac.backtrack=()=>{
+        sleep(1000)
+        let page = sac.util.grope(e.where);
+        if(page === 'home')return true;
+        if(page === 'task')sac.util.forcePress(e.home.btn);
+        if(page === 'detail')back();
     };
-    sac.util.follow=(ele)=>{};
+    sac.ad=()=>{
+        if(!sac.util.grope(e.where,'ad',2000)){
+            return false;
+        };
+        sac.util.forcePress(e.detail.getpacket,20000);
+        sac.util.shortvideoswipup();
+    };
+    sac.onepice=()=>{
+        if(!sac.util.grope(e.where,'onepice',2000)){
+            return false;
+        };
+        sac.util.forcePress(e.detail.onepice,1000);
+        sleep(5500);
+        sac.util.shortvideoswipup();
+    };
+    sac.watchVideo=()=>{
+        let enjoy = random(3000,11000)
+        sac.util.like(20);
+        sac.util.print("观看 "+enjoy/1000+" 秒",3);
+        sleep(enjoy)
+        sac.util.follow(e.detail.follow,200);
+        sac.util.print("上划翻页",3);
+        if(sac.util.shortvideoswipup(e.detail.write)){
+            return true;
+        };
+        return false;
+    };
     sac.loop=(duration)=>{
         
         if(!sac.util.grope(e.where,'home',2000)||!sac.util.grope(e.where,'detail',2000)){
@@ -140,7 +169,7 @@
             sleep(1000);
         };
 
-        sac.util.forcePress(e.home.video);
+        sac.util.forcePress(e.home.enterDetail,1000);
         
         while(true){
             //计时器
@@ -181,14 +210,14 @@
             result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");
             return true;
         };
+        
+        sac.open();
+        sac.i();
+
         let d = random(3600,7200);
         if(d>time.duration)d = time.duration;
         sac.util.print(AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ d +" 秒",3)
         sac.util.savestarttime(AppName);
-        
-        sac.open(); 
-        sac.signin();
-        sac.i();
         
         sac.loop(d);
 
@@ -197,5 +226,5 @@
         result.setAndNotify("slave : 运行完成，返回master进程");
     };
     //main();
-    log(sac.util.grope(e.where,'task',2000))
+    sac.watchVideo()
 })()

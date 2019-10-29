@@ -361,12 +361,61 @@ util.weighted=(weight)=>{
     return hash[random(0,hash.length-1)]
 };
 util.shortvideoswipup=(author)=>{
-    let x1 = random(parseInt(device.width*0.67),parseInt(device.width*0.69))
-    let y1 = random(parseInt(device.height*0.88),parseInt(device.height*0.93))
-    let x2 = random(parseInt(device.width*0.69),parseInt(device.width*0.71))
-    let y2 = random(parseInt(device.height*0.17),parseInt(device.height*0.24))
-    let speed = parseInt((y1-y2)*0.45703);
-    util.swipeEx(x1,y1, x2,y2, speed, 0.047);
+    let svs=()=>{
+        let x1 = random(parseInt(device.width*0.67),parseInt(device.width*0.69))
+        let y1 = random(parseInt(device.height*0.88),parseInt(device.height*0.93))
+        let x2 = random(parseInt(device.width*0.69),parseInt(device.width*0.71))
+        let y2 = random(parseInt(device.height*0.17),parseInt(device.height*0.24))
+        let speed = parseInt((y1-y2)*0.45703);
+        util.swipeEx(x1,y1, x2,y2, speed, 0.047);
+    };
+    if(!author){
+        svs();
+        return true; 
+    };
+    let [count,max] = [0,3]
+    while(true){
+        if(count>max)return false;
+        let originauthoruiobj = util.prove(author,1000);
+        try{var origiinauthor = originauthoruiobj.text()}catch(e){}
+        svs();
+        let newauthoruiobj = util.prove(author,1000);
+        try{var newauthor = newauthoruiobj.text()}catch(e){}
+        if(origiinauthor === newauthor){
+            count++;
+            continue;
+        };
+        return true;
+    };
+};
+util.like=(prob,max)=>{
+    max = max || 5; 
+    util.print("准备点赞",3)
+    if(random(0,prob)!==0){
+        util.print("又不想点了",3)
+        return true;
+    };
+    util.print("连击次数: 2~"+max,3)
+    let i;
+    let x = parseInt(device.width*0.6);
+    let y = parseInt(device.height*0.4);
+    for(i=0;i<random(2,max);i++){
+        util.print("点按坐标: "+x+" "+y,3)
+        press(x+random(-6,8),y-random(-6,8),random(9,38)); 
+        sleep(random(15,69)); 
+    };
+};
+util.follow=(ele,prob)=>{
+    prob = prob || 99;
+    if(random(0,prob)===0){
+        util.print("关注主播",3)
+        if(util.forcePress(ele)){
+            util.print("关注成功",3);
+        }else{
+            util.print("关注失败",3)
+        }
+        sleep(800);
+    };
 };
 util.prove=(ele,timeout,func)=>{
     let obj,condtion,target
@@ -380,7 +429,10 @@ util.prove=(ele,timeout,func)=>{
     };
     if(typeof(ele)==='string'){
         util.print("输入类型: string",3)
-        if(/\.findOne\(.*\)$/.test(ele)||/\.find\(.*\)$/.test(ele)){
+        if(/\.findOne\(.*\)$/.test(ele)||
+           /\.find\(.*\)$/.test(ele)||
+           /\.find\(.*\]$/.test(ele))
+        {
             util.print("多层搜索方法，移除 func",3)
             func = "";
             ele = ele.replace(".findOne()",".findOne("+timeout+")");
@@ -541,12 +593,13 @@ util.grope=(elements,intent,timeout)=>{
     };
 
     util.print("开始摸索环境",3)
-    let i;
+    let i,current
     timeout = timeout || 50
     if(!intent){
         util.print("查询当前所在页面:",3)
         for(i in elements){
-            return select(i);
+            current = select(i);
+            if(current)return current;
         };
         util.print("结果: 未知",2)
         return false;
@@ -585,7 +638,6 @@ util.getsigin=(AppName)=>{
     };
     return false;
 };
-
 module.exports = util;
 
 // 汉字utf8字符串  /^[\u4e00-\u9fa5]+$/
