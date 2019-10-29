@@ -1,11 +1,11 @@
 var util={};
 util.print=(message,level)=>{
     level = level || 1;
+    util.loglevel = util.loglevel || 1;
     //1 = error    2 = warning  3 = info
     // 在执行方法之前定义 LEVEL 变量，可以控制调试信息输出等级
     if(level===1||level===2||level===3){
-        try{if(LEVEL)level = LEVEL}catch(e){};
-        if(level>=1){
+        if(util.loglevel >= level){
             console.log(message)
         };
     };
@@ -360,7 +360,7 @@ util.weighted=(weight)=>{
     hash = hash.sort()
     return hash[random(0,hash.length-1)]
 };
-util.shortvideoswipup=()=>{
+util.shortvideoswipup=(author)=>{
     let x1 = random(parseInt(device.width*0.67),parseInt(device.width*0.69))
     let y1 = random(parseInt(device.height*0.88),parseInt(device.height*0.93))
     let x2 = random(parseInt(device.width*0.69),parseInt(device.width*0.71))
@@ -372,23 +372,35 @@ util.prove=(ele,timeout,func)=>{
     let obj,condtion,target
     if(!func||func==='findOne'){
         timeout = timeout || 50;
-        func = func && func+"("+timeout+")" || "findOne"+"("+timeout+")";
+        func = func && "."+func+"("+timeout+")" || ".findOne"+"("+timeout+")";
     }
     if(func==='find'){
         timeout = "";
-        func = func+"("+timeout+")"   
+        func = "."+func+"("+timeout+")"   
     };
-    for(obj in ele){
-        if(condtion){
-            condtion = condtion+"."+obj+"(\""+ele[obj]+"\")";
-        }else{
-            condtion = obj+"(\""+ele[obj]+"\")";
+    if(typeof(ele)==='string'){
+        util.print("输入类型: string",3)
+        if(/\.findOne\(.*\)$/.test(ele)||/\.find\(.*\)$/.test(ele)){
+            util.print("多层搜索方法，移除 func",3)
+            func = "";
+            ele = ele.replace(".findOne()",".findOne("+timeout+")");
         };
+        condtion = ele;
     };
-    util.print("生成定位元素CLI :"+condtion,3)
-    try{target = eval(condtion+"."+func)}catch(e){
+    if(typeof(ele)==='object'){
+        util.print("输入类型: object",3)
+        for(obj in ele){
+            if(condtion){
+                condtion = condtion+"."+obj+"(\""+ele[obj]+"\")";
+            }else{
+                condtion = obj+"(\""+ele[obj]+"\")";
+            };
+        };    
+    };
+    util.print("CLI :"+condtion+func,3)
+    try{target = eval(condtion+func)}catch(e){
         util.print(e,3)
-        util.print("定位失败，错误返回",3)
+        util.print("获取元素失败，错误返回",3)
         return false
     }
     if(!target){
@@ -397,6 +409,183 @@ util.prove=(ele,timeout,func)=>{
     };
     return target;
 };
+util.getlist=(elements,readlist)=>{
+    /* 
+    elements.list   文章列表的外层元素描述
+    elements.title  标题 ， 可以为空，默认取大于10个字符的text为标题
+    elements.video  视频类型元素描述
+    elements.pic    图片类型元素描述
+    elements.filter 过滤元素描述 ，可以是对象
+    readlist        今日已读文章数组
+
+    返回对象或 false
+
+    [{
+        UiObject: element对象,
+        title : "标题",
+        type : [text,video,pic]
+        duration : 播放时长 (sec)
+    },
+    {
+        UiObject: element对象,
+        title : "标题",
+        type : [text,video,pic]
+    }]
+    */
+    util.getlist.filter=(elements,object,title,readlist)=>{
+        try{
+            for(ele of elements){
+                if (object.findOne(element)){
+                    return true;
+                };
+            };
+        }catch(e){}
+        if(readlist.indexOf(title) !== -1){
+            return true
+        };
+        return false;
+    };
+    util.getlist.gettitle=(object,element)=>{
+        try{
+            const titleElement = object.findOne(element);
+            var title = titleElement.text();
+        }catch(e){return false};
+
+        if(title&&title.length>10){
+            return title;
+        }else{
+            return false;
+        };
+    };
+    util.getlist.getvideotag=(object,element)=>{
+        try{
+            const video = object.findOne(element);
+            var duration = video.text();
+        }catch(e){return false};
+
+        if(duration){
+            return duration;
+        };
+        return false;
+    };
+    util.getlist.getpictag=(object,element)=>{
+        try{
+            var pic = object.findOne(element);
+        }catch(e){return false};
+        if(pic){
+            return true;
+        };
+        return false;
+    };
+
+    readlist = readlist || [];
+    let uiobjlist,pictag
+    let result=[]
+    let newsobject={}
+    
+    uiobjlist = util.prove(elements.list,"",'find');
+    if(!uiobjlist)return false;
+
+    for(uiobj of uiobjlist){
+        newsobject = {};
+
+        newsobject.title = util.getlist.gettitle(uiobj,elements.title);
+        if(newsobject.title){
+            newsobject.type = "text";
+        }else{
+            continue;
+        };
+
+        if(util.getlist.filter(elements.filter,uiobj,newsobject.title))continue;
+
+        newsobject.duration = util.getlist.getvideotag(uiobj,elements.videotag);
+        if(newsobject.duration){
+            newsobject.type = "video";
+        };
+
+        pictag = util.getlist.getpictag(uiobj,elements.pictag);
+        if(pictag)newsobject.type = "pic";
+
+        newsobject.uiobject = uiobj;
+        result.push(newsobject);
+    };
+    if(result){
+        return result;
+    };
+    return false;
+};
+util.grope=(elements,intent,timeout)=>{
+    /*
+    elements 对象 
+        elements.home : {'元素描述', '元素描述'}
+        elements.task : {'元素描述', '元素描述'} 
+    */
+    let select=(inte)=>{
+        let intent = elements[inte];
+        if(intent){
+            util.print("查询意图: "+inte,3)
+        }else{
+            util.print(inte+" :意图不在预定义的对象结构中",2)
+            util.print(elements,2)
+            return false;
+        };
+        for(i in intent){
+            util.print("验证 "+inte+" 中的元素: "+intent[i],3)
+            if(!util.visible(util.prove(intent[i],timeout))){
+                util.print(inte+" 验证失败",2)
+                return false;
+            };
+        };
+        util.print(inte+" 验证通过",3)
+        return inte;
+    };
+
+    util.print("开始摸索环境",3)
+    let i;
+    timeout = timeout || 50
+    if(!intent){
+        util.print("查询当前所在页面:",3)
+        for(i in elements){
+            return select(i);
+        };
+        util.print("结果: 未知",2)
+        return false;
+    };
+    return select(intent);
+};
+util.unfold=(element)=>{
+    let unfold = util.prove(element);
+    if(sac.util.visible(unfold)){
+        sleep(500);
+        if(sac.util.forcePress(unfold,5)){
+            return true;
+        };
+        sleep(500);
+    };
+    return false;
+};
+util.savesigin=(AppName)=>{
+    let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
+    let storage = storages.create("sigin");
+    let save = storage.get(today);
+    if(!save)save = {};
+    util.print("写入签到标记",3)
+    save[AppName] = 'mark';
+    storage.put(today,save);
+    return true;
+}
+util.getsigin=(AppName)=>{
+    let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
+    let storage = storages.create("sigin");
+    let mark = storage.get(today);
+    util.print("读取签到标记",3)
+    if(mark[AppName] === 'mark'){
+        util.print(AppName+" 今日已经签到过了",3)
+        return true;
+    };
+    return false;
+};
+
 module.exports = util;
 
 // 汉字utf8字符串  /^[\u4e00-\u9fa5]+$/

@@ -208,18 +208,30 @@
                 return false;
             };
             sleep(800);
-            log("观看广告视频得金币")
-            sac.util.forcePress(elements.closead.video,31000)
+            sac.util.print("等待视频广告结束",3)
+            if(sac.util.forcePress(elements.closead.video,31000)){
+                sac.util.print("关闭广告，正常返回",3);
+                return true
+            }else{
+                sac.util.print("未找到视频广告关闭按钮，错误返回",2);
+                return false;
+            };
         },
         finance:()=>{
         },
-        shortvideolike:(prob)=>{
-            if(random(0,prob)!==0)return;
-            log("给点个小心心")
+        shortvideolike:(prob,max)=>{
+            max = max || 5; 
+            sac.util.print("准备点赞",3)
+            if(random(0,prob)!==0){
+                sac.util.print("未命中",3)
+                return true;
+            };
+            sac.util.print("连击次数: 2~"+max,3)
             let i;
             let x = parseInt(device.width*0.6);
             let y = parseInt(device.height*0.4);
-            for(i=0;i<random(2,3);i++){
+            for(i=0;i<random(2,max);i++){
+                sac.util.print("点按坐标: "+x+" "+y,3)
                 press(x+random(-6,8),y-random(-6,8),random(9,38)); 
                 sleep(random(15,69)); 
             };
@@ -227,7 +239,13 @@
         shortvideofollow:(ele,prob)=>{
             prob = prob || 99;
             if(random(0,prob)===0){
-                sac.util.forcePress(ele)
+                sac.util.print("关注主播",3)
+                if(sac.util.forcePress(ele)){
+                    sac.util.print("关注成功",3);
+                }else{
+                    sac.util.print("关注失败",3)
+                }
+                sleep(800);
             };
         },
         loopvideo:(sustain)=>{
@@ -270,7 +288,7 @@
                     count = 0;
                     _write = undefined;
                 };
-                sac.shortvideolike(9);
+                sac.shortvideolike(0);
                 sleep(6000,11000);
                 sac.shortvideofollow();
                 e = parseInt(Date.now()/1000);
@@ -291,8 +309,8 @@
                             };
                             return false;
                         }catch(e){
-                                return false;
-                            }
+                            return false;
+                        }
                     case types[1]:
                         try{
                             one = sac.util.prove(elements.i.card.elements,timeout)
@@ -308,12 +326,14 @@
                 };
             };
             if(types.indexOf(intention) === -1){
+                sac.util.print("查询当前activity",3)
                 for(type of types){
                     if(select(type)){
                         return type;
                     };
                 };
             }else{
+                sac.util.print("验证当前activity，目标: "+intention,3)
                 return select(intention);
             };
         },
@@ -367,7 +387,7 @@
                 if(sac.util.forcePress(elements.i.card.addcoin,2000)){
                     sac.util.prove(elements.closead.video,30000);
                     sleep(1000);
-                    if(!sac.util.forcePress(elements.closead.video)){
+                    if(!sac.util.forcePress(elements.closead.video,4000)){
                         return;
                     };
                 };
@@ -384,11 +404,15 @@
             };
         }
     };
+
+    sac.util.loglevel = 3;
+
     //配置运行时间
     today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     sustain = random(1200,3600);
     sac.util.print("计划运行时间: "+sustain,2)
     time = sac.util.gettime(elements.AppName);
+    /*
     if(time.duration<=0){
         sac.util.print("今天的时间配额已经用完",1)
         return;
@@ -398,7 +422,7 @@
         sustain = time.duration;
     };
     sac.util.print(elements.AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ sustain +" 秒",1)
-
+    */
     //自动关闭各种提示(子进程)
     threads.start(function(){
         sac.util.print("关闭弹窗 -- 子进程",1);
