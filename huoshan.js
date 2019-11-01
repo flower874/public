@@ -15,7 +15,6 @@
         closead:{
             kids:'className("android.widget.TextView").text("我知道了")',
             close:'className("android.view.View").text("javascript:;")',
-            ad3:''
         },
         detail:{
             share:{
@@ -83,7 +82,7 @@
     sac.cancel=(timeout)=>{
         timout = timeout || 50
         for(let i in e.closead){
-            sac.util.forcePress(i,timeout);
+            sac.util.forcePress(e.closead[i],timeout);
         };
     };
     sac.i=()=>{
@@ -113,7 +112,7 @@
         sac.util.forcePress(e.i.sign.btn,800);
         sac.cancel(500);
 
-        sac.util.swip(1);
+        sac.util.swip({num:1});
         sleep(1000);
         //广告视频
         sac.util.print("看视频领金币",3);
@@ -127,7 +126,7 @@
             sleep(1000)
         };
 
-        sac.util.swip(1);
+        sac.util.swip({num:1});
         sleep(1000);
         //分享
         sac.util.print("分享收入得金币",3)
@@ -167,7 +166,7 @@
         sac.util.like(20);
         sac.util.print("观看 "+enjoy/1000+" 秒",3);
         sleep(enjoy)
-        sac.util.follow(e.detail.follow,200);
+        sac.util.percent(e.detail.follow,200);
         sac.util.print("上划翻页",3);
         if(sac.util.shortvideoswipup(e.detail.write)){
             sac.util.print("完成返回",3)
