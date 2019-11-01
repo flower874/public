@@ -27,7 +27,6 @@ util.visible=(element)=>{
         };
     }catch(e){
         util.print("获取父元素失败，但并不会造成验证失败 :",2);
-        util.print(e,2);
     };
     try{
         sizeX = element.bounds().width();
@@ -46,9 +45,7 @@ util.visible=(element)=>{
             return false;
         };
     }catch(e){
-        util.print(element,2);
-        util.print(e,2);
-        util.print("未检测到对象的坐标属性，错误退出",2);
+        util.print("未检测到对象的坐标属性",2);
         return false;
     };
 };
@@ -276,6 +273,7 @@ util.savereadlist=(AppName,title)=>{
     let readlist;
     storage = storages.create(AppName);
     readlist = storage.get(today+"_readlist");
+    if(!readlist)readlist=[];
     readlist.push(title);
     storage.put(today+"_readlist",readlist);
     util.print("写入已读列表 ====> "+title,3)
@@ -465,15 +463,13 @@ util.prove=(ele,timeout,func)=>{
     return target;
 };
 util.getlist=(elements)=>{
-    util.getlist.filter=(elements,object,title,readlist)=>{
-        try{
-            for(ele of elements){
-                if(object.findOne(eval(element))){
-                    return true;
-                };
+    util.getlist.filter=(elements,object,readlist,title)=>{
+        for(ele in elements){
+            if(object.findOne(eval(elements[ele]))){
+                return true;
             };
-        }catch(e){}
-        if(readlist.indexOf(title) !== -1){
+        };
+        if(readlist.indexOf(title)!==-1){
             return true
         };
         return false;
@@ -497,38 +493,40 @@ util.getlist=(elements)=>{
     };
     util.getlist.video=(object,element)=>{
         try{
-            const video = object.findOne(element);
+            const video = object.findOne(eval(element));
             var duration = video.text();
         }catch(e){return false};
 
         if(duration){
+            util.print("类型: 视频",3)
             return duration;
         };
         return false;
     };
     util.getlist.pic=(object,element)=>{
         try{
-            var pic = object.findOne(element);
+            var pic = object.findOne(eval(element));
         }catch(e){return false};
         if(pic){
+            util.print("类型: 图集",3)
             return true;
         };
         return false;
     };
 
     elements = elements;
-    return function(){
-        let uiobjlist
-        let result=[]
-        let newsobject={}
+    return function(readlist){
+        let uiobjlist,pic;
+        let result=[];
+        let newsobject;
         
         uiobjlist = util.prove(elements.group,"",'find');
         if(!uiobjlist){
-            util.print("尝试获取推荐阅读列表，返回",3);
+            util.print("尝试获取推荐阅读列表，返回",2);
             uiobjlist = util.prove(elements.innerGroup,"",'find');
         };
         if(!uiobjlist){
-            util.print("未找到任何新闻列表，返回",3);
+            util.print("未找到任何新闻列表，返回",2);
             return false;
         };
 
@@ -541,16 +539,17 @@ util.getlist=(elements)=>{
                 continue;
             };
 
-            if(util.getlist.filter(elements.filter,uiobj,newsobject.title))continue;
+            if(util.getlist.filter(elements.filter,uiobj,readlist,newsobject.title))continue;
 
-            newsobject.duration = util.getlist.getvideo(uiobj,elements.video);
+            newsobject.duration = util.getlist.video(uiobj,elements.video);
             if(newsobject.duration){
                 newsobject.type = "video";
             };
 
-            pictag = util.getlist.getpic(uiobj,elements.pic);
-            if(pictag)newsobject.type = "pic";
-
+            pic = util.getlist.pic(uiobj,elements.pic);
+            if(pic){
+                newsobject.type = "pic";
+            };
             newsobject.uiobject = uiobj;
             result.push(newsobject);
         };
@@ -646,9 +645,9 @@ util.gropev2=(ele)=>{
 };
 util.unfold=(element)=>{
     let unfold = util.prove(element);
-    if(sac.util.visible(unfold)){
+    if(util.visible(unfold)){
         sleep(500);
-        if(sac.util.forcePress(unfold,5)){
+        if(util.forcePress(unfold,5)){
             return true;
         };
         sleep(500);

@@ -57,15 +57,14 @@ var sac={
 
 sac.util.loglevel = 3
 
-var a = depth(14).find()
 
-for(b of a ){
-    b.children().forEach(ele=>{
-        try{
-            log(ele.findOne(id("tv_title")).text())
-        }catch(e){};
-    })        
-}
+var x1 = random(parseInt(device.width*0.77),parseInt(device.width*0.81))
+var y1 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
+var x2 = random(parseInt(device.width*0.21),parseInt(device.width*0.24))
+var y2 = random(parseInt(device.height*0.69),parseInt(device.height*0.73))
+var speed = parseInt((x1-x2)*0.71703);
+swipeEx(x1,y1, x2,y2, speed, 0.21);
+
 /*
 var list = className(open.className).text(open.text).findOne(50)
 if(list)sac.util.forcePress(list)
