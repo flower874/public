@@ -147,14 +147,14 @@
         sleep(1500);
     };
     sac.ad=()=>{
-        if(!sac.grope('ad',2000)){
+        if(!sac.grope('ad',3000)){
             return false;
         };
         sac.util.forcePress(e.detail.getpacket,20000);
         sac.util.shortvideoswipup();
     };
     sac.onepice=()=>{
-        if(!sac.grope('onepice',2000)){
+        if(!sac.grope('onepice',3000)){
             return false;
         };
         sac.util.forcePress(e.detail.onepice,1000);
@@ -162,7 +162,7 @@
         sac.util.shortvideoswipup();
     };
     sac.watchVideo=()=>{
-        let enjoy = random(3000,11000)
+        let enjoy = random(3000,7000)
         sac.util.like(20);
         sac.util.print("观看 "+enjoy/1000+" 秒",3);
         sleep(enjoy)
@@ -200,6 +200,7 @@
             };
 
             sac.ad();
+            sleep(800);
             sac.onepice();
 
             if(sac.watchVideo(e.detail.write)){
