@@ -46,7 +46,7 @@
         },
         where:{
             home:{
-                ad:'className("android.widget.TextView").text("广告")',
+                btn:'className("android.widget.TextView").id("title").text("视频")',
                 btn:'className("android.widget.TextView").id("title").text("红包")'
             },
             task:{
