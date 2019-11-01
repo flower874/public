@@ -32,7 +32,7 @@
                 btn:'className("android.view.View").text("签到")',
             },
             advideo:{
-                open  : 'className("android.view.View").text("看视频赚海量金币").findOne().parent().findOne(text("领100金币"))',
+                open  : 'className("android.view.View").textStartsWith("看视频赚海量金币").findOne().parent().findOne(text("领100金币"))',
                 close : 'className("android.widget.TextView").text("关闭广告")',
                 nextclose : 'className("android.widget.TextView").text("继续退出")',
             },
@@ -79,15 +79,26 @@
             result.setAndNotify("启动 "+e.packageName+" 失败，返回");
         };
     };
+
+    sac.cancel=(timeout)=>{
+        timout = timeout || 50
+        for(let i in e.closead){
+            sac.util.forcePress(i,timeout);
+        };
+    };
     sac.i=()=>{
+
+        sac.cancel();
         //检测签到标记
         if(sac.util.getsigin(e.appName)){
-            return true;
+            //return true;
         };
         
         //验证当前页
         sac.util.forcePress(e.task.btn,2000);
-        sac.util.forcePress(e.closead.close,1000);
+        sleep(1000);
+        sac.cancel(500);
+
         if(!sac.grope('task',4000)){
             return false;
         };
@@ -95,14 +106,15 @@
         //时段宝箱
         sac.util.print("时段宝箱",3);
         sac.util.forcePress(e.i.box.open,500);
-        sac.util.forcePress(e.closead.close,2000);
+        sac.cancel(500);
 
         //签到
         sac.util.print("签到",3);
         sac.util.forcePress(e.i.sign.btn,800);
-        sac.util.forcePress(e.closead.close,100);
-        
+        sac.cancel(500);
+
         sac.util.swip(1);
+        sleep(1000);
         //广告视频
         sac.util.print("看视频领金币",3);
         while(true){
@@ -110,11 +122,13 @@
                 sac.util.print("看视完了",3)
                 break;
             }
-            sac.util.forcePress(e.i.advideo.close,30000);
+            sac.util.forcePress(e.i.advideo.close,20000);
             sac.util.forcePress(e.i.advideo.nextclose,1000);
+            sleep(1000)
         };
 
         sac.util.swip(1);
+        sleep(1000);
         //分享
         sac.util.print("分享收入得金币",3)
         if(sac.util.forcePress(e.i.sharecoin.open,1000)){
@@ -204,11 +218,12 @@
     let result = {setAndNotify:()=>{exit();}};
 
     //------------  日志等级  ------------
-    sac.util.loglevel = 1;
+    sac.util.loglevel = 3;
     //-----------------------------------
 
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
+        sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
         result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
     

@@ -234,7 +234,6 @@ util.forcePress=(ele,timeout)=>{
         util.print("Ui对象 宽: "+element.bounds().height()+" 高: "+element.bounds().width(),3);
         util.print("偏移 x:"+excursionX+" y:"+excursionY,3);
     }catch(e){
-        util.print(e,2)
         util.print("对象无bounds属性，无法点击",2)
         return false;
     };
@@ -243,7 +242,6 @@ util.forcePress=(ele,timeout)=>{
         press(coordinate.x, coordinate.y,time);
         return true;
     }catch(e){
-        util.print(e,2)
         util.print("点击失败，错误返回",2)
         return false;
     };
