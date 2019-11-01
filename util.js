@@ -119,30 +119,59 @@ util.bezier_curves=(cp, t)=>{
     result.y = (ay * tCubed) + (by * tSquared) + (cy * t) + cp[0].y;
     return result;
 };
-util.swip=(frequency,style,extent)=>{
-    //风格
-    let style = style || 3;
-    //滑动次数
-    let frequency = frequency || 3
-    //以上数值即权重
+util.swip=(e)=>{
+    e = e || {};
+    e.num = e.num || 1;
+    if(e.frequency){
+        e.num = util.weighted(e.frequency)
+    };
+    e.timeout = e.timeout || 2000;
+    let x1,x2,y1,y2,speed,enjoy
     //滚屏长度
     let swipStart = parseInt(device.height * random(66,73) / 100);
     let extent = parseInt( ( device.height - swipStart ) * random(77,94) / 100)
-    let num = util.weighted(3)
     util.print("滑动起点: "+swipStart+" 滑动终点: "+extent,3);
-    util.print("滑动次数 :"+num,3);
+    util.print("滑动次数 :"+e.num,3);
     while(true){
-        let x1 = parseInt(device.width*random(60,68)/100);
-        let x2 = x1
-        let y1 = swipStart;
-        let y2 = extent;
-        let speed = parseInt((y1-y2)*0.7);
+        x1 = parseInt(device.width*random(60,68)/100);
+        x2 = x1
+        y1 = swipStart;
+        y2 = extent;
+        speed = parseInt((y1-y2)*0.7);
+        enjoy = random(1000,e.timeout) 
         util.swipeEx(x1,y1, x2,y2, speed, 0.28);
-        if(num<=1){
+        if(e.num<=1){
             return;
-        }else{num--};
-        util.print("滑动间停顿",3);
-        sleep(random(600,1300))
+        }else{e.num--};
+        util.print("滑动间停顿: "+enjoy,3);
+        sleep(enjoy);
+    };
+};
+util.swipelift=(e)=>{
+    e = e || {};
+    e.num = e.num || 1;
+    if(e.frequency)e.num = util.weighted(e.frequency)
+    e.timeout = e.timeout || 2000;
+
+    let x1,x2,y1,y2,speed,enjoy
+    //滚屏长度
+    let swipStart = parseInt(device.width * random(13,25) / 100);
+    let extent = parseInt( ( device.width - swipStart ) * random(77,94) / 100)
+    util.print("滑动起点: "+swipStart+" 滑动终点: "+extent,3);
+    util.print("滑动次数 :"+e.num,3);
+    while(true){
+        x1 = extent;
+        x2 = swipStart; 
+        y1 = parseInt(device.height*random(60,68)/100);
+        y2 = y1;
+        speed = parseInt((x1-x2)*0.7);
+        enjoy = random(1000,e.timeout) 
+        util.swipeEx(x1,y1, x2,y2, speed, 0.48);
+        if(e.num<=1){
+            return;
+        }else{e.num--};
+        util.print("滑动间停顿: "+enjoy,3);
+        sleep(enjoy);
     };
 };
 util.forcePress=(ele,timeout)=>{
@@ -258,10 +287,7 @@ util.getreadlist=(AppName)=>{
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     storage = storages.create(AppName);
     readlist = storage.get(today+"_readlist");
-    if(readlist){
-        util.print("今日阅读列表:",3);
-        util.print(readlist,3);
-    }else{
+    if(!readlist){
         util.print("今日阅读列表为空，初始化列表",3)
         readlist = [];
         storage.put(today+"_readlist",readlist);
@@ -406,10 +432,10 @@ util.like=(prob,max)=>{
         sleep(random(15,69)); 
     };
 };
-util.follow=(ele,prob)=>{
+util.percent=(ele,prob)=>{
     prob = prob || 99;
-    if(random(0,prob)===0){
-        util.print("关注主播",3)
+    if(random(1,prob)===1){
+        util.print("关注",3)
         if(util.forcePress(ele)){
             util.print("关注成功",3);
         }else{

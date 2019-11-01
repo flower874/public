@@ -30,11 +30,15 @@
             close:'id("tt_video_ad_close")',
             dialog:'id("dialog_close")',
             iknow:'id("iknow")',
-            pice:'id("get_single")'
+            pice:'id("get_single")',
+            onepice:'id("classround_item_gv_item")',
+            rl:'id("rl_signin")',
         },
         detail:{
             end:'textEndsWith("分享给你的好友吧")',
-            unfold:'className("android.view.View").textStartsWith("展开全文")'
+            unfold:'className("android.view.View").textStartsWith("展开全文")',
+            praise:'id("ll_praise")',
+            follow:'id("title_star")'
         },
         i:{
             gettimeaward:'id("get_single")'
@@ -59,6 +63,7 @@
     var sac = {util:require("./util.js")};
     sac.grope = sac.util.gropev2(e.where);
     sac.list = sac.util.getlist(e.list);
+
     sac.open=()=>{
         sac.util.clean();
         sleep(800);
@@ -77,23 +82,27 @@
     };
     sac.cancel=()=>{
         while(true){
-            sac.util.forcePress(e.cancel.close,500);
-            sac.util.forcePress(e.cancel.close,500);
+            let j;
+            for(j in e.closead){
+                sac.util.forcePress(e.closead[j]);
+            };
             sleep(1000);
         };
     };
     sac.getlist=()=>{
         let uiobjects
-        let [exitcount,exitcountmax] = [0,2];
+        let [exitcount,exitcountmax] = [0,5];
         while(true){
             if(exitcount>exitcountmax){
+                sac.util.print("5次上滑后仍无可访问的内容",2)
                 return false;
             };
             uiobjects = sac.list(sac.util.getreadlist(e.appName));
             if(uiobjects.length>0){
+                exitcount = 0;
                 return uiobjects;
             };
-            sac.util.swip();
+            sac.util.swip({frequency:3});
             if(!sac.grope('home',1000)){
                 back();
             };
@@ -111,9 +120,11 @@
 
         while(true){
             if((end-start)>duration){
+                sac.util.print("运行时间耗尽: "+(end-start),3)
                 return true;
             };
             list = sac.getlist();
+            if(!list)return false;
             for(news of list){
                 if(!sac.grope('home',1000)){
                     continue;
@@ -150,7 +161,7 @@
         
         while(true){
             if(limitCount>max){
-                sac.util.print("返回列表页",3)
+                sac.util.print("滑动次数用尽，返回列表页",3)
                 //if(random(0,prob)==prob){
                     back();
                     sleep(800);
@@ -167,20 +178,23 @@
                 };
             };
             if(sac.util.unfold(e.detail.unfold)){
-                sac.util.swip(1);
+                sac.util.swip();
                 continue;
             };
             limitCount++
             if(sac.util.visible(sac.util.prove(e.detail.end))){
-                sac.util.print("本文即将结束",3)
-                limitCount += 8
+                sac.util.print("本文已经结束",3)
+                limitCount += max
                 r1 = 10;
                 r2 = 30;
             };
             sleep(random(r1,r2));
             sac.util.print("图文详情页上滑",3)
-            sac.util.swip(2);
-            //sac.util.follow(e.detail.follow,30);
+            sac.util.swip({frequency:3});
+            sac.util.percent(e.detail.follow,99);
+            sleep(800);
+            sac.util.percent(e.detail.praise,40);
+
             //sac.util.share(e.detail.share,100);
         };
     };
@@ -199,7 +213,7 @@
         back();
     };
     sac.pic=(object)=>{
-        let swipemax = 5;
+        let swipemax = random(3,8)
         //最大滑动次数
         sac.util.print("进入图片详情页",3)
         sac.util.forcePress(object.uiobject,1000);
@@ -208,7 +222,8 @@
             sac.util.print("仍不是详情页，退出阅读方法",2)
             return false;
         };
-        sac.util.leftswipe(swipemax,3000);
+        sleep(1000);
+        sac.util.swipelift({num:swipemax,timeout:6000});
         back();
     };
 
@@ -228,6 +243,9 @@
     home();
     */
     //result.setAndNotify("slave : 运行完成，返回master进程");
-    sac.util.loglevel = 3
-    sac.loop(1000)
+    
+    threads.start(function(){
+        sac.cancel();
+    });
+
 })();

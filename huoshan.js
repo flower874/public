@@ -67,11 +67,12 @@
         }
     };
     var sac = {util:require("./util.js")};
+    sac.grope = sac.util.gropev2(e.where);
     sac.open=()=>{
         sac.util.clean();
         sleep(800);
         sac.util.openApp(e.packageName);
-        if(sac.util.grope(e.where,'home',14000)){
+        if(sac.grope('home',14000)){
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
@@ -87,7 +88,7 @@
         //验证当前页
         sac.util.forcePress(e.task.btn,2000);
         sac.util.forcePress(e.closead.close,1000);
-        if(!sac.util.grope(e.where,'task',4000)){
+        if(!sac.grope('task',4000)){
             return false;
         };
 
@@ -133,14 +134,14 @@
         sleep(1500);
     };
     sac.ad=()=>{
-        if(!sac.util.grope(e.where,'ad',2000)){
+        if(!sac.grope('ad',2000)){
             return false;
         };
         sac.util.forcePress(e.detail.getpacket,20000);
         sac.util.shortvideoswipup();
     };
     sac.onepice=()=>{
-        if(!sac.util.grope(e.where,'onepice',2000)){
+        if(!sac.grope('onepice',2000)){
             return false;
         };
         sac.util.forcePress(e.detail.onepice,1000);
@@ -162,7 +163,7 @@
     };
     sac.loop=(duration)=>{
         
-        if(!sac.util.grope(e.where,'home',4000)&&!sac.util.grope(e.where,'detail',4000) ){
+        if(!sac.grope('home',4000)&&!sac.grope('detail',4000) ){
             sac.util.print("重新打开App",2)
             sac.open();
             sac.util.forcePress(e.home.enterDetail);
