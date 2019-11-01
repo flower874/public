@@ -476,7 +476,6 @@ util.prove=(ele,timeout,func)=>{
     };
     util.print("CLI :"+condtion+func,3)
     try{target = eval(condtion+func)}catch(e){
-        util.print(e,3)
         util.print("获取元素失败，错误返回",3)
         return false
     }
