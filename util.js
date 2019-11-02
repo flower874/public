@@ -643,7 +643,6 @@ util.gropev2=(ele,package)=>{
         elements.task : {'元素描述', '元素描述'} 
     */
     let elements = ele;
-    let pack;
     return function(intent,timeout) {
         let select=(inte)=>{
             let ergodic=(objs)=>{
@@ -684,11 +683,11 @@ util.gropev2=(ele,package)=>{
         };
 
         util.print("开始摸索环境",3)
-        let i,current
+        let i,current,pack
         timeout = timeout || 50
         if(package){
             if(!packageName(package).findOne(800)){
-                pack = classNameMatches(".+").findOne(100);
+                pack = packageName(".+").findOne(100);
                 util.print("当前包已经更改: "+pack,3)
                 return false;
             };
