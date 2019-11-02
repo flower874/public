@@ -59,7 +59,25 @@ var sac={
 
 sac.util.loglevel = 3
 
-sac.util.percent(e.detail.praise,1)
+
+var closead = {
+    btn:'className("android.view.View").text("立即签到")', 
+    child:'text("我知道了")',
+    offer:'id("close")',
+    signin:'className("android.view.View").text("好的")'
+}
+
+var where = {
+    task:{
+        id:'text("金币收益")'
+    },
+    home:{
+        share:'id("user_name_text_view").find()'
+    }
+};
+
+var foo = descStartsWith("展开全文").findOne(50)
+log(foo)
 //sac.util.forcePress(e.detail.praise)
 /*
 var list = className(open.className).text(open.text).findOne(50)

@@ -86,8 +86,7 @@
         };
     };
     sac.i=()=>{
-
-        sac.cancel();
+        sac.cancel(1000);
         //检测签到标记
         if(sac.util.getsigin(e.appName)){
             //return true;
@@ -96,7 +95,7 @@
         //验证当前页
         sac.util.forcePress(e.task.btn,2000);
         sleep(1000);
-        sac.cancel(500);
+        sac.cancel(1000);
 
         if(!sac.grope('task',4000)){
             return false;
@@ -105,12 +104,12 @@
         //时段宝箱
         sac.util.print("时段宝箱",3);
         sac.util.forcePress(e.i.box.open,500);
-        sac.cancel(500);
+        sac.cancel(1000);
 
         //签到
         sac.util.print("签到",3);
         sac.util.forcePress(e.i.sign.btn,800);
-        sac.cancel(500);
+        sac.cancel(1000);
 
         sac.util.swip({num:1});
         sleep(1000);
@@ -136,7 +135,7 @@
                 sac.util.forcePress(e.i.sharecoin.openWithVX,1000);
                 sleep(1000)
                 sac.util.forcePress(e.i.sharecoin.toVx,1000);
-                sleep(3000);
+                sleep(6000);
                 back();
             };
         };
@@ -162,7 +161,7 @@
         sac.util.shortvideoswipup();
     };
     sac.watchVideo=()=>{
-        let enjoy = random(3000,7000)
+        let enjoy = random(2000,4000)
         sac.util.like(20);
         sac.util.print("观看 "+enjoy/1000+" 秒",3);
         sleep(enjoy)
@@ -176,13 +175,6 @@
     };
     sac.loop=(duration)=>{
         
-        if(!sac.grope('home',4000)&&!sac.grope('detail',4000) ){
-            sac.util.print("重新打开App",2)
-            sac.open();
-            sac.util.forcePress(e.home.enterDetail);
-            sleep(1000);
-        };
-
         let [exitcount,exitcountmax] = [0,5]
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
         sac.util.forcePress(e.home.enterDetail,1000);
@@ -199,10 +191,20 @@
                 return false;
             };
 
+            sleep(2000);
             sac.ad();
-            sleep(800);
             sac.onepice();
 
+            if(sac.grope('home',4000)&&!sac.grope('detail',4000) ){
+                exitcount = 0;
+            }else{
+                sac.util.print("重新打开App",2)
+                sac.open();
+                sac.util.forcePress(e.home.enterDetail);
+                sleep(1000);
+                exitcount++;
+            };
+    
             if(sac.watchVideo(e.detail.write)){
                 exitcount = 0;
             }else{

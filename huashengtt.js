@@ -20,7 +20,6 @@
             },
             title:{
                 list:'id("tv_title")',
-                inner:''
             },
             video:{
             },
@@ -32,11 +31,14 @@
             iknow:'id("iknow")',
             pice:'id("get_single")',
             onepice:'id("classround_item_gv_item")',
+        },
+        rl:{
             rl:'id("rl_signin")',
+            wait:'id("countdownView")'
         },
         detail:{
-            end:'textEndsWith("分享给你的好友吧")',
-            unfold:'className("android.view.View").textStartsWith("展开全文")',
+            end:'descEndsWith("分享给你的好友吧")',
+            unfold:'className("android.view.View").descStartsWith("展开全文")',
             praise:'id("ll_praise")',
             follow:'id("title_star")'
         },
@@ -72,7 +74,7 @@
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
-            result.setAndNotify("启动 "+e.packageName+" 失败，返回");
+            //result.setAndNotify("启动 "+e.packageName+" 失败，返回");
         };
     };
     sac.i=()=>{
@@ -81,13 +83,15 @@
         //返回首页
     };
     sac.cancel=()=>{
-        while(true){
-            let j;
-            for(j in e.closead){
-                sac.util.forcePress(e.closead[j]);
-            };
-            sleep(1000);
+        sac.util.loglevel = 1;
+        let j;
+        for(j in e.closead){
+            sac.util.forcePress(e.closead[j]);
         };
+        if(!sac.util.prove(e.rl.wait)){
+            sac.util.forcePress(e.rl.rl);
+        };
+        sac.util.loglevel = 3;
     };
     sac.getlist=()=>{
         let uiobjects
@@ -228,24 +232,31 @@
     };
 
 //-------------- main ---------------------//
-    /*
+    
+    sac.util.loglevel = 3;
+
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
         //result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
+    sac.open();
+    threads.start(function(){
+        while(true){
+            sac.cancel();
+            sleep(1000);
+        };
+    });
+    sac.i();
     let duration = random(2830,4284);
     if(duration>time.duration)d = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
     duration = 10000
-
+    sac.loop(duration);
     sac.util.savealreadytime(e.appName);
     home();
-    */
+
     //result.setAndNotify("slave : 运行完成，返回master进程");
     
-    threads.start(function(){
-        sac.cancel();
-    });
 
 })();

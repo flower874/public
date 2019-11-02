@@ -589,6 +589,18 @@ util.grope=(elements,intent,timeout)=>{
         elements.task : {'元素描述', '元素描述'} 
     */
     let select=(inte)=>{
+        let ergodic=(objs)=>{
+            try{
+                for(let o of objs){
+                    if(util.visible(o)){
+                    return true; 
+                    };
+                };
+            }catch(e){
+                util.print(e,3)
+            };
+            return false;
+        };
         let intent = elements[inte];
         if(intent){
             util.print("查询意图: "+inte,3);
@@ -599,8 +611,9 @@ util.grope=(elements,intent,timeout)=>{
         };
         for(i in intent){
             util.print("验证 "+inte+" 中的元素: "+intent[i],3)
-            if(!util.visible(util.prove(intent[i],timeout))){
-                util.print(inte+" 验证失败",2)
+            uiobjects = util.prove(intent[i],timeout);
+            util.print("逐一验证可见性",3)
+            if(!ergodic(uiobjects)){
                 return false;
             };
         };
@@ -632,7 +645,19 @@ util.gropev2=(ele)=>{
 
     return function(intent,timeout) {
         let select=(inte)=>{
+            let ergodic=(objs)=>{
+                try{
+                    for(let o of objs){
+                        if(util.visible(o)){
+                        return true; 
+                        };
+                    };
+                }catch(e){};
+                return false;
+            };    
+
             let intent = elements[inte];
+            let uiobjects;
             if(intent){
                 util.print("查询意图: "+inte,3);
             }else{
@@ -642,9 +667,15 @@ util.gropev2=(ele)=>{
             };
             for(i in intent){
                 util.print("验证 "+inte+" 中的元素: "+intent[i],3)
-                if(!util.visible(util.prove(intent[i],timeout))){
-                    util.print(inte+" 验证失败",2)
-                    return false;
+                uiobjects = util.prove(intent[i],timeout);
+                if(uiobjects.length){
+                    if(!ergodic(uiobjects)){
+                        return false;
+                    };
+                }else{
+                    if(!util.visible(uiobjects)){
+                        return false;
+                    };
                 };
             };
             util.print(inte+" 验证通过",3)
