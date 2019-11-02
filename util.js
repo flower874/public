@@ -635,15 +635,22 @@ util.grope=(elements,intent,timeout)=>{
     };
     return select(intent);
 };
-util.gropev2=(ele)=>{
+util.gropev2=(ele,package)=>{
     /*
     elements 对象 
         elements.home : {'元素描述', '元素描述'}
         elements.task : {'元素描述', '元素描述'} 
     */
     let elements = ele;
-
+    let pack;
     return function(intent,timeout) {
+        if(package){
+            if(!packageName(package).findOne(2000)){
+                pack = classNameMatches(".+").findOne(100);
+                util.print("当前包已经更改: "+pack,3)
+                return false;
+            };
+        };
         let select=(inte)=>{
             let ergodic=(objs)=>{
                 try{

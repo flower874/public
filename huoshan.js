@@ -66,7 +66,7 @@
         }
     };
     var sac = {util:require("./util.js")};
-    sac.grope = sac.util.gropev2(e.where);
+    sac.grope = sac.util.gropev2(e.where,e.packageName);
     sac.open=()=>{
         sac.util.clean();
         sleep(800);
@@ -174,14 +174,13 @@
     };
     sac.loop=(duration)=>{
         
-        if(!sac.grope('home',4000)&&!sac.grope('detail',4000) ){
+        if(!sac.grope('home',4000)&&!sac.grope('detail')){
             sac.util.print("重新打开App",2)
             sac.open();
             sac.util.forcePress(e.home.enterDetail);
             sleep(1000);
         };
 
-        let [exitcount,exitcountmax] = [0,5]
         let [reopencount,remax] = [0,5]
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
         sac.util.forcePress(e.home.enterDetail,1000);
@@ -193,32 +192,27 @@
                 return true;
             };
             //失败计数器
-            if(exitcount>exitcountmax){
+            while(true){
+                if(reopencount>remax){
+                    return false;
+                }
+                //find()方法无法使用timeout参数
+                if(sac.grope('detail')){
+                    break;
+                };
                 sac.util.print("重新打开App",2)
                 sac.open();
                 sleep(1500);
                 sac.util.forcePress(e.home.enterDetail);
+                sleep(1000);
                 reopencount++;
             };
-            if(reopencount>remax){
-                return false;
-            }
 
             sleep(1000);
             sac.ad();
             sac.onepice();
-
-            if(!sac.watchVideo(e.detail.write)){
-                exitcount++
-            };
-
-            if(sac.grope('detail',1000) ){
-                exitcount = 0;
-            }else{
-                exitcount++;
-                sac.util.print("失败计数器: "+exitcount,3)
-            };
-
+            sac.watchVideo(e.detail.write)
+            sleep(500);
             end = parseInt(Date.now()/1000);
         
         };

@@ -1,57 +1,68 @@
 var e = {
-    packageName : 'com.xcm.huasheng',
-    appName : 'huashengtt',
-
+    packageName : 'com.ss.android.ugc.livelite',
+    appName : 'huoshan',
     home:{
-        btn:'id("tv_tab").text("读读")',
-        title:'id("tv_title")',
-        onepice:'id("classround_item_gv_item")',
-        video:'id("iv_video_item_picture")',
-        pic:'id("tv_news_big_picture_num")'
+        btn:'className("android.widget.TextView").id("title").text("视频")',
+        enterDetail:{
+            x:25,
+            y:25
+        }
     },
-    list:{
-        group:'depth(14)',
-        innerGroup:'className("android.widget.RelativeLayout").depth(14)',
-        title:{
-            list:'id("tv_title")',
-            inner:''
-        },
-        video:{
-            list:'id("iv_video_item_picture")',
-            inner:''
-        },
-        pic:'id("tv_news_big_picture_num")'
+    task:{
+        btn:'className("android.widget.TextView").id("title").text("红包")'
     },
     closead:{
-        close:'id("tt_video_ad_close")',
-        dialog:'id("dialog_close")',
-        iknow:'id("iknow")'
+        kids:'className("android.widget.TextView").text("我知道了")',
+        close:'className("android.view.View").text("javascript:;")',
     },
     detail:{
-        end:'className("android.view.View").text("分享到朋友圈")',
-        unfold:'className("android.view.View").textStartsWith("展开全文")',
-        praise:'id("ll_praise")',
-        follow:'id("title_star")'
+        share:{
+            x:68,
+            y:75
+        },
+        follow:'className("android.widget.TextView").text("关注")',
+        write:'className("android.widget.TextView").find()[4]',
+        onepice:'className("android.view.View").depth(14)',
+        getpacket:'className("android.widget.TextView").text("点击领取")'
     },
     i:{
-        gettimeaward:'id("get_single")'
+        sign:{
+            btn:'className("android.view.View").text("签到")',
+        },
+        advideo:{
+            open  : 'className("android.view.View").textStartsWith("看视频赚海量金币").findOne().parent().findOne(text("领100金币"))',
+            close : 'className("android.widget.TextView").text("关闭广告")',
+            nextclose : 'className("android.widget.TextView").text("继续退出")',
+        },
+        sharecoin:{
+            open : 'className("android.view.View").text("晒收入").findOne().parent().findOne(text("领200金币"))',
+            openWithVX : 'className("android.view.View").text("微信")',
+            toVx : 'className("android.view.View").text("去粘贴")'
+        },
+        box:{
+            open : 'className("android.view.View").text("开宝箱得金币")'
+        }
     },
     where:{
         home:{
-            search:'id("news_search_hotwords")',
-            menu:'id("tv_tab")'
-        },
-        detail:{
-            comment:'id("rl_comment")',
-            praise:'id("ll_praise")'
+            btn:'className("android.widget.TextView").id("title").text("视频")',
+            btn:'className("android.widget.TextView").id("title").text("红包")'
         },
         task:{
-
+            cash:'className("android.view.View").text("现金余额")',
+            task:'className("android.view.View").text("日常任务")'
         },
-        profiles:{
-
+        detail:{
+            say:'className("android.widget.TextView").text("说点什么...").desc("输入评论").find()'
+        },
+        ad:{
+            packet:'className("android.widget.TextView").textStartsWith("免费领取(")'
+        },
+        onepice:{
+            tks:'className("android.view.View").text("谢谢参与")',
+            pice:'className("android.view.View").text("500金币")'
         }
-    },
+    }
 };
 var sac={
     util:require('./util.js'),
@@ -67,35 +78,9 @@ var closead = {
     signin:'className("android.view.View").text("好的")'
 }
 
-var where = {
-    task:{
-        id:'text("金币收益")'
-    },
-    home:{
-        share:'id("user_name_text_view").find()'
-    }
-};
 
-
-let element = {
-    author:'id("name").find()',
-    notmore:'id("no_more_content").findOne(100)'
-};
-let authors=[];
-let uiobj;
-while(true){
-    uiobj = eval(element.author);
-    uiobj.forEach(e=>{
-        if(authors.indexOf(e.text())==-1)authors.push(e.text())
-    })
-    swipe(1000,2000,1000,500,500)
-    if(eval(element.notmore)){
-        break;
-    };
-};
-log(authors)
-
-
+var a = classNameMatches(".+").findOne(10)
+log(a.packageName())
 //sac.util.forcePress(e.detail.praise)
 /*
 var list = className(open.className).text(open.text).findOne(50)
