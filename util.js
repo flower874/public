@@ -689,6 +689,7 @@ util.gropev2=(ele,package)=>{
             if(!packageName(package).findOne(10)===null){
                if(!packageName(".+").findOne(100).packageName()===package){
                    return false;
+                };
             };
         };
         if(!intent){
