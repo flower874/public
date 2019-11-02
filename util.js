@@ -683,14 +683,12 @@ util.gropev2=(ele,package)=>{
         };
 
         util.print("开始摸索环境",3)
-        let i,current,pack
+        let i,current
         timeout = timeout || 50
         if(package){
-            if(!packageName(package).findOne(100)){
-                pack = packageName(".+").findOne(2000);
-                util.print("意图包: "+package,3)
-                util.print("当前包已经更改: "+pack,3)
-                return false;
+            if(!packageName(package).findOne(10)===null){
+               if(!packageName(".+").findOne(100).packageName()===package){
+                   return false;
             };
         };
         if(!intent){
