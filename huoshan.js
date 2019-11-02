@@ -94,7 +94,6 @@
         
         //验证当前页
         sac.util.forcePress(e.task.btn,2000);
-        sleep(1000);
         sac.cancel(1000);
 
         if(!sac.grope('task',4000)){
@@ -103,12 +102,12 @@
 
         //时段宝箱
         sac.util.print("时段宝箱",3);
-        sac.util.forcePress(e.i.box.open,500);
+        if(sac.util.forcePress(e.i.box.open,500))sleep(2000)
         sac.cancel(1000);
 
         //签到
         sac.util.print("签到",3);
-        sac.util.forcePress(e.i.sign.btn,800);
+        if(sac.util.forcePress(e.i.sign.btn,800))sleep(2000)
         sac.cancel(1000);
 
         sac.util.swip({num:1});
@@ -175,6 +174,13 @@
     };
     sac.loop=(duration)=>{
         
+        if(!sac.grope('home',4000)&&!sac.grope('detail',4000) ){
+            sac.util.print("重新打开App",2)
+            sac.open();
+            sac.util.forcePress(e.home.enterDetail);
+            sleep(1000);
+        };
+
         let [exitcount,exitcountmax] = [0,5]
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
         sac.util.forcePress(e.home.enterDetail,1000);
@@ -195,7 +201,7 @@
             sac.ad();
             sac.onepice();
 
-            if(sac.grope('home',4000)&&!sac.grope('detail',4000) ){
+            if(sac.grope('detail',4000) ){
                 exitcount = 0;
             }else{
                 sac.util.print("重新打开App",2)
@@ -204,7 +210,7 @@
                 sleep(1000);
                 exitcount++;
             };
-    
+
             if(sac.watchVideo(e.detail.write)){
                 exitcount = 0;
             }else{

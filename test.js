@@ -76,8 +76,7 @@ var where = {
     }
 };
 
-var foo = descStartsWith("展开全文").findOne(50)
-log(foo)
+
 //sac.util.forcePress(e.detail.praise)
 /*
 var list = className(open.className).text(open.text).findOne(50)
