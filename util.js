@@ -686,8 +686,8 @@ util.gropev2=(ele,package)=>{
         let i,current,pack
         timeout = timeout || 50
         if(package){
-            if(!packageName(package).findOne(500)){
-                pack = packageName(".+").findOne(500);
+            if(!packageName(package).findOne(100)){
+                pack = packageName(".+").findOne(2000);
                 util.print("当前包已经更改: "+pack,3)
                 return false;
             };
