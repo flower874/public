@@ -182,6 +182,7 @@
         };
 
         let [exitcount,exitcountmax] = [0,5]
+        let [reopencount,remax] = [0,5]
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
         sac.util.forcePress(e.home.enterDetail,1000);
         
@@ -193,9 +194,15 @@
             };
             //失败计数器
             if(exitcount>exitcountmax){
-                sac.util.print("累积失败超过"+exitcount+"次，返回",2)
-                return false;
+                sac.util.print("重新打开App",2)
+                sac.open();
+                sleep(1500);
+                sac.util.forcePress(e.home.enterDetail);
+                reopencount++;
             };
+            if(reopencount>remax){
+                return false;
+            }
 
             sleep(1000);
             sac.ad();
@@ -210,10 +217,6 @@
             if(sac.grope('detail',4000) ){
                 exitcount = 0;
             }else{
-                sac.util.print("重新打开App",2)
-                sac.open();
-                sleep(1500);
-                sac.util.forcePress(e.home.enterDetail);
                 exitcount++;
             };
 
