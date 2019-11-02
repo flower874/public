@@ -208,9 +208,7 @@
             sac.ad();
             sac.onepice();
 
-            if(sac.watchVideo(e.detail.write)){
-                exitcount = 0;
-            }else{
+            if(!sac.watchVideo(e.detail.write)){
                 exitcount++
             };
 
