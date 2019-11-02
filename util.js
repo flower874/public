@@ -645,13 +645,6 @@ util.gropev2=(ele,package)=>{
     let elements = ele;
     let pack;
     return function(intent,timeout) {
-        if(package){
-            if(!packageName(package).findOne(800)){
-                pack = classNameMatches(".+").findOne(100);
-                util.print("当前包已经更改: "+pack,3)
-                return false;
-            };
-        };
         let select=(inte)=>{
             let ergodic=(objs)=>{
                 try{
@@ -693,6 +686,13 @@ util.gropev2=(ele,package)=>{
         util.print("开始摸索环境",3)
         let i,current
         timeout = timeout || 50
+        if(package){
+            if(!packageName(package).findOne(800)){
+                pack = classNameMatches(".+").findOne(100);
+                util.print("当前包已经更改: "+pack,3)
+                return false;
+            };
+        };
         if(!intent){
             util.print("查询当前所在页面:",3)
             for(i in elements){
