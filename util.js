@@ -646,7 +646,7 @@ util.gropev2=(ele,package)=>{
     let pack;
     return function(intent,timeout) {
         if(package){
-            if(!packageName(package).findOne(2000)){
+            if(!packageName(package).findOne(800)){
                 pack = classNameMatches(".+").findOne(100);
                 util.print("当前包已经更改: "+pack,3)
                 return false;

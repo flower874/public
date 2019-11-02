@@ -71,6 +71,7 @@
         sac.util.clean();
         sleep(800);
         sac.util.openApp(e.packageName);
+        sleep(1000);
         if(sac.grope('home',14000)){
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
