@@ -218,6 +218,7 @@
                 exitcount = 0;
             }else{
                 exitcount++;
+                sac.util.print("失败计数器: "+exitcount,3)
             };
 
             end = parseInt(Date.now()/1000);
