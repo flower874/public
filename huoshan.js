@@ -192,6 +192,12 @@
                 sac.util.print("此次运行结束",3)
                 return true;
             };
+
+            sleep(1000);
+            sac.ad();
+            sac.onepice();
+            sac.watchVideo(e.detail.write)
+            sleep(500);
             //失败计数器
             while(true){
                 if(reopencount>remax){
@@ -208,12 +214,6 @@
                 sleep(1000);
                 reopencount++;
             };
-
-            sleep(1000);
-            sac.ad();
-            sac.onepice();
-            sac.watchVideo(e.detail.write)
-            sleep(500);
             end = parseInt(Date.now()/1000);
         
         };
