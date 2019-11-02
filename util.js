@@ -688,6 +688,7 @@ util.gropev2=(ele,package)=>{
         if(package){
             if(!packageName(package).findOne(100)){
                 pack = packageName(".+").findOne(2000);
+                util.print("意图包: "+package,3)
                 util.print("当前包已经更改: "+pack,3)
                 return false;
             };
