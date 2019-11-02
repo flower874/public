@@ -77,6 +77,25 @@ var where = {
 };
 
 
+let element = {
+    author:'id("name").find()',
+    notmore:'id("no_more_content").findOne(100)'
+};
+let authors=[];
+let uiobj;
+while(true){
+    uiobj = eval(element.author);
+    uiobj.forEach(e=>{
+        if(authors.indexOf(e.text())==-1)authors.push(e.text())
+    })
+    swipe(1000,2000,1000,500,500)
+    if(eval(element.notmore)){
+        break;
+    };
+};
+log(authors)
+
+
 //sac.util.forcePress(e.detail.praise)
 /*
 var list = className(open.className).text(open.text).findOne(50)

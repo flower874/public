@@ -214,7 +214,7 @@
                 exitcount++
             };
 
-            if(sac.grope('detail',4000) ){
+            if(sac.grope('detail',1000) ){
                 exitcount = 0;
             }else{
                 exitcount++;
