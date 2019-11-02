@@ -21,7 +21,7 @@
                 x:68,
                 y:75
             },
-            follow:'className("android.widget.TextView").text("关注")',
+            follow:'className("android.widget.TextView").text("关注").find()[1]',
             write:'className("android.widget.TextView").find()[4]',
             onepice:'className("android.view.View").depth(14)',
             getpacket:'className("android.widget.TextView").text("点击领取")'
@@ -54,7 +54,7 @@
                 task:'className("android.view.View").text("日常任务")'
             },
             detail:{
-                say:'className("android.widget.TextView").text("说点什么...").desc("输入评论").find()'
+                say:'className("android.widget.TextView").text("说点什么...").desc("输入评论")'
             },
             ad:{
                 packet:'className("android.widget.TextView").textStartsWith("免费领取(")'
@@ -66,13 +66,16 @@
         }
     };
     var sac = {util:require("./util.js")};
-    sac.grope = sac.util.gropev2(e.where,e.packageName);
+    sac.grope = sac.util.gropev2({
+        elements:e.where,
+        package:e.packageName
+    });
     sac.open=()=>{
         sac.util.clean();
         sleep(800);
         sac.util.openApp(e.packageName);
         sleep(1000);
-        if(sac.grope('home',14000)){
+        if(sac.grope({intent:'home',timeout:14000})){
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
@@ -97,7 +100,7 @@
         sac.util.forcePress(e.task.btn,2000);
         sac.cancel(1000);
 
-        if(!sac.grope('task',4000)){
+        if(!sac.grope({intent:'task',timeout:4000})){
             return false;
         };
 
@@ -146,14 +149,14 @@
         sleep(1500);
     };
     sac.ad=()=>{
-        if(!sac.grope('ad',3000)){
+        if(!sac.grope({intent:'ad',timeout:3000})){
             return false;
         };
         sac.util.forcePress(e.detail.getpacket,20000);
         sac.util.shortvideoswipup();
     };
     sac.onepice=()=>{
-        if(!sac.grope('onepice',3000)){
+        if(!sac.grope({intent:'onepice',timeout:3000})){
             return false;
         };
         sac.util.forcePress(e.detail.onepice,1000);
@@ -175,16 +178,15 @@
     };
     sac.loop=(duration)=>{
         
-        if(!sac.grope('home',4000)&&!sac.grope('detail')){
+        if(!sac.grope({intent:'home',timeout:6000})){
             sac.util.print("重新打开App",2)
             sac.open();
-            sac.util.forcePress(e.home.enterDetail);
             sleep(1000);
         };
 
         let [reopencount,remax] = [0,5]
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
-        sac.util.forcePress(e.home.enterDetail,1000);
+        sac.util.forcePress(e.home.enterDetail);
         
         while(true){
             //计时器
@@ -204,14 +206,13 @@
                     return false;
                 }
                 //find()方法无法使用timeout参数
-                if(sac.grope('detail')){
+                if(sac.grope({intent:'detail',timeout:1000,unvisible:1})){
                     break;
                 };
                 sac.util.print("重新打开App",2)
                 sac.open();
-                sleep(1500);
-                sac.util.forcePress(e.home.enterDetail);
                 sleep(1000);
+                sac.util.forcePress(e.home.enterDetail);
                 reopencount++;
             };
             end = parseInt(Date.now()/1000);

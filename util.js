@@ -636,71 +636,68 @@ util.grope=(elements,intent,timeout)=>{
     };
     return select(intent);
 };
-util.gropev2=(ele,package)=>{
+util.gropev2=(objects)=>{
     /*
     elements 对象 
         elements.home : {'元素描述', '元素描述'}
         elements.task : {'元素描述', '元素描述'} 
     */
-    let elements = ele;
-    return function(intent,timeout) {
-        let select=(inte)=>{
-            let ergodic=(objs)=>{
-                try{
-                    for(let o of objs){
-                        if(util.visible(o)){
-                        return true; 
-                        };
-                    };
-                }catch(e){};
-                return false;
-            };    
+    let {elements,package} = objects;
+    return function(args) {
 
-            let intent = elements[inte];
+        let select=(inte)=>{
+            let page = elements[inte];
             let uiobjects;
-            if(intent){
+            if(page){
                 util.print("查询意图: "+inte,3);
             }else{
-                util.print(inte+" :意图不在预定义的对象结构中",2)
+                util.print(inte+" :意图不在对象结构中",2)
                 util.print(elements,2)
                 return false;
             };
-            for(i in intent){
-                util.print("验证 "+inte+" 中的元素: "+intent[i],3)
-                uiobjects = util.prove(intent[i],timeout);
-                if(uiobjects.length){
-                    if(!ergodic(uiobjects)){
-                        return false;
-                    };
-                }else{
-                    if(!util.visible(uiobjects)){
-                        return false;
-                    };
+            for(i in page){
+                util.print("验证 "+inte+" 中的元素: "+page[i],3)
+                uiobjects = util.prove(page[i],timeout);
+                if(!uiobjects){
+                    return false;
+                };
+                if(unvisible){
+                    util.print("无需验证可见性",3)
+                    continue;
+                };
+                if(!util.visible(uiobjects)){
+                    return false;
                 };
             };
             util.print(inte+" 验证通过",3)
-            return inte;
+            return true;
         };
 
         util.print("开始摸索环境",3)
-        let i,current
+        let {intent,timeout,unvisible} = args;
         timeout = timeout || 50
+
         if(package){
+            util.print("验证包: "+package,3)
             if(!packageName(package).findOne(10)===null){
                if(!packageName(".+").findOne(100).packageName()===package){
+                    util.print("验证通过",3)
                    return false;
                 };
             };
+            util.print("跳过验证",3);
         };
+
         if(!intent){
-            util.print("查询当前所在页面:",3)
-            for(i in elements){
-                current = select(i);
-                if(current)return current;
+            util.print("查询当前所在页面:",3);
+            for(let i in elements){
+                if(select(i)){
+                    return i;
+                };
             };
-            util.print("结果: 未知",2)
             return false;
         };
+
         return select(intent);
     };
 };

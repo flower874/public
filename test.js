@@ -20,7 +20,7 @@ var e = {
             x:68,
             y:75
         },
-        follow:'className("android.widget.TextView").text("关注")',
+        follow:'className("android.widget.TextView").text("关注").find()[1]',
         write:'className("android.widget.TextView").find()[4]',
         onepice:'className("android.view.View").depth(14)',
         getpacket:'className("android.widget.TextView").text("点击领取")'
@@ -70,17 +70,14 @@ var sac={
 
 sac.util.loglevel = 3
 
-
-var closead = {
-    btn:'className("android.view.View").text("立即签到")', 
-    child:'text("我知道了")',
-    offer:'id("close")',
-    signin:'className("android.view.View").text("好的")'
-}
+sac.grope = sac.util.gropev2({
+    elements:e.where,
+    package:e.packageName
+});
 
 
-var a = classNameMatches(".+").findOne(10)
-log(a.packageName())
+sac.util.forcePress(e.detail.follow)
+
 //sac.util.forcePress(e.detail.praise)
 /*
 var list = className(open.className).text(open.text).findOne(50)
