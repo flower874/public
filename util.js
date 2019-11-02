@@ -6,7 +6,8 @@ util.print=(message,level)=>{
     // 在执行方法之前定义 LEVEL 变量，可以控制调试信息输出等级
     if(level===1||level===2||level===3){
         if(util.loglevel >= level){
-            console.log(message)
+            //console.log(message)
+            toastLog(message);
         };
     };
 };
