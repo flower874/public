@@ -54,7 +54,7 @@
                 task:'className("android.view.View").text("日常任务")'
             },
             detail:{
-                say:'className("android.widget.TextView").text("说点什么...").desc("输入评论").findOne().parent()'
+                say:'className("android.widget.TextView").text("说点什么...").desc("输入评论").find()'
             },
             ad:{
                 packet:'className("android.widget.TextView").textStartsWith("免费领取(")'
@@ -89,7 +89,7 @@
         sac.cancel(1000);
         //检测签到标记
         if(sac.util.getsigin(e.appName)){
-            //return true;
+            return true;
         };
         
         //验证当前页
@@ -197,24 +197,24 @@
                 return false;
             };
 
-            sleep(2000);
+            sleep(1000);
             sac.ad();
             sac.onepice();
+
+            if(sac.watchVideo(e.detail.write)){
+                exitcount = 0;
+            }else{
+                exitcount++
+            };
 
             if(sac.grope('detail',4000) ){
                 exitcount = 0;
             }else{
                 sac.util.print("重新打开App",2)
                 sac.open();
+                sleep(1500);
                 sac.util.forcePress(e.home.enterDetail);
-                sleep(1000);
                 exitcount++;
-            };
-
-            if(sac.watchVideo(e.detail.write)){
-                exitcount = 0;
-            }else{
-                exitcount++
             };
 
             end = parseInt(Date.now()/1000);
