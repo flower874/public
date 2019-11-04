@@ -7,7 +7,7 @@
                 id:'text("金币收益")'
             },
             home:{
-                write:'id("user_name_text_view").find()'
+                write:'id("user_name_text_view")'
             }
         },
         task:{
@@ -28,7 +28,10 @@
         }
     };
     var sac = {util:require('./util.js')};
-    sac.grope = sac.util.gropev2(e.where); 
+    sac.grope = sac.util.gropev2({
+        elements:e.where,
+        package:e.packageName
+    }); 
     sac.cancel=()=>{
         for(i in e.closead){
             sac.util.forcePress(e.closead[i],200);
@@ -38,8 +41,7 @@
         sac.util.clean();
         sleep(800);
         sac.util.openApp(e.packageName);
-        sleep(8000);
-        if(sac.grope('home',1000)){
+        if(sac.grope({intent:'home',timeout:1000,unvisible:1})){
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
@@ -48,7 +50,7 @@
     };
     sac.signin=()=>{
         sac.util.forcePress(e.task.btn,2000);
-        sac.grope('task',10000);
+        sac.grope({intent:'task',timeout:10000});
         sleep(6000);
         back();
     };
@@ -68,10 +70,9 @@
     };
     sac.loop=(duration)=>{
         sleep(1800);
-        if(!sac.grope('home') ){
+        if(!sac.grope({intent:'home',timeout:6000,unvisible:1})){
             sac.util.print("重新打开App",2)
             sac.open();
-            sleep(10000);
         };
 
         let [exitcount,exitcountmax] = [0,5]

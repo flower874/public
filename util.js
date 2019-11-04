@@ -6,8 +6,8 @@ util.print=(message,level)=>{
     // 在执行方法之前定义 LEVEL 变量，可以控制调试信息输出等级
     if(level===1||level===2||level===3){
         if(util.loglevel >= level){
-            //console.log(message)
-            toastLog(message);
+            console.log(message)
+            //toastLog(message);
         };
     };
 };
@@ -99,7 +99,6 @@ util.swipeEx=(qx, qy, zx, zy, time,excursion)=>{
         xxy.push(xxyy);
         
     }
-    util.print("滑动路径坐标"+ xxy,3);
     gesture.apply(null, xxy);
 };
 util.bezier_curves=(cp, t)=>{
@@ -383,20 +382,20 @@ util.weighted=(weight)=>{
     hash = hash.sort()
     return hash[random(0,hash.length-1)]
 };
-util.shortvideoswipup=(author)=>{
+util.shortvideoswipup=(author,speed)=>{
     let svs=()=>{
         let x1 = random(parseInt(device.width*0.67),parseInt(device.width*0.69))
         let y1 = random(parseInt(device.height*0.88),parseInt(device.height*0.93))
         let x2 = random(parseInt(device.width*0.69),parseInt(device.width*0.71))
         let y2 = random(parseInt(device.height*0.17),parseInt(device.height*0.24))
-        let speed = parseInt((y1-y2)*0.45703);
+        speed = speed || parseInt((y1-y2)*0.45703);
         util.swipeEx(x1,y1, x2,y2, speed, 0.047);
     };
     if(!author){
         svs();
         return true; 
     };
-    let [count,max] = [0,3]
+    let [count,max] = [0,1]
     while(true){
         if(count>max){
             return false;
@@ -457,7 +456,7 @@ util.prove=(ele,timeout,func)=>{
         util.print("输入类型: string",3)
         if(/\.findOne\(.*\)$/.test(ele)||
            /\.find\(.*\)$/.test(ele)||
-           /\.find\(.*\]$/.test(ele))
+           /.*]$/.test(ele))
         {
             util.print("多层搜索方法，移除 func",3)
             func = "";

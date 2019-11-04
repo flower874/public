@@ -67,17 +67,170 @@ var e = {
 var sac={
     util:require('./util.js'),
 };
+var elements = {
+    AppName : "tuituigx",
+    PackageName : "com.tuitui.video",
 
+    closead : { 
+        //结束视频广告
+        video:{
+            id: "tt_video_ad_close"
+        },
+        //获取视频广告后的奖励
+        confirm:{
+            className:"android.view.View",
+            text:"收下"
+        }
+    },
+    i:{
+        card:{
+            channelbtn:{
+                x:65,
+                y:2.56
+            },
+            open:{
+                className:"android.view.View",
+                text:"使用"
+            },
+            maincard:{
+                id:"giftMoney"
+            },
+            subcard:'text("额外奖励").findOne().parent().children()[1]',
+
+            dialog:'textStartsWith("恭喜您刮卡获得")',
+
+            done:'textStartsWith("看完整小视频")',
+            
+            next:{
+                className:"android.view.View",
+                textStartsWith:"再刮一次"
+            },
+            getcoin:'textStartsWith("恭喜您刮卡获得").findOne().parent().children()[5]',
+            number:'textEndsWith("张").findOne().parent().children()[1]',
+            closedialog:'textStartsWith("恭喜您刮卡获得").findOne().parent().children()[0]'
+        },
+        sign:{
+            channelbtn:{
+                x:87,
+                y:2.65
+            },
+            signbtn:{
+                className:"android.view.View",
+                text:"签到"
+            },
+            addcoin:'textMatches("/^\+.+0金币$/")'
+        },
+        task:{
+            sign:{
+                className:"android.view.View",
+                text:"签到"
+            },
+            added:'textMatches("/^\+.+0金币$/")',
+            videobox:{
+                className:"android.view.View",
+                text:"开宝箱"
+            }
+        }
+    },
+    profiles:{
+        btn:{
+            className:"android.view.View",
+            text:"我的"
+        },
+        drawring:{
+            className:"android.view.View",
+            text:"我要提现"
+        },
+        coins:{
+            className:"android.view.View",
+            textEndsWith:"金币)"
+        }
+    },
+    backtrack:{
+        homebtn:{
+            x:50,
+            y:97.5
+        }
+    },
+    where:{
+        home:{
+            write:'textEndsWith:"·"'
+        },
+        detail:{
+            write:'textEndsWith:"·"'
+        },
+        task:{
+            box:'text("定时宝箱")'
+        },
+        cardlist:{
+            list:'text("刮刮卡(1张)")'
+        },
+        carddetail:{
+            main:'text("刮到 可得现金")',
+            sub:'text("额外奖励")'
+        }
+    },
+    low_where:{
+        home:{
+            e:'textEndsWith("位推友")',
+        },
+        detail:{
+            write:'textEndsWith:"·"'
+        },
+        task:{
+            box:'text("定时宝箱")'
+        },
+        cardlist:{
+            list:'text("刮刮卡(1张)")'
+        },
+        carddetail:{
+            main:'text("刮到 可得现金")',
+            sub:'text("额外奖励")'
+        }
+    },
+    detail:{
+        write:{
+            className:"android.widget.TextView",
+            textEndsWith:"·"
+        },
+        follow:{
+            className:"android.widget.TextView",
+            text:"关注"
+        },
+        enter:{
+            x:63,y:26
+        }
+    },
+};
 sac.util.loglevel = 3
 
-sac.grope = sac.util.gropev2({
-    elements:e.where,
-    package:e.packageName
-});
+//var advideo = 'id("tt_video_ad_mute")'
+//sac.util.visible(sac.util.prove(advideo))
+log(sac.util.prove('textMatches("/^\+.+0金币$/")'))
+//var foo = textMatches("/额外奖励/").find()
+//var foo = textEndsWith("·").findOne(6000)
+//log(foo)
+//sac.util.shortvideoswipup(elements.detail.write,1000)
+//var foo = textStartsWith("恭喜您刮卡获得").findOne().parent().children()
+//var foo = textMatches("//").findOne(100)
+//for(c of foo)log(c)
+//log(foo)
+//log(sac.util.prove(elements.i.card.getcoin))
+//var foo = 'textMatches("/^\+.+00金币$/").findOne().parent().children()[0]'
+//var foo = textEndsWith("张").findOne(1500).parent().children()[1]
+//log(sac.util.forcePress(foo))
+//sac.util.forcePress(elements.i.card.getcoin)
+//sac.util.forcePress(elements.closead.video,31000)
+
+//let number = parseInt(sac.util.prove(elements.i.card.number,1500).text())
+//log(number)
+//var c = textMatches("/.*1张刮刮卡/").find()
+//for(b of c)log(b)
+//30秒
+//var close = id("tt_video_ad_close").findOne(100)
 
 
-sac.util.forcePress(e.detail.follow)
-
+//sac.util.forcePress(a)
 //sac.util.forcePress(e.detail.praise)
 /*
 var list = className(open.className).text(open.text).findOne(50)

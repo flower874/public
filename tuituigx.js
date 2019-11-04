@@ -1,13 +1,8 @@
 (function(){
-    var LEVEL = 3;
-    let result = {setAndNotify:()=>{exit();}};
-    let readlist,sustain,time,disposelist,loopread;
-    let total = 0;
-    let countdown = 0;
     var elements = {
         AppName : "tuituigx",
         PackageName : "com.tuitui.video",
-        //关闭弹窗
+
         closead : { 
             //结束视频广告
             video:{
@@ -17,16 +12,9 @@
             confirm:{
                 className:"android.view.View",
                 text:"收下"
-            },
-            //关闭宝箱奖励
-            box:{
-                id:"com.tuitui.video.home:id/w3"
             }
         },
-    
-        //首页按钮
         i:{
-            coin:{},
             card:{
                 channelbtn:{
                     x:65,
@@ -39,35 +27,13 @@
                 maincard:{
                     id:"giftMoney"
                 },
-                subcard:{
-                    className:"android.view.View",
-                    textEndsWith:"0"
-                },
-                next:{
-                    className:"android.view.View",
-                    textStartsWith:"再刮一次"
-                },
-                nextbtn:{
-                    className:"android.view.View",
-                    textEndsWith:"0",
-                    parent:""
-                },
-                done:{
-                    className:"android.view.View",
-                    textStartsWith:"看完整小视频"
-                },
-                addcoin:{
-                    className:"android.view.View",
-                    textEndsWith:"金币"
-                },
-                getcoin:{
-                    className:"android.view.View",
-                    textEndsWith:"收下"
-                },
-                elements:{
-                    className:"android.view.View",
-                    text:"刮刮卡(1张)"
-                }
+                subcard:'text("额外奖励").findOne().parent().children()[1]',
+                dialog:'textStartsWith("恭喜您刮卡获得")',
+                done:'textStartsWith("看完整小视频")',
+                getcoin:'textStartsWith("恭喜您刮卡获得").findOne().parent().children()[5]',
+                number:'textEndsWith(" 张").findOne().parent().children()[0]',
+                ad:'id("tt_video_ad_mute")',
+                closedialog:'textStartsWith("恭喜您刮卡获得").findOne().parent().children()[0]'
             },
             sign:{
                 channelbtn:{
@@ -78,21 +44,14 @@
                     className:"android.view.View",
                     text:"签到"
                 },
-                addcoin:{
-                    className:"android.widget.TextView",
-                    textEndsWith:"00金币"
-                }
+                addcoin:'textMatches("/^\+.+0金币$/")'
             },
             task:{
                 sign:{
                     className:"android.view.View",
                     text:"签到"
                 },
-                added:{
-                    className:"android.widget.TextView",
-                    textEndsWith:"0金币"
-                },
-                // -> 关闭视频广告
+                added:'textMatches("/^\+.+0金币$/")',
                 videobox:{
                     className:"android.view.View",
                     text:"开宝箱"
@@ -119,7 +78,43 @@
                 y:97.5
             }
         },
-        home:{
+        where:{
+            home:{
+                write:'textEndsWith("·")'
+            },
+            detail:{
+                write:'textEndsWith("·")'
+            },
+            task:{
+                box:'text("定时宝箱")'
+            },
+            cardlist:{
+                list:'text("刮刮卡(1张)")'
+            },
+            carddetail:{
+                main:'text("刮到 可得现金")',
+                sub:'text("额外奖励")'
+            }
+        },
+        low_where:{
+            home:{
+                e:'textEndsWith("位推友")',
+            },
+            detail:{
+                write:'textEndsWith("·")'
+            },
+            task:{
+                box:'text("定时宝箱")'
+            },
+            cardlist:{
+                list:'text("刮刮卡(1张)")'
+            },
+            carddetail:{
+                main:'text("刮到 可得现金")',
+                sub:'text("额外奖励")'
+            }
+        },
+        detail:{
             write:{
                 className:"android.widget.TextView",
                 textEndsWith:"·"
@@ -128,19 +123,31 @@
                 className:"android.widget.TextView",
                 text:"关注"
             },
-            like:{
-                x:60,
-                y:60
-            }
-        }
+            enter:{
+                x:63,y:26
+            },
+            ad:'textEndsWith(">")'
+        },
     };
-    var sac={
-        util:require('./util.js'),
-        scrape:(obj,sacle)=>{
+    var sac={util:require('./util.js')}
+
+    //推推对不同分辨率有不同界面
+    if(device.width==1080){
+        sac.grope = sac.util.gropev2({
+            elements:elements.where,package:elements.PackageName
+        });
+    }else{
+        sac.low = 1;
+        sac.grope = sac.util.gropev2({
+            elements:elements.low_where,package:elements.PackageName
+        })
+    };
+    sac.scrape=(ele,sacle)=>{
             sac.util.print("横向刮卡器",3)
             let size,x1,y1,x2,y2,time,excursion;
             let [count,max] = [0,10]
             let height = 0;
+            let obj = sac.util.prove(ele,2000);
             try{size = obj.bounds()}catch(e){};
             if(!size){
                 sac.util.print("无法获取Ui对象的bounds属性，错误返回",2)
@@ -180,271 +187,190 @@
                 sac.util.print("滑动计数器+1，当前值:"+count+" 最大允许值: "+max,3)
                 count++
                 if(sac.util.prove(elements.i.card.done)){
-                    sac.util.print("刮卡完成，返回",3);
+                    sac.util.print("完成，返回",3);
                     return true;
                 };
             };
-        },  
-        cancel:()=>{
-            let btn;
-        },
-        signin:()=>{
+    };
+    sac.signin=()=>{
             sleep(800)
             sac.util.print("进入任务频道",3);
-            if(!sac.util.forcePress(elements.i.sign.channelbtn,4000)){
-                sac.util.print("错误返回",3);
-                return false;
-            };
-            sleep(800);
+            sac.util.forcePress(elements.i.sign.channelbtn,100)
             sac.util.print("点击签到按钮",3)
-            if(!sac.util.forcePress(elements.i.sign.signbtn,3000)){
-                sac.util.print("错误返回",3);
-                return false;
-            };
-            sleep(800);
+            sac.util.forcePress(elements.i.sign.signbtn,800)
             sac.util.print("收下签到金币",3)
-            if(!sac.util.forcePress(elements.i.sign.addcoin,2000)){
-                sac.util.print("错误返回",3);
-                return false;
+            if(sac.util.forcePress(elements.i.sign.addcoin,3000)){
+                sac.util.print("等待视频广告结束",3)
+                sac.util.forcePress(elements.closead.video,31000)
             };
             sleep(800);
-            sac.util.print("等待视频广告结束",3)
-            if(sac.util.forcePress(elements.closead.video,31000)){
-                sac.util.print("关闭广告，正常返回",3);
-                return true
-            }else{
-                sac.util.print("未找到视频广告关闭按钮，错误返回",2);
-                return false;
-            };
-        },
-        finance:()=>{
-        },
-        shortvideolike:(prob,max)=>{
-            max = max || 5; 
-            sac.util.print("准备点赞",3)
-            if(random(0,prob)!==0){
-                sac.util.print("未命中",3)
+            sac.tohome();
+    };
+    sac.entervideo=()=>{
+        if(!sac.low){
+            return
+        };
+        sac.util.forcePress(elements.detail.enter);
+        sleep(2000);
+        sac.util.forcePress(elements.detail.enter);
+        if(sac.grope({intent:'detail',timeout:2000})){
+            return true;
+        };
+        return false;
+    };
+    sac.watchvideo=()=>{
+        let enjoy = random(6000,11000);
+        if(!sac.low){
+            sac.util.like(20,2);
+        };
+        sac.util.print("观看 "+enjoy/1000+" 秒",3);
+        sleep(enjoy)
+        sac.util.percent(elements.detail.follow,100);
+        sac.util.print("上划翻页",3);
+        if(sac.util.prove(elements.detail.ad)){
+            gestures([0,  360,[403,1100],[405,1050],[413,1030]],
+                     [461,430, [423,1000], [418,963], [428,910]]);
+            sleep(2000);
+        };
+        if(sac.util.shortvideoswipup(elements.detail.write)){
+            sac.util.print("完成返回",3)
+            return true;
+        };
+        return false;
+    };
+    sac.loop=(duration)=>{
+        sleep(1800);
+        if(sac.low){
+            sac.util.print("进入视频详情",3)
+            sac.entervideo();
+        };
+        if(!sac.grope({intent:'detail',timeout:6000,unvisible:1})){
+            sac.util.print("重新打开App",2)
+            sac.open();
+            if(sac.low){
+                sac.entervideo();
+            };    
+        };
+
+        let [exitcount,exitcountmax] = [0,2]
+        let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
+        
+        while(true){
+            //计时器
+            if((end-start)>duration){
+                sac.util.print("此次运行结束",3)
                 return true;
             };
-            sac.util.print("连击次数: 2~"+max,3)
-            let i;
-            let x = parseInt(device.width*0.6);
-            let y = parseInt(device.height*0.4);
-            for(i=0;i<random(2,max);i++){
-                sac.util.print("点按坐标: "+x+" "+y,3)
-                press(x+random(-6,8),y-random(-6,8),random(9,38)); 
-                sleep(random(15,69)); 
-            };
-        },
-        shortvideofollow:(ele,prob)=>{
-            prob = prob || 99;
-            if(random(0,prob)===0){
-                sac.util.print("关注主播",3)
-                if(sac.util.forcePress(ele)){
-                    sac.util.print("关注成功",3);
-                }else{
-                    sac.util.print("关注失败",3)
-                }
-                sleep(800);
-            };
-        },
-        loopvideo:(sustain)=>{
-            let write,_write;
-            getwrite=()=>{
-                let text,w
-                let writes = sac.util.prove(elements.home.write,"","find")
-                if(!writes)return false;
-                for(w of writes){
-                    if(sac.util.visible(w)){
-                        try{
-                            text = w.text()
-                        }catch(e){};
-                        if(text){
-                            return text;
-                        }
-                    };
-                };
+            //失败计数器
+            if(exitcount>exitcountmax){
+                sac.util.print("累积失败超过"+exitcount+"次，返回",2)
                 return false;
             };
-            let count = 0;
-            let [s,e] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
-            while((e-s)<sustain){
-                log("获取原始作者")
-                write = getwrite();
-                if(count>5)return;
-                if(!sac.whereis('home',4000)){
-                    log("当前页面错误，尝试返回")
-                    count++
-                    sac.backtrack();
-                    continue;
-                };
-                sac.util.shortvideoswipup();
-                sleep(800);
-                _write = getwrite()
-                if(write===_write){
-                    count++
-                    continue;
-                }else{
-                    count = 0;
-                    _write = undefined;
-                };
-                sac.shortvideolike(0);
-                sleep(6000,11000);
-                sac.shortvideofollow();
-                e = parseInt(Date.now()/1000);
-            };
-        },
-        whereis:(intention,timeout)=>{
-            let select,type;
-            let timeout = timeout || 50;
-            let types = ['home','card','task'];
-            select=(intention)=>{
-                let one,two,three;
-                switch(intention){
-                    case types[0]:
-                        try{
-                            one = sac.util.prove(elements.home.write,timeout);
-                            if(sac.util.visible(one)){
-                                return true;
-                            };
-                            return false;
-                        }catch(e){
-                            return false;
-                        }
-                    case types[1]:
-                        try{
-                            one = sac.util.prove(elements.i.card.elements,timeout)
-                            if(sac.util.visible(one)){
-                                return true;
-                            };
-                            return false;
-                        }catch(e){
-                            return false
-                        };
-                    default :
-                        return false;
-                };
-            };
-            if(types.indexOf(intention) === -1){
-                sac.util.print("查询当前activity",3)
-                for(type of types){
-                    if(select(type)){
-                        return type;
-                    };
-                };
+
+            if(sac.watchvideo()){
+                exitcount = 0;
             }else{
-                sac.util.print("验证当前activity，目标: "+intention,3)
-                return select(intention);
-            };
-        },
-        backtrack:()=>{
-            let [count,max] = [0,3]
-            while(count<max){
-                if(sac.whereis('home',1000)){
-                    return true;
-                }else{
-                    back();
-                    sleep(500);
-                };
-                count++
-            };
-            sac.util.clean();
-            sac.util.openApp(elements.PackageName);
-            sac.util.prove(elements.home.elements,12000);
-        },
-        scrapecard:()=>{
-            let [card,maxcard] = [0,25];
-            let card1,card2
-            //进入刮卡标签
-            log("点击刮卡频道按钮")
-            sac.util.forcePress(elements.i.card.channelbtn);
-            sleep(2000);
-            if(!sac.whereis('card',4000)){
-                log("没有卡");
-                return;
-            };
-            if(!sac.util.forcePress(elements.i.card.open,2000)){
-                log("打开第一张卡失败")
-                return;
+                exitcount++
             };
 
-            sleep(1000);
-            while(card<maxcard){
-                card1 = sac.util.prove(elements.i.card.maincard,4000);
-                sleep(1000);
-                if(card1){
-                    sac.scrape(card1,0.15)
-                };
-                sleep(500);
-                try{card2 = sac.util.prove(elements.i.card.subcard).parent()}catch(e){};
-                if(card2){
-                    sac.scrape(card2,0.43);
-                }else{
-                    log("额外卡未找到");
-                    return;
-                };
-                card++
-                if(sac.util.forcePress(elements.i.card.addcoin,2000)){
-                    sac.util.prove(elements.closead.video,30000);
-                    sleep(1000);
-                    if(!sac.util.forcePress(elements.closead.video,4000)){
-                        return;
-                    };
-                };
-                //视频返回后可能无法获取金币，需要关闭 dialog
-                log("收下视频奖励")
-                sac.util.forcePress(elements.i.card.getcoin,1500)
-                sleep(2000);
-                if(sac.util.forcePress(elements.i.card.next,3000)){
-                    log("下一张")
-                }else{
-                    log("没有卡了")
-                    card = card + 25;
-                };
-            };
-        }
+            end = parseInt(Date.now()/1000);
+        
+        };
     };
+    sac.tohome=()=>{
+        let [count,max] = [0,3]
+        while(count<max){
+            if(sac.grope({intent:'home',timeout:1000})){        
+                return true;
+            }else{
+                back();
+                sleep(500);
+            };
+            count++
+        };
+        // 低分辨率模式下进入小视频详情
+        // 高分辨率home即小视频
+        return false;
+    };
+    sac.scrapecard=()=>{
+        let number;
+        //进入刮卡标签
+        sac.util.forcePress(elements.i.card.channelbtn,1000);
+        if(!sac.grope({intent:'cardlist',timeout:4000})){
+            return;
+        };
 
+        sac.util.forcePress(elements.i.card.open,800);
+
+        while(true){
+            number = 0;
+            if(!sac.grope({intent:'carddetail',timeout:4000})){
+                return;
+            };
+
+            sleep(500);
+            sac.scrape(elements.i.card.maincard,0.15);
+            sac.scrape(elements.i.card.subcard,0.43);
+
+            sleep(2000);
+            sac.util.forcePress(elements.i.card.getcoin,2000);
+            if(sac.util.visible(sac.util.prove(elements.i.card.ad,4000))){
+                sac.util.forcePress(elements.closead.video,32000);
+            }else{
+                sac.util.print("未能进入广告视频",3)
+            }
+            sleep(800);
+            sac.util.forcePress(elements.i.card.getcoin,2000);
+            sleep(800);
+            sac.util.forcePress(elements.i.card.closedialog,1000)
+            sleep(1000);
+
+            try{
+                number = parseInt(sac.util.prove(elements.i.card.number,1500).text())
+            }catch(e){
+                sac.util.print("-- 获取剩余卡数量失败，退出 --",2);
+                return true;
+            };
+            sac.util.print("-- 剩余: --"+number,2);
+            if(number<=0){
+                sac.util.print("-- 刮完了，返回 --"+number,2);
+                return true;
+            };
+
+            sac.util.forcePress(elements.i.card.subcard,2000);
+    
+            sleep(2000);
+        };
+    };
+    sac.open=()=>{
+        sac.util.clean();
+        sleep(800);
+        sac.util.openApp(elements.packageName);
+        if(sac.grope({intent:'home',timeout:1000,unvisible:1})){
+            sac.util.print("打开 "+elements.packageName+" 成功",3);
+        }else{
+            sac.util.print("打开 "+elements.packageName+" 失败",2);
+            result.setAndNotify("启动 "+elements.packageName+" 失败，返回");
+        };
+    };
+    let result = {setAndNotify:()=>{}};
     sac.util.loglevel = 3;
 
-    //配置运行时间
-    today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
-    sustain = random(1200,3600);
-    sac.util.print("计划运行时间: "+sustain,2)
-    time = sac.util.gettime(elements.AppName);
+    //time = sac.util.gettime(elements.AppName);
     /*
-    if(time.duration<=0){
-        sac.util.print("今天的时间配额已经用完",1)
-        return;
-    };
-    if(sustain>time.duration){
-        sac.util.print("配额时间低于计划时间，运行时间依从于配额剩余时间",1)
-        sustain = time.duration;
-    };
-    sac.util.print(elements.AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ sustain +" 秒",1)
-    */
-    //自动关闭各种提示(子进程)
-    threads.start(function(){
-        sac.util.print("关闭弹窗 -- 子进程",1);
-        while(true){
-            sac.cancel();
-            sleep(1000);
-        };
-    });
-    sac.util.print("初始化运行环境",3);    
-    sac.util.clean();
-    sac.util.print("启动包: "+elements.PackageName,3)
-    sac.util.openApp(elements.PackageName);
-    sac.util.print("等待加载首页...",3)
-    if(!sac.whereis('home',14000)){
-        sac.util.print("失败，返回主线程",2)
-        result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");
-    };
-    sac.signin();
-    sac.backtrack();
+    sac.open();
     sac.util.savestarttime(elements.AppName);
-    sac.loopvideo(sustain);
+    sac.signin();
+    sac.loopvideo(1000);
     sac.scrapecard();
     sac.util.savealreadytime(elements.AppName);
     result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");
+    */
+    sac.signin();
+    sac.tohome()
+    sac.loop(100000);
+    sac.scrapecard();
 })()
+
+// 两种模式
+// 启动进入首页，频道亦由顶部tab进入；视频需要在首页点击进入

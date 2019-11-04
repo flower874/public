@@ -63,14 +63,16 @@
         },
     };
     var sac = {util:require("./util.js")};
-    sac.grope = sac.util.gropev2(e.where);
+    sac.grope = sac.util.gropev2({
+        elements:e.where,
+        package:e.packageName
+    });
     sac.list = sac.util.getlist(e.list);
-
     sac.open=()=>{
         sac.util.clean();
         sleep(800);
         sac.util.openApp(e.packageName);
-        if(sac.grope('home',14000)){
+        if(sac.grope({intent:'home',timeout:14000})){
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
@@ -107,7 +109,7 @@
                 return uiobjects;
             };
             sac.util.swip({frequency:3});
-            if(!sac.grope('home',1000)){
+            if(!sac.grope({intent:'home',timeout:1000})){
                 back();
             };
             exitcount++;
@@ -119,7 +121,7 @@
 
         sac.util.forcePress(e.home.btn,1000);
         sleep(2000);
-        sac.grope('home',1000);
+        sac.grope({intent:'home',timeout:1000});
         sleep(2000);
 
         while(true){
@@ -130,7 +132,7 @@
             list = sac.getlist();
             if(!list)return false;
             for(news of list){
-                if(!sac.grope('home',1000)){
+                if(!sac.grope({intent:'home',timeout:1000})){
                     continue;
                 };
                 sac.util.print("内容类型: "+news.type,3)
@@ -173,10 +175,10 @@
                 return true;
             }
             sleep(1000);
-            if(!sac.grope('detail',3000)){
+            if(!sac.grope({intent:'detail',timeout:1000})){
                 sac.util.print("当前不是详情页，尝试返回上一层页面",2)
                 back();
-                if(!sac.grope('detail',1500)){
+                if(!sac.grope({intent:'detail',timeout:1000})){
                     sac.util.print("仍不是详情页，退出阅读方法",2)
                     return false;
                 };
@@ -209,7 +211,7 @@
         sac.util.print("进入视频详情页",3)
         sac.util.forcePress(object.uiobject,1000);
         sac.util.savereadlist(e.appName,object.title);
-        if(!sac.grope('detail',2000)){
+        if(!sac.grope({intent:'detail',timeout:1000})){
             sac.util.print("仍不是详情页，退出阅读方法",2)
             return false;
         };
@@ -222,7 +224,7 @@
         sac.util.print("进入图片详情页",3)
         sac.util.forcePress(object.uiobject,1000);
         sac.util.savereadlist(e.appName,object.title);
-        if(!sac.grope('detail',2000)){
+        if(!sac.grope({intent:'detail',timeout:1000})){
             sac.util.print("仍不是详情页，退出阅读方法",2)
             return false;
         };
