@@ -1,7 +1,7 @@
 (function(){
     var elements = {
         AppName : "tuituigx",
-        PackageName : "com.tuitui.video",
+        packageName : "com.tuitui.video",
 
         closead : { 
             //结束视频广告
@@ -41,7 +41,6 @@
                     y:2.65
                 },
                 signbtn:{
-                    className:"android.view.View",
                     text:"签到"
                 },
                 addcoin:'textMatches("/^\+.+0金币$/")'
@@ -132,11 +131,12 @@
     var sac={util:require('./util.js')}
 
     //推推对不同分辨率有不同界面
-    if(device.width==1080){
+    if(device.width>=1080){
         sac.grope = sac.util.gropev2({
             elements:elements.where,package:elements.PackageName
         });
     }else{
+        sac.util.print("低分辨率模式",3);
         sac.low = 1;
         sac.grope = sac.util.gropev2({
             elements:elements.low_where,package:elements.PackageName
@@ -197,7 +197,8 @@
             sac.util.print("进入任务频道",3);
             sac.util.forcePress(elements.i.sign.channelbtn,100)
             sac.util.print("点击签到按钮",3)
-            sac.util.forcePress(elements.i.sign.signbtn,800)
+            sac.util.forcePress(elements.i.sign.signbtn,2000)
+            sleep(2000);
             sac.util.print("收下签到金币",3)
             if(sac.util.forcePress(elements.i.sign.addcoin,3000)){
                 sac.util.print("等待视频广告结束",3)
@@ -211,7 +212,7 @@
             return
         };
         sac.util.forcePress(elements.detail.enter);
-        sleep(2000);
+        sleep(5000);
         sac.util.forcePress(elements.detail.enter);
         if(sac.grope({intent:'detail',timeout:2000})){
             return true;
@@ -244,7 +245,7 @@
             sac.util.print("进入视频详情",3)
             sac.entervideo();
         };
-        if(!sac.grope({intent:'detail',timeout:6000,unvisible:1})){
+        if(!sac.grope({intent:'detail',timeout:2000,unvisible:1})){
             sac.util.print("重新打开App",2)
             sac.open();
             if(sac.low){
@@ -278,6 +279,7 @@
         };
     };
     sac.tohome=()=>{
+        back();
         let [count,max] = [0,3]
         while(count<max){
             if(sac.grope({intent:'home',timeout:1000})){        
@@ -293,7 +295,7 @@
         return false;
     };
     sac.scrapecard=()=>{
-        let number;
+        let number,numberObj;
         //进入刮卡标签
         sac.util.forcePress(elements.i.card.channelbtn,1000);
         if(!sac.grope({intent:'cardlist',timeout:4000})){
@@ -315,9 +317,12 @@
             sleep(2000);
             sac.util.forcePress(elements.i.card.getcoin,2000);
             if(sac.util.visible(sac.util.prove(elements.i.card.ad,4000))){
-                sac.util.forcePress(elements.closead.video,32000);
+                if(sac.util.prove(elements.closead.video,32000)){
+                    sleep(1500);
+                    sac.util.forcePress(elements.closead.video,200);
+                };
             }else{
-                sac.util.print("未能进入广告视频",3)
+                sac.util.print("未能进入广告视频",3);
             }
             sleep(800);
             sac.util.forcePress(elements.i.card.getcoin,2000);
@@ -326,13 +331,17 @@
             sleep(1000);
 
             try{
-                number = parseInt(sac.util.prove(elements.i.card.number,1500).text())
+                numberObj = sac.util.prove(elements.i.card.number,1500)
+                number = numberObj.text();
+                if(!number){
+                    number = numberObj.desc();
+                };
             }catch(e){
                 sac.util.print("-- 获取剩余卡数量失败，退出 --",2);
                 return true;
             };
             sac.util.print("-- 剩余: --"+number,2);
-            if(number<=0){
+            if(parseInt(number)==0){
                 sac.util.print("-- 刮完了，返回 --"+number,2);
                 return true;
             };
@@ -346,13 +355,15 @@
         sac.util.clean();
         sleep(800);
         sac.util.openApp(elements.packageName);
-        if(sac.grope({intent:'home',timeout:1000,unvisible:1})){
+        if(sac.grope({intent:'home',timeout:20000,unvisible:1})){
             sac.util.print("打开 "+elements.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+elements.packageName+" 失败",2);
             result.setAndNotify("启动 "+elements.packageName+" 失败，返回");
         };
+        sleep(2000);
     };
+
     let result = {setAndNotify:()=>{}};
     sac.util.loglevel = 3;
 
@@ -366,9 +377,11 @@
     sac.util.savealreadytime(elements.AppName);
     result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");
     */
+    sac.open();
     sac.signin();
     sac.tohome()
-    sac.loop(100000);
+    sac.loop(1000);
+    sac.tohome();
     sac.scrapecard();
 })()
 

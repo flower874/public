@@ -474,11 +474,21 @@ util.prove=(ele,timeout,func)=>{
             };
         };    
     };
+
+
     util.print("CLI :"+condtion+func,3)
-    try{target = eval(condtion+func)}catch(e){
-        util.print("获取元素失败，错误返回",3)
-        return false
-    }
+    try{target = eval(condtion+func)}catch(e){};
+
+    if(!target){
+        if(/text.*\(/.test(condtion)){
+            condtion = condtion.replace("text(","desc(");
+            condtion = condtion.replace("textEndsWith(","descEndsWith(");
+            condtion = condtion.replace("textStartsWith(","descStartsWith(");
+            condtion = condtion.replace("textMatches(","descMatches(");
+            util.print("try again CLI :"+condtion+func,3)
+            try{target = eval(condtion+func)}catch(e){};        
+        };
+    };
     if(!target){
         util.print("未找到元素",3)
         return false;

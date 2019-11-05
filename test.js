@@ -203,10 +203,14 @@ var elements = {
     },
 };
 sac.util.loglevel = 3
+var foo = textEndsWith("位推友").findOne(1000)
+log(foo)
 
+//sac.util.forcePress(elements.i.sign.signbtn,6000)
+//var foo = 'desc("签到送金币")'
+//sac.util.prove(foo)
 //var advideo = 'id("tt_video_ad_mute")'
 //sac.util.visible(sac.util.prove(advideo))
-log(sac.util.prove('textMatches("/^\+.+0金币$/")'))
 //var foo = textMatches("/额外奖励/").find()
 //var foo = textEndsWith("·").findOne(6000)
 //log(foo)
