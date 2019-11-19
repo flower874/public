@@ -33,9 +33,12 @@
         package:e.packageName
     }); 
     sac.cancel=()=>{
+        let k = sac.util.loglevel;
+        sac.util.loglevel = 1;
         for(i in e.closead){
             sac.util.forcePress(e.closead[i],200);
         };        
+        sac.util.loglevel = k;
     }
     sac.open=()=>{
         sac.util.clean();
