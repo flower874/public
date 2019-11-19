@@ -11,7 +11,8 @@
             }
         },
         task:{
-            btn:'id("circular_progress_bar")'
+            //2019.11.19 已经更新 btn:'id("circular_progress_bar")'
+            btn:'id("redFloat")'
         },
         closead:{
             btn:'className("android.view.View").text("立即签到")', 
