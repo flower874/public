@@ -37,6 +37,13 @@
         i:{
             gettimeaward:'id("get_single")'
         },
+        egg:{
+            obj:{
+                x:15,
+                y:90
+            },
+            dialog:'id()'
+        },
         where:{
             home:{
                 search:'id("news_search_hotwords")',
@@ -196,34 +203,29 @@
             //sac.util.share(e.detail.share,100);
         };
     };
-    sac.video=(object)=>{
-        let durationmax = 15000;
-        let duration = object.duration * 1000
-        //最大滑动次数
-        sac.util.print("进入视频详情页",3)
-        sac.util.forcePress(object.uiobject,1000);
-        sac.util.savereadlist(e.appName,object.title);
-        if(!sac.grope({intent:'detail',timeout:1000})){
-            sac.util.print("仍不是详情页，退出阅读方法",2)
-            return false;
+
+    sac.classegg=(ele,ad)=>{
+        let start = parseInt(Date.now()/1000);
+        let timecount = ele.timecount || 300;
+        let count = timecount;
+        let now;
+        return function(){
+            now = parseInt(Date.now()/1000);
+            if(now - start >= timecount){
+                start = now;
+                timecount = count;
+                sac.util.forcePress(ele.xy);
+                if(sac.grope({intent:'coins',timeout:2500})){
+                    timecount = 60;
+                    return true;
+                };
+                sac.util.videoad(ad);
+            }else{
+                timecount -=  now - start;
+            };
+            return true;
         };
-        sleep(duration);
-        back();
-    };
-    sac.pic=(object)=>{
-        let swipemax = random(3,8)
-        //最大滑动次数
-        sac.util.print("进入图片详情页",3)
-        sac.util.forcePress(object.uiobject,1000);
-        sac.util.savereadlist(e.appName,object.title);
-        if(!sac.grope({intent:'detail',timeout:1000})){
-            sac.util.print("仍不是详情页，退出阅读方法",2)
-            return false;
-        };
-        sleep(1000);
-        sac.util.swipelift({num:swipemax,timeout:6000});
-        back();
-    };
+    }; 
 
 //-------------- main ---------------------//
     

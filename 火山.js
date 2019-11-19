@@ -1,7 +1,7 @@
 (function(){
     var e = {
         packageName : 'com.ss.android.ugc.livelite',
-        appName : 'huoshan',
+        appName : '火山',
         home:{
             btn:'className("android.widget.TextView").id("title").text("视频")',
             enterDetail:{

@@ -282,7 +282,8 @@
         back();
         let [count,max] = [0,3]
         while(count<max){
-            if(sac.grope({intent:'home',timeout:1000})){        
+            if(sac.grope({intent:'home',timeout:1000})){
+                sleep(1500);        
                 return true;
             }else{
                 back();
@@ -290,6 +291,7 @@
             };
             count++
         };
+        
         // 低分辨率模式下进入小视频详情
         // 高分辨率home即小视频
         return false;
@@ -376,11 +378,11 @@
     sac.scrapecard();
     sac.util.savealreadytime(elements.AppName);
     result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");
-    */
     sac.open();
     sac.signin();
     sac.tohome()
     sac.loop(1000);
+    */
     sac.tohome();
     sac.scrapecard();
 })()

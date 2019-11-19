@@ -743,6 +743,72 @@ util.getsigin=(AppName)=>{
     };
     return false;
 };
+util.advideo=(ad)=>{
+    /* 
+        enter      进入元素
+        content    验证视频开始播放
+        close      关闭广告
+        wayout     使用 back键 返回
+        tiemout    元素验证超时
+        wait       广告播放最大时间
+        mode       模式
+            1   宽松模式，不会因为元素和点击失败而返回false
+            2   严格模式，无法找到元素或点击失败会返回false
+
+    */
+    ad = ad || {};
+    let timeout = ad.timeout || 800;
+    let wait = ad.wait || 32000;
+    let mode = ad.mode || 1;  // 1 = loose，2 = strict
+    let enter = ad.enter || "";
+    let content = ad.content || "";
+    let wayout = ad.wayout || "";
+    let close = ad.close || "";
+
+    if(util.forcePress(enter,timeout)){
+        util.print("进入视频广告..",3)
+    };
+
+    if(content){
+        if(!util.prove(content,timeout)){
+            util.print("播放视频失败，返回",3);
+            if(mode==2)return false;
+        };
+    }else{
+        if(mode==2)return false; 
+    };
+
+    if(wayout){
+        util.print("等待视频播放结束，最长等待: "+wait+" 秒",3);
+        if(util.prove(wayout,wait)){
+            util.print("播放结束，成功返回",3);
+            back();
+            sleep(800);
+            return true; 
+        }else{
+            util.print("未验证到播放结束标记，返回",3)
+            return false;
+        }   
+    };
+    if(close){
+        util.print("播放结束",3);
+        if(close.length==1){
+            close = [close];
+        };
+        for(let btn of close){
+            if(util.forcePress(btn,timeout)){
+                util.print("播放结束，成功返回",3);
+            }else{
+                util.print("播放结束按钮点击失败，返回",3);
+                return false;
+            };
+            sleep(800);
+        };
+    }else{
+        if(mode==2)return false; 
+    };
+    return true;
+};
 module.exports = util;
 
 // 汉字utf8字符串  /^[\u4e00-\u9fa5]+$/

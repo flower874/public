@@ -203,8 +203,53 @@ var elements = {
     },
 };
 sac.util.loglevel = 3
-var foo = textEndsWith("位推友").findOne(1000)
-log(foo)
+sac.classegg=(egg)=>{
+    let start = parseInt(Date.now()/1000);
+    let timecount = egg.timecount || 300;
+    let count = timecount
+    let now;
+    return function(){
+        now = parseInt(Date.now()/1000);
+        if(now - start >= timecount){
+            log("时刻已到");
+            timecount = count;
+            start = now
+            return true;
+            /*
+            sac.util.forcePress(egg.obj);
+            if(sac.grope({intent:'coins',timeout:1500})){
+                back();
+                timecount = 60;
+                return;
+            };
+            if(sac.util.forcePress(egg.dialog,5000)){
+                timecount = 3000;
+                start = parseInt(Date.now()/1000);
+                return;
+            };
+            */
+        }else{
+            timecount -=  now - start;
+            log("时刻未到，还有: "+timecount);
+            return false;
+        };
+    };
+};
+
+var ad = {
+    timeout:2000,
+    wait:31000,
+    enter: 'className("android.view.View").textStartsWith("看视频赚海量金币").findOne().parent().findOne(text("领100金币"))',
+    content:'className("android.widget.TextView").text("立即下载")',
+    close:[
+            'className("android.widget.TextView").text("关闭广告")',
+            'className("android.widget.TextView").text("继续退出")'
+        ],
+    wayout: 'className("android.widget.TextView").text("关闭广告")',
+    mode:"2"
+};
+
+sac.util.advideo(ad);
 
 //sac.util.forcePress(elements.i.sign.signbtn,6000)
 //var foo = 'desc("签到送金币")'
