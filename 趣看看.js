@@ -4,7 +4,7 @@
     let total = 0;
     let countdown = 0;
     var elements = {
-        AppName : "qukk",
+        AppName : "趣看看",
         PackageName : "com.popnews2345",
         //关闭弹窗
         closead : { 

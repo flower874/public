@@ -1,7 +1,7 @@
 (function(){
     var e = {
         packageName : 'com.jifen.seafood',
-        appName : 'quvideo',
+        appName : '趣头条小视频',
         home:{
             btn:'id("main_bottom_tab_home")',
         },
@@ -74,7 +74,7 @@
         sleep(1500);
     };
     sac.watchVideo=()=>{
-        let enjoy = random(2000,4000)
+        let enjoy = random(8000,11000)
         sac.util.print("观看 "+enjoy/1000+" 秒",3);
         sleep(enjoy)
         sac.util.print("上划翻页",3);

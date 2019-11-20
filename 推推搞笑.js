@@ -95,29 +95,8 @@
                 sub:'text("额外奖励")'
             }
         },
-        low_where:{
-            home:{
-                e:'textEndsWith("位推友")',
-            },
-            detail:{
-                write:'textEndsWith("：")'
-            },
-            task:{
-                box:'text("定时宝箱")'
-            },
-            cardlist:{
-                list:'text("刮刮卡(1张)")'
-            },
-            carddetail:{
-                main:'text("刮到 可得现金")',
-                sub:'text("额外奖励")'
-            }
-        },
         detail:{
-            write:{
-                className:"android.widget.TextView",
-                textEndsWith:"元"
-            },
+            write:'className("android.widget.TextView").textMatches("/.+:.+/")',
             follow:{
                 className:"android.widget.TextView",
                 text:"关注"
@@ -125,11 +104,12 @@
             enter:{
                 x:63,y:26
             },
-            ad:'textEndsWith(">")'
+            ad:'textEndsWith("广告位")'
         },
     };
     var sac={util:require('./util.js')}
 
+    /*
     //推推对不同分辨率有不同界面
     if(device.width>=1080){
         sac.grope = sac.util.gropev2({
@@ -142,6 +122,11 @@
             elements:elements.low_where,package:elements.PackageName
         })
     };
+    */
+    sac.grope = sac.util.gropev2({
+       elements:elements.where,package:elements.PackageName
+    });
+
     sac.scrape=(ele,sacle)=>{
             sac.util.print("横向刮卡器",3)
             let size,x1,y1,x2,y2,time,excursion;
@@ -197,7 +182,7 @@
             sac.util.print("进入任务频道",3);
             sac.util.forcePress(elements.i.sign.channelbtn,100)
             sac.util.print("点击签到按钮",3)
-            sac.util.forcePress(elements.i.sign.signbtn,2000)
+            sac.util.forcePress(elements.i.sign.signbtn,4000)
             sleep(2000);
             sac.util.print("收下签到金币",3)
             if(sac.util.forcePress(elements.i.sign.addcoin,3000)){
@@ -221,18 +206,21 @@
     };
     sac.watchvideo=()=>{
         let enjoy = random(6000,11000);
-        if(!sac.low){
-            sac.util.like(20,2);
+        if(sac.util.prove(elements.detail.ad)){
+            sac.util.shortvideoswipup()
         };
+        sac.util.like(20,2);
         sac.util.print("观看 "+enjoy/1000+" 秒",3);
         sleep(enjoy)
         sac.util.percent(elements.detail.follow,100);
         sac.util.print("上划翻页",3);
+        /*
         if(sac.util.prove(elements.detail.ad)){
             gestures([0,  360,[403,1100],[405,1050],[413,1030]],
                      [461,430, [423,1000], [418,963], [428,910]]);
             sleep(2000);
         };
+        */
         if(sac.util.shortvideoswipup(elements.detail.write)){
             sac.util.print("完成返回",3)
             return true;
@@ -369,8 +357,8 @@
     let result = {setAndNotify:()=>{}};
     sac.util.loglevel = 3;
 
-    //time = sac.util.gettime(elements.AppName);
-    //sac.open();
+    time = sac.util.gettime(elements.AppName);
+    sac.open();
     sac.util.savestarttime(elements.AppName);
     sac.signin();
     sac.loop(1000);

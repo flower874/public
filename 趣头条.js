@@ -1,47 +1,32 @@
 (function() {
     var e = {
-        packageName : 'com.xcm.huasheng',
-        appName : '花生头条',
+        packageName : 'com.jifen.qukan',
+        appName : '趣头条',
 
         home:{
-            btn:'id("tv_tab").text("读读")',
-            title:'id("tv_title")',
-            onepice:'id("classround_item_gv_item")',
-            video:'id("iv_video_item_picture")',
-            pic:'id("iv_news_big_picture")'
+            btn:'className("android.widget.FrameLayout").depth(6).find()[0]',
+        },
+        task:{
+            btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
         },
         list:{
-            group:'depth(14)',
+            group:'className("android.widget.LinearLayout").depth(12)',
             innerGroup:'',
             filter:{
-                ad:'id("iv_news_one_picture_log")',
-                ad2:'id("iv_listitem_dislike")',
-                video:'id("iv_video_item_picture")'
+                ad:'className("android.widget.TextView").text("广告")',
+                video:'className("android.widget.TextView").textMatches("/.+:.+/")' 
             },
-            title:{
-                list:'id("tv_title")',
-            },
-            video:{
-            },
-            pic:'id("tv_news_big_picture_num")'
+            title:'',
+            pic:''
         },
         closead:{
-            cancel:'id("cancel").text("知道了")',
-            close:'id("tt_video_ad_close")',
-            dialog:'id("dialog_close")',
-            iknow:'id("iknow")',
-            pice:'id("get_single")',
-            onepice:'id("classround_item_gv_item")',
-        },
-        rl:{
-            rl:'id("rl_signin")',
-            wait:'id("countdownView")'
+            rl:'className("android.widget.TextView").text("领取")',
         },
         detail:{
-            end:'textEndsWith("分享给你的好友吧")',
-            unfold:'className("android.view.View").textStartsWith("展开全文")',
-            praise:'id("ll_praise")',
-            follow:'id("title_star")'
+            end:'id("tv_ad_flag")',
+            comment:'id("comment_input")',
+            follow:'id("collect")',
+            egg:'id("dialog_positive_button").textEndsWith(">")'
         },
         i:{
             gettimeaward:'id("get_single")'
@@ -52,8 +37,8 @@
                 menu:'id("tv_tab")'
             },
             detail:{
-                comment:'id("rl_comment")',
-                praise:'id("ll_praise")'
+                comment:'id("comment_input")',
+                praise:'id("collect")'
             },
             task:{
 
@@ -98,14 +83,14 @@
     };
     sac.getlist=()=>{
         let uiobjects
-        let [exitcount,exitcountmax] = [0,4];
+        let [exitcount,exitcountmax] = [0,5];
         while(true){
             if(exitcount>exitcountmax){
                 sac.util.print("5次上滑后仍无可访问的内容",2)
                 return false;
             };
             uiobjects = sac.list(sac.util.getreadlist(e.appName));
-            if(uiobjects){
+            if(uiobjects.length>0){
                 exitcount = 0;
                 return uiobjects;
             };
@@ -117,7 +102,7 @@
         };
     };
     sac.loop=(duration)=>{
-        let news,recommend
+        let list,news,recommend
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
 
         sac.util.forcePress(e.home.btn,1000);
@@ -130,31 +115,28 @@
                 sac.util.print("运行时间耗尽: "+(end-start),3)
                 return true;
             };
-            news = sac.getlist();
-            if(!news){
-                sac.util.print("未获取到内容列表",3)
-                return false;
-            }
-            if(!sac.grope({intent:'home',timeout:1000})){
-                continue;
+            list = sac.getlist();
+            if(!list)return false;
+            for(news of list){
+                if(!sac.grope({intent:'home',timeout:1000})){
+                    continue;
+                };
+                sac.util.print("内容类型: "+news.type,3)
+                switch(news.type){
+                    case 'text':
+                        recommend = sac.reader(news);
+                        continue;
+                    case 'video':
+                        recommend = sac.video(news);
+                        continue;
+                    case 'pic':
+                        recommend = sac.pic(news);
+                        continue;                            
+                    default :
+                        return false;
+                };
             };
-            switch(news.type){
-                case 'text':
-                    recommend = sac.reader(news);
-                    end = parseInt(Date.now()/1000);
-                    continue;
-                case 'video':
-                    recommend = sac.video(news);
-                    end = parseInt(Date.now()/1000);
-                    continue;
-                case 'pic':
-                    recommend = sac.pic(news);
-                    end = parseInt(Date.now()/1000);
-                    continue;
-                default :
-                    sac.util.print("新闻内容无法处理",3)  
-                    return false;
-            };
+            end = parseInt(Date.now()/1000);
         };
     };
     sac.reader=(object)=>{
@@ -208,34 +190,29 @@
             //sac.util.share(e.detail.share,100);
         };
     };
-    sac.video=(object)=>{
-        let durationmax = 15000;
-        let duration = object.duration * 1000
-        //最大滑动次数
-        sac.util.print("进入视频详情页",3)
-        sac.util.forcePress(object.uiobject,1000);
-        sac.util.savereadlist(e.appName,object.title);
-        if(!sac.grope({intent:'detail',timeout:1000})){
-            sac.util.print("仍不是详情页，退出阅读方法",2)
-            return false;
+
+    sac.classegg=(ele,ad)=>{
+        let start = parseInt(Date.now()/1000);
+        let timecount = ele.timecount || 300;
+        let count = timecount;
+        let now;
+        return function(){
+            now = parseInt(Date.now()/1000);
+            if(now - start >= timecount){
+                start = now;
+                timecount = count;
+                sac.util.forcePress(ele.xy);
+                if(sac.grope({intent:'coins',timeout:2500})){
+                    timecount = 60;
+                    return true;
+                };
+                sac.util.videoad(ad);
+            }else{
+                timecount -=  now - start;
+            };
+            return true;
         };
-        sleep(duration);
-        back();
-    };
-    sac.pic=(object)=>{
-        let swipemax = random(3,8)
-        //最大滑动次数
-        sac.util.print("进入图片详情页",3)
-        sac.util.forcePress(object.uiobject,1000);
-        sac.util.savereadlist(e.appName,object.title);
-        if(!sac.grope({intent:'detail',timeout:1000})){
-            sac.util.print("仍不是详情页，退出阅读方法",2)
-            return false;
-        };
-        sleep(1000);
-        sac.util.swipelift({num:swipemax,timeout:6000});
-        back();
-    };
+    }; 
 
 //-------------- main ---------------------//
     
@@ -260,7 +237,6 @@
     duration = 10000
     sac.loop(duration);
     sac.util.savealreadytime(e.appName);
-    sac.util.print("运行完成，返回桌面",3)
     home();
 
     //result.setAndNotify("slave : 运行完成，返回master进程");

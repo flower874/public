@@ -11,7 +11,10 @@ util.print=(message,level)=>{
         };
     };
 };
-util.visible=(element)=>{
+util.visible=(element,mode)=>{
+    //模式选择 1 = 松散模式，不会检测父元素 
+    //        2 = 严谨模式，强制检测父元素
+    mode = mode || 1; 
     let pSizeX,pSizeY,sizeX,sizeY,cX,cY,parent;
     try{
         parent = element.parent();
@@ -22,8 +25,10 @@ util.visible=(element)=>{
             util.print("宽:"+pSizeX+",高:"+pSizeY,3);
             if(pSizeX<4||pSizeY<4){
                 util.print("父元素在当前屏幕不可见",3)
-                util.print("返回失败，退出当前方法",3)
-                return false;
+                if(mode==2){
+                    util.print("返回失败，退出当前方法",3)
+                    return false;
+                };
             };
         };
     }catch(e){
@@ -174,8 +179,9 @@ util.swipelift=(e)=>{
         sleep(enjoy);
     };
 };
-util.forcePress=(ele,timeout)=>{
+util.forcePress=(ele,timeout,mode)=>{
     let time = time || random(15,93);
+    mode = mode || 1; //默认松散模式
     let excursion = excursion || random(0,3);
     let excursionX,excursionY
     let x,y;
@@ -191,7 +197,7 @@ util.forcePress=(ele,timeout)=>{
         excursionY = parseInt( y * excursion / 100 );
         util.print("x轴: "+x+" y轴: "+y+"; 偏移: "+excursionX+" "+excursionY,3)
         //刘海屏
-        if(device.brand==='OPPO'||device.brand==='HONOR'){
+        if(device.brand==='OPPO'||device.brand==='HONOR'||device.brand==='ZTE'){
             util.print("适应OPPO刘海屏，高度+50",3)
             y = y + 50
         };
@@ -220,7 +226,7 @@ util.forcePress=(ele,timeout)=>{
     };
 
     util.print("forcePress方法内验证Ui对象的可见性:",3)
-    if(!util.visible(element)){
+    if(!util.visible(element,mode)){
         util.print("forcePress方法内验证Ui对象的可见性失败，错误返回",2)
         return false;
     };
@@ -264,6 +270,10 @@ util.clean=()=>{
     if(device.brand === 'Realme'){
        util.forcePress(id("clear_all_button").findOne(2000))
     };
+    if(device.brand === 'ZTE'){
+        sleep(1800);
+        util.forcePress({x:50,y:76});
+    }; 
     sleep(800);
 };
 util.openApp=(PackageName)=>{
@@ -358,7 +368,7 @@ util.gettime=(AppName)=>{
     };
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     util.print("加载应用池与运行时间配置",3)
-    let AppPool = JSON.parse(files.read('./cycle.json'));
+    let AppPool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
     let limitTIME = AppPool[AppName] || 0 ;
     let atime = alreadyTime(AppName);
     util.print(AppName+"已运行时间: "+atime,3);
@@ -397,19 +407,23 @@ util.shortvideoswipup=(author,speed)=>{
     };
     let [count,max] = [0,1]
     while(true){
+        var originauthoruiobj,origiinauthor,newauthoruiobj,newauthor
         if(count>max){
             return false;
         }
-        let originauthoruiobj = util.prove(author);
-        try{var origiinauthor = originauthoruiobj.text()}catch(e){}
+        originauthoruiobj = util.prove(author);
+        try{origiinauthor = originauthoruiobj.text()}catch(e){}
+        util.print("当前作者: "+origiinauthor,3)
         svs();
-        sleep(2000);
-        let newauthoruiobj = util.prove(author);
-        try{var newauthor = newauthoruiobj.text()}catch(e){};
+        sleep(1000);
+        newauthoruiobj = util.prove(author);
+        try{newauthor = newauthoruiobj.text()}catch(e){};
         if(origiinauthor === newauthor){
+            util.print("视频未刷新，重试",3)
             count++;
             continue;
         };
+        util.print("当前作者: "+newauthor,3)
         return true;
     };
 };
@@ -550,7 +564,6 @@ util.getlist=(elements)=>{
     elements = elements;
     return function(readlist){
         let uiobjlist,pic;
-        let result=[];
         let newsobject;
         
         uiobjlist = util.prove(elements.group,"",'find');
@@ -584,10 +597,7 @@ util.getlist=(elements)=>{
                 newsobject.type = "pic";
             };
             newsobject.uiobject = uiobj;
-            result.push(newsobject);
-        };
-        if(result){
-            return result;
+            return newsobject;
         };
         return false;
     };
@@ -712,12 +722,9 @@ util.gropev2=(objects)=>{
 };
 util.unfold=(element)=>{
     let unfold = util.prove(element);
-    if(util.visible(unfold)){
+    if(util.forcePress(unfold,200)){
         sleep(500);
-        if(util.forcePress(unfold,5)){
-            return true;
-        };
-        sleep(500);
+        return true;
     };
     return false;
 };
@@ -805,7 +812,7 @@ util.advideo=(ad)=>{
             close = [close];
         };
         for(let btn of close){
-            if(util.forcePress(btn,timeout)){
+            if(util.forcePress(btn,wait)){
                 util.print("播放结束，成功返回",3);
             }else{
                 util.print("播放结束按钮点击失败，返回",3);

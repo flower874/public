@@ -1,45 +1,35 @@
 (function(){
     var e = {
-        appName:"彩蛋视频",
-        packageName :"com.jifen.dandan",
-        advideo:{
-            timeout:2000,
-            wait:31000,
-            enter: 'id("positive_button").text("立即翻倍")',
-            content:[
-                'id("tt_click_upper_non_content_layout")',
-                'id("tt_video_ad_mute")'
-            ],
-            close:[
-                'id("tt_video_ad_close_layout")',
-            ],
-            mode:"2"    
-        },
+        appName:"抖呱呱",
+        packageName :"com.uyouqu.disco",
         where:{
             task:{
-                id:'text("我的金币")'
+                id:'text("金币总数")'
             },
             home:{
-                btn:'id("tv_task_status")'
+                btn:'id("red_packet_float_view")'
             },
             ad:{
                 ad:'textEndsWith("广告")'
             }
         },
+        home:{
+            btn:'id("tab_tv").text("首 页")'
+        },
         task:{
-            btn:'id("tv_task_status")'
+            //btn:'id("red_packet_float_view")'
+            btn:'id("tab_task")'
         },
         closead:{
             //btn:'className("android.view.View").text("立即签到")', 
-            //child:'text("我知道了")',
-            offer:'id("iv_close")',
-            signin:'className("android.view.View").textStartsWith("看视频再送").findOne().parent().parent().parent().parent().children()[1]'
+            child:'text("我知道了")',
+            //offer:'id("iv_close")',
+            //signin:'className("android.view.View").textStartsWith("看视频再送").findOne().parent().parent().parent().parent().children()[1]'
         },
         detail:{
             like:'id("ll_like_show_btn")',
-            follow_text:'id("btn_follow_text")',
-            follow:'id("fl_follow_view")',
-            write:'id("tv_author_nickname").find()[1]'
+            follow:'id("tail_avatar_follow_icon")',
+            write:'id("thanos_disable_marquee_user_name_text_view").find()[1]'
         }
     };
     var sac = {util:require('./util.js')};
@@ -71,7 +61,7 @@
         sac.util.forcePress(e.task.btn,2000);
         sac.grope({intent:'task',timeout:10000});
         sleep(3000);
-        back();
+        sac.util.forcePress(e.home.btn,2000);
     };
 
     sac.jumpad=()=>{
@@ -80,22 +70,14 @@
         };
     };
 
-    sac.double=(timeout)=>{
-        timeout = timeout || 200
-        if(sac.util.prove(e.advideo.enter,timeout)){
-            sac.util.advideo(e.advideo);
-        };
-    };
     sac.watchvideo=()=>{
-        sac.jumpad();
-        let enjoy = random(6000,11000)
-        sac.double();
+        //sac.jumpad();
+        let enjoy = random(4000,7000)
         sac.util.like(20);
         sac.util.print("观看 "+enjoy/1000+" 秒",3);
         sleep(enjoy)
         sac.util.percent(e.detail.follow,100);
         sac.util.print("上划翻页",3);
-        sac.double();
         if(sac.util.shortvideoswipup(e.detail.write)){
             sac.util.print("完成返回",3)
             return true;
