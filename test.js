@@ -240,7 +240,10 @@ var ad = {
     timeout:2000,
     wait:31000,
     enter: 'className("android.view.View").textStartsWith("看视频赚海量金币").findOne().parent().findOne(text("领100金币"))',
-    content:'className("android.widget.TextView").text("立即下载")',
+    content:[
+        'className("android.widget.TextView").text("立即下载")',
+        'className("android.widget.TextView").text("查看详情")'
+    ],
     close:[
             'className("android.widget.TextView").text("关闭广告")',
             'className("android.widget.TextView").text("继续退出")'
@@ -249,7 +252,15 @@ var ad = {
     mode:"2"
 };
 
-sac.util.advideo(ad);
+let foo = 'id("positive_button").text("立即翻倍")';
+let ad = {
+    content:'id("tt_click_upper_non_content_layout")',
+    close:'id("tt_video_ad_close_layout")',
+
+}
+
+log(sac.util.prove(foo))
+
 
 //sac.util.forcePress(elements.i.sign.signbtn,6000)
 //var foo = 'desc("签到送金币")'

@@ -85,15 +85,18 @@
 
     sac.cancel=(timeout)=>{
         timout = timeout || 50
+        let k = sac.util.loglevel;
+        sac.util.loglevel = 1;
         for(let i in e.closead){
             sac.util.forcePress(e.closead[i],timeout);
         };
+        sac.util.loglevel = k;
     };
     sac.i=()=>{
         sac.cancel(1000);
         //检测签到标记
         if(sac.util.getsigin(e.appName)){
-            return true;
+            //return true;
         };
         
         //验证当前页

@@ -17,7 +17,7 @@
         },
         where:{
             home:{
-                red:'id("image_loading")'
+                title:'id("main_bottom_tab_home")'
             },
             task:{
                 coins:'text("金币收益")'

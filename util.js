@@ -761,21 +761,30 @@ util.advideo=(ad)=>{
     let wait = ad.wait || 32000;
     let mode = ad.mode || 1;  // 1 = loose，2 = strict
     let enter = ad.enter || "";
-    let content = ad.content || "";
+    let content = ad.content || [];
     let wayout = ad.wayout || "";
-    let close = ad.close || "";
+    let close = ad.close || [];
 
     if(util.forcePress(enter,timeout)){
         util.print("进入视频广告..",3)
     };
 
     if(content){
-        if(!util.prove(content,timeout)){
-            util.print("播放视频失败，返回",3);
-            if(mode==2)return false;
+        if(content.__proto__.constructor.name !== "Array"){
+            content = [content]
         };
-    }else{
-        if(mode==2)return false; 
+        for(let e of content){
+            if(util.prove(e,timeout)){
+                util.print("已验证视频播放",3);
+                content = 0;
+                break;
+            };
+            sleep(800);
+        };
+        if(content!==0&&mode==2){
+            util.print("未能验证视频在播放，错误返回",2);
+            return false;
+        }
     };
 
     if(wayout){
@@ -792,7 +801,7 @@ util.advideo=(ad)=>{
     };
     if(close){
         util.print("播放结束",3);
-        if(close.length==1){
+        if(close.__proto__.constructor.name!=="Array"){
             close = [close];
         };
         for(let btn of close){

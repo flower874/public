@@ -79,10 +79,10 @@
         },
         where:{
             home:{
-                write:'textEndsWith("·")'
+                write:'textEndsWith("元")'
             },
             detail:{
-                write:'textEndsWith("·")'
+                write:'textEndsWith("元")'
             },
             task:{
                 box:'text("定时宝箱")'
@@ -100,7 +100,7 @@
                 e:'textEndsWith("位推友")',
             },
             detail:{
-                write:'textEndsWith("·")'
+                write:'textEndsWith("：")'
             },
             task:{
                 box:'text("定时宝箱")'
@@ -116,7 +116,7 @@
         detail:{
             write:{
                 className:"android.widget.TextView",
-                textEndsWith:"·"
+                textEndsWith:"元"
             },
             follow:{
                 className:"android.widget.TextView",
@@ -370,11 +370,10 @@
     sac.util.loglevel = 3;
 
     //time = sac.util.gettime(elements.AppName);
-    /*
-    sac.open();
+    //sac.open();
     sac.util.savestarttime(elements.AppName);
     sac.signin();
-    sac.loopvideo(1000);
+    sac.loop(1000);
     sac.scrapecard();
     sac.util.savealreadytime(elements.AppName);
     result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");
@@ -382,9 +381,7 @@
     sac.signin();
     sac.tohome()
     sac.loop(1000);
-    */
-    sac.tohome();
-    sac.scrapecard();
+    
 })()
 
 // 两种模式
