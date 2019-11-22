@@ -1,63 +1,60 @@
 var e = {
-    packageName : 'com.xcm.huasheng',
-    appName : 'huashengtt',
-
+    packageName : 'com.jifen.qukan',
+    appName : '趣头条',
     home:{
-        btn:'id("tv_tab").text("读读")',
-        title:'id("tv_title")',
-        onepice:'id("classround_item_gv_item")',
-        video:'id("iv_video_item_picture")',
-        pic:'id("iv_news_big_picture")'
+        btn:'className("android.widget.Button").text("头条")'
+        //btn:'className("android.widget.FrameLayout").depth(6).find()[0]',
+    },
+    task:{
+        btn:'className("android.widget.Button").text("任务")'
+        //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
+    },
+    profile:{
+        btn:'className("android.widget.Button").text("我的")'
+    },
+    pice:{
+        pice:'className("android.view.ViewGroup").depth(12)',
+        closePice:'className("android.widget.TextView").textStartsWith("看视频").findOne().parent().parent().children()[5]',
     },
     list:{
-        group:'depth(14)',
-        innerGroup:'',
+        group:'className("android.widget.LinearLayout").depth(12)',
+        innerGroup:'className("android.view.View").depth(14).textEndsWith("评")',
         filter:{
-            ad:'id("iv_news_one_picture_log")',
-            ad2:'id("iv_listitem_dislike")',
-            video:'id("iv_video_item_picture")'
+            //ad:'className("android.widget.TextView").textMatches("/^广告$/")',
+            video:'className("android.widget.TextView").depth(15).textMatches("/.+:.+/")' 
         },
         title:{
-            list:'id("tv_title")',
+            list:'className("android.widget.TextView").depth(13).textMatches("/.+/")',
+            inner:'className("android.view.View").depth(14).textEndsWith("评")',
         },
-        video:{
-        },
-        pic:'id("tv_news_big_picture_num")'
+        pic:'className("android.widget.TextView").depth(15).textEndsWith("图")'
     },
+
     closead:{
-        close:'id("tt_video_ad_close")',
-        dialog:'id("dialog_close")',
-        iknow:'id("iknow")',
-        pice:'id("get_single")',
-        onepice:'id("classround_item_gv_item")',
+        closePice:'className("android.widget.TextView").text("看视频领金币").findOne().parent().parent().children()[5]',
+        rl:'className("android.widget.TextView").text("领取")',
     },
-    rl:{
-        rl:'id("rl_signin")',
-        wait:'id("countdownView")'
-    },
+
     detail:{
-        end:'textEndsWith("分享给你的好友吧")',
-        unfold:'className("android.view.View").textStartsWith("展开全文")',
-        praise:'id("ll_praise")',
-        follow:'id("title_star")'
-    },
-    i:{
-        gettimeaward:'id("get_single")'
+        end:[
+            'text("广告")',
+            'className("android.view.View").text("全部评论")',
+            'textEndsWith("金币")'
+        ],
+        comment:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句")',
+        follow:'className("android.view.View").text("关注")',
+        like:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句").findOne().parent().children()[2]',
+        collect:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句").findOne().parent().children()[3]',
+        share:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句").findOne().parent().children()[4]',
+        recommend:'id("recommend")',
+        progress:'className("android.widget.FrameLayout").depth(4)'
     },
     where:{
         home:{
-            search:'id("news_search_hotwords")',
-            menu:'id("tv_tab")'
+            btn:'className("android.widget.Button").text("刷新")'
         },
         detail:{
-            comment:'id("rl_comment")',
-            praise:'id("ll_praise")'
-        },
-        task:{
-
-        },
-        profiles:{
-
+            comment:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句")'
         }
     },
 };
@@ -116,10 +113,36 @@ var ad = {
 //a = iv_close
 //content = iv_voice_control
 
-var foo = 'className("android.widget.FrameLayout").depth(6).find()[7]'
 
+var list = {
+    group:'className("android.widget.LinearLayout").depth(12)',
+    innerGroup:'className("android.view.View").depth(14)',
+    filter:{
+        //ad:'className("android.widget.TextView").textMatches("/^广告$/")',
+        //ad2:'className("android.view.View").textMatches("/^广告$/")',
+        video:'className("android.widget.TextView").depth(15).textMatches("/.+:.+/")' 
+    },
+    innerTitle:'className("android.view.View").depth(14)',
+    title:'className("android.widget.TextView").depth(13).textMatches("/.+/")',
+    pic:'className("android.widget.TextView").depth(15).textEndsWith("图")'
+}
+/*
+var pice = className("android.view.ViewGroup").depth(12).find()
+var closePice = className("android.widget.TextView")
+                .text("看视频领金币").findOne(50)
+                .parent().parent().children()[5]
 
-sac.util.forcePress(foo)
+var foo = sac.util.prove(list.innerGroup,50,'find');
+for(b of foo){
+log(b.findOne(eval(list.filter.ad)))
+log(b.findOne(eval(list.filter.ad2)))
+}
+*/
+
+//var search = className("android.widget.TextView").textMatches("/.+\\|.+/").findOne(50)
+//log(search)
+//var foo = className("android.widget.Button").text("刷新").findOne(1000)
+//log(foo)
 //sac.util.forcePress(elements.i.sign.signbtn,6000)
 //var foo = 'desc("签到送金币")'
 //sac.util.prove(foo)
@@ -131,7 +154,6 @@ sac.util.forcePress(foo)
 //sac.util.shortvideoswipup(elements.detail.write,1000)
 //var foo = textStartsWith("恭喜您刮卡获得").findOne().parent().children()
 //var foo = textMatches("//").findOne(100)
-//for(c of foo)log(c)
 //log(foo)
 //log(sac.util.prove(elements.i.card.getcoin))
 //var foo = 'textMatches("/^\+.+00金币$/").findOne().parent().children()[0]'

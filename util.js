@@ -160,8 +160,8 @@ util.swipelift=(e)=>{
 
     let x1,x2,y1,y2,speed,enjoy
     //滚屏长度
-    let swipStart = parseInt(device.width * random(13,25) / 100);
-    let extent = parseInt( ( device.width - swipStart ) * random(77,94) / 100)
+    let swipStart = parseInt(device.width * random(7,12) / 100);
+    let extent = parseInt( ( device.width - swipStart ) * random(88,94) / 100)
     util.print("滑动起点: "+swipStart+" 滑动终点: "+extent,3);
     util.print("滑动次数 :"+e.num,3);
     while(true){
@@ -171,7 +171,7 @@ util.swipelift=(e)=>{
         y2 = y1;
         speed = parseInt((x1-x2)*0.7);
         enjoy = random(1000,e.timeout) 
-        util.swipeEx(x1,y1, x2,y2, speed, 0.48);
+        util.swipeEx(x1,y1, x2,y2, speed, 0.38);
         if(e.num<=1){
             return;
         }else{e.num--};
@@ -513,10 +513,13 @@ util.getlist=(elements)=>{
     util.getlist.filter=(elements,object,readlist,title)=>{
         for(ele in elements){
             if(object.findOne(eval(elements[ele]))){
+                util.print("标题被规则过滤",3)
+                util.print(elements[ele],3)
                 return true;
             };
         };
         if(readlist.indexOf(title)!==-1){
+            util.print("读过了",3)
             return true
         };
         return false;
@@ -577,6 +580,9 @@ util.getlist=(elements)=>{
         };
 
         for(uiobj of uiobjlist){
+            if(!util.visible(uiobj)){
+                continue;
+            }
             newsobject = {};
             newsobject.title = util.getlist.gettitle(uiobj,elements.title);
             if(newsobject.title){
