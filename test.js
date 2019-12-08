@@ -12,40 +12,39 @@ var e = {
     profile:{
         btn:'className("android.widget.Button").text("我的")'
     },
-    pice:{
-        pice:'className("android.view.ViewGroup").depth(12)',
-        closePice:'className("android.widget.TextView").textStartsWith("看视频").findOne().parent().parent().children()[5]',
-    },
     list:{
         group:'className("android.widget.LinearLayout").depth(12)',
         innerGroup:'className("android.view.View").depth(14).textEndsWith("评")',
         filter:{
-            //ad:'className("android.widget.TextView").textMatches("/^广告$/")',
-            video:'className("android.widget.TextView").depth(15).textMatches("/.+:.+/")' 
+            ad:'className("android.widget.TextView").text("广告")',
+            video:'className("android.widget.TextView").textMatches("/.+:.+/")' 
         },
         title:{
-            list:'className("android.widget.TextView").depth(13).textMatches("/.+/")',
-            inner:'className("android.view.View").depth(14).textEndsWith("评")',
+            list:'className("android.widget.TextView").textMatches("/.+/")',
+            inner:'textEndsWith("评")',
         },
-        pic:'className("android.widget.TextView").depth(15).textEndsWith("图")'
+        pic:'className("android.widget.TextView").textEndsWith("图")'
     },
 
     closead:{
-        closePice:'className("android.widget.TextView").text("看视频领金币").findOne().parent().parent().children()[5]',
         rl:'className("android.widget.TextView").text("领取")',
     },
-
+    pice:{
+        pice:'className("android.view.ViewGroup").depth(12)',
+        //closePice:'className("android.widget.TextView").textStartsWith("看视频").findOne().parent().parent().children()[5]',
+        close:{x:50,y:75}
+    },
     detail:{
         end:[
-            'text("广告")',
+            'textStartsWith("暂无评论")',
             'className("android.view.View").text("全部评论")',
             'textEndsWith("金币")'
         ],
-        comment:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句")',
+        comment:'className("android.widget.TextView").textStartsWith("我来说两句")',
         follow:'className("android.view.View").text("关注")',
-        like:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句").findOne().parent().children()[2]',
-        collect:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句").findOne().parent().children()[3]',
-        share:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句").findOne().parent().children()[4]',
+        like:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[2]',
+        collect:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[3]',
+        share:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[4]',
         recommend:'id("recommend")',
         progress:'className("android.widget.FrameLayout").depth(4)'
     },
@@ -54,7 +53,7 @@ var e = {
             btn:'className("android.widget.Button").text("刷新")'
         },
         detail:{
-            comment:'className("android.widget.TextView").depth(15).textStartsWith("我来说两句")'
+            comment:'className("android.widget.TextView").textStartsWith("我来说两句")'
         }
     },
 };
@@ -114,18 +113,8 @@ var ad = {
 //content = iv_voice_control
 
 
-var list = {
-    group:'className("android.widget.LinearLayout").depth(12)',
-    innerGroup:'className("android.view.View").depth(14)',
-    filter:{
-        //ad:'className("android.widget.TextView").textMatches("/^广告$/")',
-        //ad2:'className("android.view.View").textMatches("/^广告$/")',
-        video:'className("android.widget.TextView").depth(15).textMatches("/.+:.+/")' 
-    },
-    innerTitle:'className("android.view.View").depth(14)',
-    title:'className("android.widget.TextView").depth(13).textMatches("/.+/")',
-    pic:'className("android.widget.TextView").depth(15).textEndsWith("图")'
-}
+//var foo =className("android.view.View").depth(14).textEndsWith("评").findOne(50)
+//log(foo)
 /*
 var pice = className("android.view.ViewGroup").depth(12).find()
 var closePice = className("android.widget.TextView")
@@ -253,3 +242,10 @@ password=false,
 scrollable=false
 depth=19,
 */
+
+//var foo = textStartsWith("写评论").findOne(50).parent().parent().children()
+//for(let a of foo)log(a)
+
+
+log(sac.util.prove('className("android.view.View").textMatches("/.+[0-9]阅读.*/")',10))
+

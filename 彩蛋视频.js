@@ -7,12 +7,18 @@
             wait:31000,
             enter: 'id("positive_button").text("立即翻倍")',
             content:[
+                'className("com.iclicash.advlib.__remote__.ui.elements.MutedVideoView")'
+                /*
                 'id("tt_click_upper_non_content_layout")',
                 'id("tt_video_ad_mute")'
+                */
             ],
+            wayout:'text("点击重播")',
+            /*
             close:[
                 'id("tt_video_ad_close_layout")',
             ],
+            */
             mode:"2"    
         },
         where:{
@@ -20,14 +26,16 @@
                 id:'text("我的金币")'
             },
             home:{
-                btn:'id("tv_task_status")'
+                //btn:'id("tv_task_status")'
+                btn:'id("image_red_bg_icon")'
             },
             ad:{
                 ad:'textEndsWith("广告")'
             }
         },
         task:{
-            btn:'id("tv_task_status")'
+            //btn:'id("tv_task_status")'
+            btn:'id("image_red_bg_icon")'
         },
         closead:{
             //btn:'className("android.view.View").text("立即签到")', 
@@ -67,7 +75,6 @@
         };
     };
     sac.signin=()=>{
-
         sac.util.forcePress(e.task.btn,2000);
         sac.grope({intent:'task',timeout:10000});
         sleep(3000);

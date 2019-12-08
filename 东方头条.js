@@ -1,60 +1,65 @@
 (function(){
     var e = {
-        packageName : 'com.jifen.qukan',
-        appName : '趣头条',
+        packageName : 'com.songheng.eastnews',
+        appName : '东方头条',
         home:{
-            btn:'className("android.widget.Button").text("头条")'
+            btn:'className("android.widget.TextView").text("新闻")'
             //btn:'className("android.widget.FrameLayout").depth(6).find()[0]',
         },
         task:{
-            btn:'className("android.widget.Button").text("去签到")'
+            btn:'className("android.widget.TextView").depth(8).text("任务")'
             //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
         },
         profile:{
-            btn:'className("android.widget.Button").text("我的")'
+            btn:'className("android.widget.TextView").depth(8).text("我的")'
         },
         list:{
-            group:'className("android.widget.LinearLayout").depth(12)',
-            innerGroup:'className("android.view.View").depth(14).textEndsWith("评")',
+            group:'className("android.widget.LinearLayout")',
+            innerGroup:'className("android.widget.RelativeLayout")',
             filter:{
-                ad:'className("android.widget.TextView").text("广告")',
-                video:'className("android.widget.TextView").textMatches("/.+:.+/")' 
+                ad:'className("android.widget.TextView").textStartsWith("广告")',
+                shortvideo:'className("android.widget.RelativeLayout")',
             },
             title:{
                 list:'className("android.widget.TextView").textMatches("/.+/")',
-                inner:'textEndsWith("评")',
+                inner:'className("android.widget.TextView").textMatches("/.+/")',
             },
             pic:'className("android.widget.TextView").textEndsWith("图")'
         },
 
         closead:{
+            //首页时段奖励
             rl:'className("android.widget.TextView").text("领取")',
+            //首页时段奖励点击后弹窗
+            close:'className("android.widget.TextView").textStartsWith("立即查看").findOne().parent().parent().children()[0].children()[1]',
+            autorl:'className("android.widget.TextView").textStartsWith("时段奖励领取成功").findOne().parent().parent().parent().children()[1]',
+            //详情内 双倍获取 弹窗
+            double:'textMatches("/^立即领取.+>$/")',
+            //处理 任务、我的 标签内无法退出的弹窗
+            exit:'className("android.widget.TextView").text("继续赚钱")',
         },
         pice:{
-            pice:'className("android.view.ViewGroup").depth(12)',
-            close:'className("android.widget.TextView").textStartsWith("看视频").findOne().parent().parent().children()[5]',
-            //close:{x:50,y:75}
+            pice:'className("android.widget.TextView").textMatches("/点击领今天第.+个阅读惊喜.+/")',
+            close:'className("android.widget.TextView").textStartsWith("立即查看").findOne(50).parent().parent().children()[2]',
         },
         detail:{
             end:[
-                'textStartsWith("暂无评论")',
-                'className("android.view.View").text("全部评论")',
-                'textEndsWith("金币")'
+                'text("等你发表伟大的评论哦~")',
+                'text("已无更多评论")'
             ],
-            comment:'className("android.widget.TextView").textStartsWith("我来说两句")',
-            follow:'className("android.view.View").text("关注")',
-            like:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[2]',
-            collect:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[3]',
-            share:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[4]',
-            recommend:'id("recommend")',
-            progress:'className("android.widget.FrameLayout").depth(4)'
+            comment:'className("android.widget.TextView").textStartsWith("快去发表伟大言论吧")',
+            collect:'className("android.widget.TextView").textStartsWith("快去发表伟大言论吧").findOne().parent().children()[2]',
+            share:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[3]',
+            recommend:'text("热门新闻")',
+            progress:'className("android.widget.FrameLayout").depth(4)',
+            unfold:'textStartsWith("点击阅读全文")',
         },
         where:{
             home:{
-                btn:'className("android.widget.Button").text("刷新")'
+                btn:'className("android.widget.TextView").text("搜索你感兴趣的内容")'
             },
             detail:{
-                comment:'className("android.widget.TextView").textStartsWith("我来说两句")'
+                comment:'className("android.widget.TextView").textStartsWith("快去发表伟大言论吧")',
             }
         },
     };
@@ -80,9 +85,12 @@
         if(sac.util.getsigin(e.appName)){
             return true;
         };
-        sleep(5000)
+        sleep(1000);
+
         sac.util.forcePress(e.task.btn,1000);
-        sleep(5000);
+        back();
+        sleep(1000);
+
         sac.util.forcePress(e.profile.btn,1000);
         sleep(5000);
     };
@@ -116,6 +124,9 @@
             sac.util.swip({frequency:3});
             if(!sac.grope({intent:'home',timeout:1000})){
                 back();
+                if(!sac.grope({intent:'home',timeout:1000})){
+                    sac.util.forcePress(e.home.btn);
+                };
             };
             exitcount++;
         };
@@ -125,7 +136,7 @@
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
 
         if(!sac.grope({intent:'home',timeout:1000})){
-            sac.util.forcePress(e.home.btn,1000);
+            sac.util.forcePress(e.home.btn,1000); 
             sleep(2000);
         };
         while(true){
@@ -190,9 +201,9 @@
         while(true){
             if(limitCount>max){
                 if(sac.util.visible(sac.util.prove(e.detail.recommend,10))){
-                   // if(random(0,prob)==prob){
+                    if(random(0,prob)==prob){
                         return true;
-                    //};
+                    };
                 };
                 sac.util.print("滑动次数用尽，返回列表页",3)
                 back();
@@ -212,6 +223,11 @@
             
             limitCount++;
 
+            if(sac.util.unfold(e.detail.unfold)){
+                sac.util.swip();
+                continue;
+            };
+
             for(let end of e.detail.end){
                 if(sac.util.visible(sac.util.prove(end))){
                     sac.util.print("本文已经结束",3)
@@ -225,10 +241,6 @@
             sac.util.print("图文详情页上滑",3)
             sac.util.swip({frequency:3});
 
-            sac.util.percent(e.detail.follow,99);
-            sleep(50);
-            sac.util.percent(e.detail.like,50);
-            sleep(50);
             sac.util.percent(e.detail.collect,80);
         };
     };
@@ -248,12 +260,12 @@
             sleep(1000);
         };
     });
-    sac.i();
+    //sac.i();
     let duration = random(2830,4284);
     if(duration>time.duration)d = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
-    duration = 1000
+    duration = 1800
     sac.loop(duration);
     sac.util.savesigin(e.appName);
     sac.util.savealreadytime(e.appName);
@@ -263,3 +275,5 @@
     
 
 })();
+
+

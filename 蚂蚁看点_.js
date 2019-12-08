@@ -1,60 +1,55 @@
 (function(){
     var e = {
-        packageName : 'com.jifen.qukan',
-        appName : '趣头条',
+        packageName : 'com.ldzs.zhangxin',
+        appName : '蚂蚁看点',
         home:{
-            btn:'className("android.widget.Button").text("头条")'
-            //btn:'className("android.widget.FrameLayout").depth(6).find()[0]',
+            btn:'id("tv_home_tab")'
         },
         task:{
-            btn:'className("android.widget.Button").text("去签到")'
-            //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
+            btn:'id("tv_task_tab")'
         },
         profile:{
-            btn:'className("android.widget.Button").text("我的")'
+            btn:'id("tv_user_tab")'
         },
         list:{
-            group:'className("android.widget.LinearLayout").depth(12)',
-            innerGroup:'className("android.view.View").depth(14).textEndsWith("评")',
+            group:'id("lr_more_article")',
+            innerGroup:'id("lr_more_article")',
             filter:{
-                ad:'className("android.widget.TextView").text("广告")',
-                video:'className("android.widget.TextView").textMatches("/.+:.+/")' 
+                ad:'id("tv_jingxuan")',
             },
             title:{
-                list:'className("android.widget.TextView").textMatches("/.+/")',
-                inner:'textEndsWith("评")',
+                list:'id("tv_article_title")',
+                inner:'id("tv_article_title")',
             },
             pic:'className("android.widget.TextView").textEndsWith("图")'
         },
 
         closead:{
-            rl:'className("android.widget.TextView").text("领取")',
+            close:'id("iv_close")',
+            rl:'id("time_period_text").text("领取")',
+            showad:'id("show_ad").text("继续赚钱")',
         },
         pice:{
-            pice:'className("android.view.ViewGroup").depth(12)',
-            close:'className("android.widget.TextView").textStartsWith("看视频").findOne().parent().parent().children()[5]',
-            //close:{x:50,y:75}
+            pice:'id("listitem_lucky_text")',
+            close:'id("iv_close")',
         },
         detail:{
             end:[
-                'textStartsWith("暂无评论")',
-                'className("android.view.View").text("全部评论")',
-                'textEndsWith("金币")'
+                'id("tv_jingxuan")',
+                'text("没有更多了")',
             ],
-            comment:'className("android.widget.TextView").textStartsWith("我来说两句")',
-            follow:'className("android.view.View").text("关注")',
-            like:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[2]',
-            collect:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[3]',
-            share:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[4]',
-            recommend:'id("recommend")',
-            progress:'className("android.widget.FrameLayout").depth(4)'
+            unfold:'textStartsWith("点击查看全文")',
+            comment:'id("tv_comment")',
+            collect:'id("iv_collect")',
+            recommend:'id("lr_more_article")',
+            progress:'id("news_income_container")'
         },
         where:{
             home:{
-                btn:'className("android.widget.Button").text("刷新")'
+                search:'id("textView_hot_search")'
             },
             detail:{
-                comment:'className("android.widget.TextView").textStartsWith("我来说两句")'
+                comment:'id("tv_comment")'
             }
         },
     };
@@ -96,13 +91,13 @@
     };
     sac.pice=()=>{
         if(sac.util.forcePress(e.pice.pice,50,2)){
-            sleep(1500);
-            sac.util.forcePress(e.pice.close);
+            sac.util.forcePress(e.pice.close,7000);
         };
     };
     sac.getlist=()=>{
         let uiobjects
         let [exitcount,exitcountmax] = [0,5];
+        sac.util.print("getlist方法开始",1)
         while(true){
             if(exitcount>exitcountmax){
                 sac.util.print("5次上滑后仍无可访问的内容",2)
@@ -116,12 +111,12 @@
             sac.util.swip({frequency:3});
             if(!sac.grope({intent:'home',timeout:1000})){
                 back();
+                sleep(1500);
             };
             exitcount++;
         };
     };
     sac.loop=(duration)=>{
-        let news
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
 
         if(!sac.grope({intent:'home',timeout:1000})){
@@ -129,6 +124,7 @@
             sleep(2000);
         };
         while(true){
+            let news;
             if((end-start)>duration){
                 sac.util.print("运行时间耗尽: "+(end-start),3)
                 return true;
@@ -136,6 +132,7 @@
 
             sac.pice();
 
+            sac.util.print("loop方法内循环",1);
             news = sac.getlist();
 
             if(!news){
@@ -179,10 +176,10 @@
         //阅读推荐的概率
         let prob = 0;
         //最大滑动次数
-        let [limitCount,max] = [0,random(3,6)]; 
+        let [limitCount,max] = [0,random(15,20)]; 
         let [r1,r2] = [800,2700];
 
-        sac.util.print("进入新闻详情页",3)
+        sac.util.print("reader阅读方法开始执行",1)
         sac.util.forcePress(object.uiobject,1000);
         sac.util.savereadlist(e.appName,object.title);
         sleep(800);
@@ -190,20 +187,19 @@
         while(true){
             if(limitCount>max){
                 if(sac.util.visible(sac.util.prove(e.detail.recommend,10))){
-                   // if(random(0,prob)==prob){
+                    if(random(0,prob)==prob){
                         return true;
-                    //};
+                    };
                 };
                 sac.util.print("滑动次数用尽，返回列表页",3)
                 back();
+                sleep(1500)
                 return true;
             };
-           
             
             sleep(1000);
             if(!sac.grope({intent:'detail',timeout:1000})){
                 sac.util.print("当前不是详情页，尝试返回上一层页面",2)
-                back();
                 if(!sac.grope({intent:'detail',timeout:1000})){
                     sac.util.print("仍不是详情页，退出阅读方法",2)
                     return false;
@@ -212,24 +208,26 @@
             
             limitCount++;
 
+            if(sac.util.unfold(e.detail.unfold)){
+                sac.util.swip();
+                continue;
+            };
+
             for(let end of e.detail.end){
                 if(sac.util.visible(sac.util.prove(end))){
                     sac.util.print("本文已经结束",3)
-                    limitCount += 2
+                    limitCount += max
                     r1 = 10;
                     r2 = 30;
                 };
             };
+
             
             sleep(random(r1,r2));
             sac.util.print("图文详情页上滑",3)
             sac.util.swip({frequency:3});
 
-            sac.util.percent(e.detail.follow,99);
-            sleep(50);
-            sac.util.percent(e.detail.like,50);
-            sleep(50);
-            sac.util.percent(e.detail.collect,80);
+            //sac.util.percent(e.detail.collect,80);
         };
     };
 
@@ -241,7 +239,7 @@
     if(time.duration<=0){
         //result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
-    sac.open();
+    //sac.open();
     threads.start(function(){
         while(true){
             sac.cancel();
@@ -253,7 +251,7 @@
     if(duration>time.duration)d = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
-    duration = 1000
+    duration = 1800
     sac.loop(duration);
     sac.util.savesigin(e.appName);
     sac.util.savealreadytime(e.appName);

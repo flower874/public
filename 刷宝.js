@@ -7,7 +7,7 @@
                 id:'text("我的元宝")'
             },
             home:{
-                up:'id("imgUp")'
+                up:'id("layProgress")'
             },
             ad:{
                 ad:'textEndsWith("广告")'
@@ -21,7 +21,7 @@
             signin:'className("android.widget.Button").text("立即签到")',
             video:''
         },
-        detail:{
+        detail:{+
             follow:'id("attention").text("关注")',
             write:'id("name")'
         }

@@ -1,63 +1,60 @@
 (function(){
     var e = {
-        packageName : 'com.jifen.qukan',
-        appName : '趣头条',
+        packageName : 'com.xiangzi.jukandian',
+        appName : '聚看点',
         home:{
-            btn:'className("android.widget.Button").text("头条")'
-            //btn:'className("android.widget.FrameLayout").depth(6).find()[0]',
+            btn:'id("tv_tab1")'
         },
         task:{
-            btn:'className("android.widget.Button").text("去签到")'
-            //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
+            btn:'id("tv_tab3")'
         },
         profile:{
-            btn:'className("android.widget.Button").text("我的")'
-        },
+            btn:'id("tv_tab4")'        },
         list:{
-            group:'className("android.widget.LinearLayout").depth(12)',
-            innerGroup:'className("android.view.View").depth(14).textEndsWith("评")',
+            group:'id("item_artical_three_parent")',
+            innerGroup:'className("android.view.View").text("")',
             filter:{
-                ad:'className("android.widget.TextView").text("广告")',
-                video:'className("android.widget.TextView").textMatches("/.+:.+/")' 
+                ad:'text("广告")',
             },
             title:{
-                list:'className("android.widget.TextView").textMatches("/.+/")',
-                inner:'textEndsWith("评")',
+                list:'id("item_artical_three_title_tv")',
+                inner:'className("android.view.View").textMatches("/.+[0-9]阅读.*/")', 
             },
-            pic:'className("android.widget.TextView").textEndsWith("图")'
+            pic:'className("android.widget.TextView").textEndsWith("类型:图片")'
         },
 
         closead:{
-            rl:'className("android.widget.TextView").text("领取")',
+            indexSign:'id("v2_sign_sign_button")', //首页签到按钮
+            close:'id("mine_starlert_close")', //任务标签_签到弹窗
+            rl:'id("rl_lingqu_par")',   //首页_时段奖励
+            dialog:'id("dialog_close")', //首页_签到弹窗
+            viclose:'id("iv_cancel")', //首页_关闭签到弹窗
+            dialogop:'id("close_dialog_layout")', //详情页内_每日阅读奖励弹窗
+            indexdialog:'id("image_user_task_pop_close")', //首页_活动弹窗
+            indexexit:'id("cancel_quit")', //误触back()
+            pice:'className("android.view.View").text("继续阅读")'
         },
-        pice:{
-            pice:'className("android.view.ViewGroup").depth(12)',
-            close:'className("android.widget.TextView").textStartsWith("看视频").findOne().parent().parent().children()[5]',
-            //close:{x:50,y:75}
-        },
+
         detail:{
+            unfold:'text("查看全文，奖励更多")',
             end:[
-                'textStartsWith("暂无评论")',
-                'className("android.view.View").text("全部评论")',
-                'textEndsWith("金币")'
+                'className("android.view.View").textMatches("/.+[0-9]阅读.*/")',
             ],
-            comment:'className("android.widget.TextView").textStartsWith("我来说两句")',
-            follow:'className("android.view.View").text("关注")',
-            like:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[2]',
-            collect:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[3]',
+            comment:'id("ll_web_write_comment_layout")',
+            collect:'id("ll_collect_layout")',
             share:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[4]',
-            recommend:'id("recommend")',
-            progress:'className("android.widget.FrameLayout").depth(4)'
+            recommend:'className("android.view.View").textMatches("/.+[0-9]阅读.*/")',
+
         },
         where:{
             home:{
-                btn:'className("android.widget.Button").text("刷新")'
+                search:'id("iv_search")',
             },
             detail:{
-                comment:'className("android.widget.TextView").textStartsWith("我来说两句")'
+                comment:'id("ll_web_write_comment_layout")',
             }
         },
-    };
+    }; 
     var sac = {util:require("./util.js")};
     sac.grope = sac.util.gropev2({
         elements:e.where,
@@ -104,6 +101,7 @@
         let uiobjects
         let [exitcount,exitcountmax] = [0,5];
         while(true){
+
             if(exitcount>exitcountmax){
                 sac.util.print("5次上滑后仍无可访问的内容",2)
                 return false;
@@ -118,6 +116,7 @@
                 back();
             };
             exitcount++;
+        
         };
     };
     sac.loop=(duration)=>{
@@ -133,8 +132,6 @@
                 sac.util.print("运行时间耗尽: "+(end-start),3)
                 return true;
             };
-
-            sac.pice();
 
             news = sac.getlist();
 
@@ -179,8 +176,8 @@
         //阅读推荐的概率
         let prob = 0;
         //最大滑动次数
-        let [limitCount,max] = [0,random(3,6)]; 
-        let [r1,r2] = [800,2700];
+        let [limitCount,max] = [0,random(8,15)]; 
+        let [r1,r2] = [200,600];
 
         sac.util.print("进入新闻详情页",3)
         sac.util.forcePress(object.uiobject,1000);
@@ -190,9 +187,9 @@
         while(true){
             if(limitCount>max){
                 if(sac.util.visible(sac.util.prove(e.detail.recommend,10))){
-                   // if(random(0,prob)==prob){
+                    if(random(0,prob)==prob){
                         return true;
-                    //};
+                    };
                 };
                 sac.util.print("滑动次数用尽，返回列表页",3)
                 back();
@@ -200,7 +197,7 @@
             };
            
             
-            sleep(1000);
+            sleep(200);
             if(!sac.grope({intent:'detail',timeout:1000})){
                 sac.util.print("当前不是详情页，尝试返回上一层页面",2)
                 back();
@@ -211,6 +208,11 @@
             };
             
             limitCount++;
+
+            if(sac.util.unfold(e.detail.unfold)){
+                sac.util.swip();
+                continue;
+            };
 
             for(let end of e.detail.end){
                 if(sac.util.visible(sac.util.prove(end))){
@@ -225,17 +227,13 @@
             sac.util.print("图文详情页上滑",3)
             sac.util.swip({frequency:3});
 
-            sac.util.percent(e.detail.follow,99);
-            sleep(50);
-            sac.util.percent(e.detail.like,50);
-            sleep(50);
             sac.util.percent(e.detail.collect,80);
         };
     };
 
 //-------------- main ---------------------//
     
-    sac.util.loglevel = 3;
+    sac.util.loglevel = 4;
 
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
@@ -253,7 +251,7 @@
     if(duration>time.duration)d = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
-    duration = 1000
+    duration = 100
     sac.loop(duration);
     sac.util.savesigin(e.appName);
     sac.util.savealreadytime(e.appName);

@@ -7,7 +7,7 @@
                 id:'text("金币收益")'
             },
             home:{
-                write:'id("user_name_text_view")'
+                write:'id("user_name_text_view_new")'
             }
         },
         task:{
@@ -25,7 +25,7 @@
             follow:'id("slide_play_right_follow_background")',
             follow_old:'text("关注")',
             share:'id("forward_icon")',
-            write:'id("user_name_text_view")'
+            write:'id("user_name_text_view_new")'
         }
     };
     var sac = {util:require('./util.js')};

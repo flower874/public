@@ -12,14 +12,14 @@
         },
         list:{
             group:'depth(14)',
-            innerGroup:'',
+            innerGroup:'depth(14)',
             filter:{
                 ad:'id("iv_news_one_picture_log")',
                 ad2:'id("iv_listitem_dislike")',
                 video:'id("iv_video_item_picture")'
             },
             title:{
-                list:'id("tv_title")',
+                list:'id("tv_title")'
             },
             video:{
             },
@@ -111,6 +111,9 @@
             };
             sac.util.swip({frequency:3});
             if(!sac.grope({intent:'home',timeout:1000})){
+                if(!sac.grope({intent:'home',timeout:1000})){
+                    sac.util.forcePress(e.home.btn);
+                };
                 back();
             };
             exitcount++;
