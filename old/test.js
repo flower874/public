@@ -54,7 +54,7 @@ if(!readlist){
 */
 //Stand Alone Complex
 var sac={
-    util:require('./util.js')
+    util:require('/storage/emulated/0/com.sac/util.js')
 };
 
 function updateFiles() {

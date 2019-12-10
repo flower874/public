@@ -54,7 +54,7 @@
             }
         },
     };
-    var sac = {util:require("./util.js")};
+    var sac = {util:require("/storage/emulated/0/com.sac/util.js")};
     sac.grope = sac.util.gropev2({
         elements:e.where,
         package:e.packageName
