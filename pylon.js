@@ -63,9 +63,11 @@ function master(){
     let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
     let AppName,scriptFile,result,code,time;
     let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
+    let localpath = '/storage/emulated/0/com.sac/'
+    
     for(AppName in sign){
         if(random(0,2) === 1)continue;
-        scriptFile = AppName+".js";
+        scriptFile = localpath+AppName+".js";
         if(files.isFile(scriptFile)){
             log("运行: "+AppName)
             result = threads.disposable();
@@ -85,7 +87,7 @@ function master(){
     let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
     for(AppName in pool){      
         if(random(0,4) === 1)continue;
-        scriptFile = AppName+".js";
+        scriptFile = localpath+AppName+".js";
         if(files.isFile(scriptFile)){
             time = sac.util.gettime(AppName);
             if(time.duration<0)continue;
