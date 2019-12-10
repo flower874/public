@@ -18,7 +18,7 @@
         },
         task:{
             //btn:'id("red_packet_float_view")'
-            btn:'id("tab_task")'
+            btn:'id("tab_tv").text("首 页").findOne().parent().parent().children()[3]'
         },
         closead:{
             //btn:'className("android.view.View").text("立即签到")', 

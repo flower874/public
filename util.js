@@ -685,6 +685,7 @@ util.gropev2=(objects)=>{
         elements.task : {'元素描述', '元素描述'} 
     */
     let {elements,package} = objects;
+    let appPackaget;
     return function(args) {
 
         let select=(inte)=>{
@@ -719,18 +720,13 @@ util.gropev2=(objects)=>{
         let {intent,timeout,unvisible} = args;
         timeout = timeout || 50
 
-        /*
         if(package){
             util.print("验证包: "+package,3)
-            if(!packageName(package).findOne(10)===null){
-               if(!packageName(".+").findOne(100).packageName()===package){
-                    util.print("验证通过",3)
-                   return false;
-                };
+            appPackaget = packageName(package).findOne(timeout); 
+            if(!appPackaget){
+                return false;
             };
-            util.print("跳过验证",3);
         };
-        */
 
         if(!intent){
             util.print("查询当前所在页面:",3);

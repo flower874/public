@@ -247,5 +247,28 @@ depth=19,
 //for(let a of foo)log(a)
 
 
-log(sac.util.prove('className("android.view.View").textMatches("/.+[0-9]阅读.*/")',10))
+//var foo = className("android.view.ViewGroup").findOne(10).findOne(className("android.widget.TextView").textStartsWith("记者"))
+//log(foo.visibleToUser())
+//log(foo.text())
 
+var advideo = {
+    timeout:2000,
+    wait:131000,
+    enter: 'id("positive_button").text("立即翻倍")',
+    content:[
+        'className("com.iclicash.advlib.__remote__.ui.elements.MutedVideoView")',
+        'id("tt_video_ad_mute")'
+        /*
+        'id("tt_click_upper_non_content_layout")',
+         */
+    ],
+    wayout:'text("点击重播")',
+    /*
+    close:[
+        'id("tt_video_ad_close_layout")',
+    ],
+    */
+    mode:"2"    
+}
+log(text("点击重播").findOne(60))
+sac.util.advideo(advideo);

@@ -198,7 +198,6 @@
                 back();
                 return true;
             };
-           
             
             sleep(1000);
             if(!sac.grope({intent:'detail',timeout:1000})){

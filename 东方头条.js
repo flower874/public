@@ -34,7 +34,7 @@
             close:'className("android.widget.TextView").textStartsWith("立即查看").findOne().parent().parent().children()[0].children()[1]',
             autorl:'className("android.widget.TextView").textStartsWith("时段奖励领取成功").findOne().parent().parent().parent().children()[1]',
             //详情内 双倍获取 弹窗
-            double:'textMatches("/^立即领取.+>$/")',
+            double:'textMatches("/^立即领取.+/")',
             //处理 任务、我的 标签内无法退出的弹窗
             exit:'className("android.widget.TextView").text("继续赚钱")',
         },
@@ -88,11 +88,10 @@
         sleep(1000);
 
         sac.util.forcePress(e.task.btn,1000);
-        back();
         sleep(1000);
-
         sac.util.forcePress(e.profile.btn,1000);
-        sleep(5000);
+        sleep(1000);
+        back();
     };
     sac.cancel=()=>{
         sac.util.loglevel = 1;

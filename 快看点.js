@@ -292,7 +292,7 @@
     if(time.duration<=0){
         //result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
-    //sac.open();
+    sac.open();
     threads.start(function(){
         while(true){
             sac.cancel();

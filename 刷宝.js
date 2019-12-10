@@ -2,6 +2,19 @@
     var e = {
         appName:"刷宝",
         packageName :"com.jm.video",
+        advideo:{
+            timeout:2000,
+            wait:31000,
+            enter: 'id("positive_button").text("看视频签到")',
+            content:[
+                'id("跳过")',
+            ],
+            //wayout:'text("点击重播")',
+            close:[
+                'id("iv_close")',
+            ],
+            mode:"2"    
+        },
         where:{
             task:{
                 id:'text("我的元宝")'
@@ -19,9 +32,8 @@
         task:{
             btn:'id("tv_tab_title").text("任务")',
             signin:'className("android.widget.Button").text("立即签到")',
-            video:''
         },
-        detail:{+
+        detail:{
             follow:'id("attention").text("关注")',
             write:'id("name")'
         }
@@ -44,11 +56,13 @@
         };
     };
     sac.signin=()=>{
+        if(sac.util.getsigin(e.appName)){
+            return true;
+        };
         sac.util.forcePress(e.task.btn,2000);
         sac.grope({intent:'task',timeout:10000});
         sleep(2000);
         sac.util.forcePress(e.task.signin,1000);
-        sac.util.forcePress(e.task.video,1000);
         sac.util.advideo(e.advideo);
         sac.util.forcePress(e.home.btn,2000);
     };

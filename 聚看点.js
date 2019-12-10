@@ -32,7 +32,10 @@
             dialogop:'id("close_dialog_layout")', //详情页内_每日阅读奖励弹窗
             indexdialog:'id("image_user_task_pop_close")', //首页_活动弹窗
             indexexit:'id("cancel_quit")', //误触back()
-            pice:'className("android.view.View").text("继续阅读")'
+            pice:'className("android.view.View").text("继续阅读")',
+            closeSign:'id("v2_sign_close_button")', //首页签到按钮
+            iv:'id("iv_close")',
+
         },
 
         detail:{

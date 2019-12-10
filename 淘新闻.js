@@ -17,7 +17,7 @@
             // 热文 group:'id("tab_news_hot_item_img_multi")',
             innerGroup:'text("评")',
             filter:{
-                ad:'text("广告")',
+                ad:'textStartsWith("广告")',
                 ad2:'textStartsWith("精选")',
                 video:'id("tab_news__item_img_video")',
             },
@@ -50,7 +50,7 @@
                 search:'id("home_feed_bar_search_hit")',
             },
             detail:{
-                comment:'id("comment_container")',
+                comment:'id("xlxl_actionbar_more")',
             }
         },
     };
@@ -109,11 +109,11 @@
             sac.util.swip({frequency:3});
             sleep(500);
             if(!sac.grope({intent:'home',timeout:1000})){
-                if(!sac.grope({intent:'home',timeout:1000})){
-                    sac.util.forcePress(e.home.btn);
-                    //sleep(800);
-                    //sac.util.forcePress(e.home.channel);
-                };
+                sac.util.forcePress(e.home.btn);
+                //sleep(800);
+                //sac.util.forcePress(e.home.channel);
+            };
+            if(!sac.grope({intent:'home',timeout:1000})){
                 back();
             };
             exitcount++;
@@ -213,10 +213,14 @@
             for(let end of e.detail.end){
                 if(sac.util.visible(sac.util.prove(end))){
                     sac.util.print("本文即将结束",3)
-                    limitCount += 5
+                    limitCount += 3
                 };
             };
             
+            if(id("browser_ad").findOne(200)){
+                back();
+            };
+
             sac.util.print("图文详情页上滑",3)
 
             sac.util.swip({
@@ -239,13 +243,14 @@
     if(time.duration<=0){
         //result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
-    //sac.open();
+    sac.open();
     threads.start(function(){
         while(true){
             sac.cancel();
             sleep(1000);
         };
     });
+    sleep(1000)  //关闭首页的转盘避免误触
     sac.i();
     let duration = random(2830,4284);
     if(duration>time.duration)d = time.duration;
@@ -260,4 +265,4 @@
     //result.setAndNotify("slave : 运行完成，返回master进程");
     
 
-})();
+})(); 

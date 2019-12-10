@@ -6,7 +6,8 @@
             btn:'id("tab_text_tv").text("首页")'
         },
         task:{
-            btn:'id("tab_text_tv").text("任务")'
+            btn:'id("tab_text_tv").text("任务")',
+            sign:'text("今天")',
             //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
         },
         profile:{
@@ -24,12 +25,19 @@
             },
             pic:'className("android.widget.TextView").textEndsWith("图")'
         },
-
+        pice:{
+            btn:'id("dsyt_tv_bind")',   //入口按钮
+            time:'id("time_now")',      //内容
+            close:'id("cancle")',       //退出按钮
+        },
         closead:{
             rl:'className("android.widget.TextView").text("领取")',
             close:'id("sign_remind_iv_close")',
             taskRl:'id("taskcontent_button").text("待领取")',
             closeRl:'id("dcs_iv_close")',
+            closeRl:'id("dcs_iv_close_ad")',
+            tx:'id("dws_iv_close")',
+            quit:'id("de_tv_cance").text("继续赚钱")',
         },
         detail:{
             end:[
@@ -71,9 +79,12 @@
         if(sac.util.getsigin(e.appName)){
             return true;
         };
-        sleep(5000)
+        sleep(2000)
         sac.util.forcePress(e.task.btn,1000);
-        sleep(5000);
+        sleep(3000);
+        sac.util.forcePress(e.task.sign,1000);
+        sleep(1000)
+        sac.util.forcePress(e.home.btn,1000);
     };
     sac.cancel=()=>{
         sac.util.loglevel = 1;
@@ -98,8 +109,12 @@
             };
             sac.util.swip({frequency:3});
             if(!sac.grope({intent:'home',timeout:1000})){
+                sac.util.forcePress(e.home.btn,10);
+            };
+            if(!sac.grope({intent:'home',timeout:1000})){
                 back();
             };
+
             exitcount++;
         };
     };
