@@ -60,7 +60,7 @@ function master(){
         log("本地文件升级失败")
         return;
     };
-    let sac = {util:require('util.js')};
+    let sac = {util:require('/storage/emulated/0/com.sac/util.js.js')};
     let AppName,scriptFile,result,code,time;
     let sign = JSON.parse(files.read('sign.json'));
     for(AppName in sign){
