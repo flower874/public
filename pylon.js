@@ -62,7 +62,7 @@ function master(){
     };
     let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
     let AppName,scriptFile,result,code,time;
-    let sign = JSON.parse(files.read('sign.json'));
+    let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
     for(AppName in sign){
         if(random(0,2) === 1)continue;
         scriptFile = AppName+".js";
@@ -82,7 +82,7 @@ function master(){
         };
     };
 
-    let pool = JSON.parse(files.read('cycle.json'));
+    let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
     for(AppName in pool){      
         if(random(0,4) === 1)continue;
         scriptFile = AppName+".js";

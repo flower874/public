@@ -1,6 +1,6 @@
 (function(){
     var elements = {
-        AppName : "tuituigx",
+        AppName : "推推搞笑",
         packageName : "com.tuitui.video",
 
         closead : { 
