@@ -241,7 +241,7 @@
 
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
-        //result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
+        result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
     sac.open();
     threads.start(function(){
@@ -252,17 +252,13 @@
     });
     sleep(1000)  //关闭首页的转盘避免误触
     sac.i();
-    let duration = random(2830,4284);
-    if(duration>time.duration)d = time.duration;
+    let duration = random(300,720);
+    if(duration>time.duration)duration = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
-    duration = 1000
     sac.loop(duration);
     sac.util.savesigin(e.appName);
     sac.util.savealreadytime(e.appName);
-    //home();
-
-    //result.setAndNotify("slave : 运行完成，返回master进程");
-    
-
+    home();
+    result.setAndNotify("slave : 运行完成，返回master进程");
 })(); 

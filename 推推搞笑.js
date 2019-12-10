@@ -354,22 +354,26 @@
         sleep(2000);
     };
 
-    let result = {setAndNotify:()=>{}};
-    sac.util.loglevel = 3;
+    // ------ main ------
+    //let result = {setAndNotify:()=>{}};
+    //sac.util.loglevel = 3;
 
-    time = sac.util.gettime(elements.AppName);
+    let time = sac.util.gettime(e.appName);
+    if(time.duration<=0){
+        sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
+        result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
+    };
+    let duration = random(300,720);
+    if(duration>time.duration)duration = time.duration;
+    sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
+    sac.util.savestarttime(e.appName);
     sac.open();
     sac.util.savestarttime(elements.AppName);
     sac.signin();
-    sac.loop(1000);
+    sac.loop(duration);
     sac.scrapecard();
     sac.util.savealreadytime(elements.AppName);
-    result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");
-    sac.open();
-    sac.signin();
-    sac.tohome()
-    sac.loop(1000);
-    
+    result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");    
 })()
 
 // 两种模式

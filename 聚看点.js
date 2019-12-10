@@ -72,7 +72,7 @@
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
-            //result.setAndNotify("启动 "+e.packageName+" 失败，返回");
+            result.setAndNotify("启动 "+e.packageName+" 失败，返回");
         };
         sleep(2000)
     };
@@ -236,11 +236,11 @@
 
 //-------------- main ---------------------//
     
-    sac.util.loglevel = 4;
+    //sac.util.loglevel = 4;
 
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
-        //result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
+        result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
     sac.open();
     threads.start(function(){
@@ -250,17 +250,14 @@
         };
     });
     sac.i();
-    let duration = random(2830,4284);
-    if(duration>time.duration)d = time.duration;
+    let duration = random(300,720);
+    if(duration>time.duration)duration = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
-    duration = 100
     sac.loop(duration);
     sac.util.savesigin(e.appName);
     sac.util.savealreadytime(e.appName);
-    //home();
-
-    //result.setAndNotify("slave : 运行完成，返回master进程");
-    
+    home();
+    result.setAndNotify("slave : 运行完成，返回master进程");
 
 })();
