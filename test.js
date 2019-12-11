@@ -270,5 +270,12 @@ var advideo = {
     */
     mode:"2"    
 }
-log(text("点击重播").findOne(60))
-sac.util.advideo(advideo);
+
+
+
+
+
+
+var foo = textStartsWith("本文及配图均为趣头条自媒体用户上传，不代表平台观点").findOne(50)
+log(foo)
+log(sac.util.visible(foo))

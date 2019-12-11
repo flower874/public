@@ -212,8 +212,8 @@
                 };
             };
             
-            sac.util.swip({frequency:1});
             limitCount++;
+            sac.util.swip({num:1});
 
             if(sac.util.unfold(e.detail.unfold)){
                 sac.util.swip();
