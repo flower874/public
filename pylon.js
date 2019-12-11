@@ -2,7 +2,7 @@
 //按键控制和自定义事件
 var customEvent = events.emitter();
 //推送日志
-/*
+
 customEvent.on('log',function(r){
     // 发送日志
     var server = '';
@@ -11,7 +11,8 @@ customEvent.on('log',function(r){
 
 threads.start(function(){
     while(true){
-        sleep(15000);
+        sleep(5000);
+        /*
         var deviceID = device.brand+"_"+device.model+"_"+device.getAndroidId().slice(-6)
         var heartbeat = {
             time : Date.now(),
@@ -22,11 +23,12 @@ threads.start(function(){
             },
             status : 'alive'
         };
-        customEvent.emit('log',JSON.stringify(heartbeat))
+        */
+        customEvent.emit('log',"剩余内存: "+device.getAvailMem()/1024/1024+"MB")
     }
 });
 //心跳
-*/
+
 threads.start(function(){
     events.observeKey();
     events.setKeyInterceptionEnabled("volume_down", true);
