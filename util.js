@@ -724,6 +724,7 @@ util.gropev2=(objects)=>{
             util.print("验证包: "+package,3)
             appPackaget = packageName(package).findOne(timeout); 
             if(!appPackaget){
+                result.setAndNotify("package与预期不符，退出当前线程");    
                 return false;
             };
         };

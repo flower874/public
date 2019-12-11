@@ -45,6 +45,7 @@ function updateFiles() {
     let root = '/storage/emulated/0/脚本/'
     let path = 'public-master/'
     let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+    sac.util.print("下载数据..",1)
     let r = http.get(gitUrl)
     let zipContent = r.body.bytes()
     let file = 'master.zip'
@@ -53,16 +54,20 @@ function updateFiles() {
     files.createWithDirs(unzip)
     files.writeBytes(unzip,zipContent)
     //pro专用
+    sac.util.print("解压",1)
     $zip.unzip(unzip,root);
     //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
+    sac.util.print("覆盖本地文件",1)
     shell("cp -r "+root+path+"* "+root+".")
     return true;
 };
 function master(){
+    sac.util.print("同步数据到本地",1);
     if(!updateFiles()){
         log("本地文件升级失败")
         return;
     };
+    sac.util.print("同步完成",1)
     let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
     let AppName,scriptFile,result,code,time;
     let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
@@ -72,7 +77,7 @@ function master(){
         if(random(0,2) === 1)continue;
         scriptFile = localpath+AppName+".js";
         if(files.isFile(scriptFile)){
-            log("运行: "+AppName)
+            sac.util.print("运行: "+AppName,1)
             result = threads.disposable();
             code = files.read(scriptFile);
             thread = threads.start(eval(code))
@@ -82,7 +87,7 @@ function master(){
                 toastLog(e)
             };
         } else {
-            customEvent.emit("log",AppName+"对应的文件未找到");
+            sac.util.print(AppName+"对应的文件未找到",1);
             continue;
         };
     };
@@ -96,6 +101,7 @@ function master(){
             if(time.duration<0)continue;
             result = threads.disposable();
             code = files.read(scriptFile)
+            sac.util.print("运行: "+AppName,1)
             try{
                 thread = threads.start(eval(code))
                 result.blockedGet()
@@ -103,7 +109,7 @@ function master(){
                 toastLog(e)
             };
         } else {
-            customEvent.emit("log",AppName+"对应的文件未找到");
+            sac.util.print(AppName+"对应的文件未找到",1);
             continue;
         };
     };
