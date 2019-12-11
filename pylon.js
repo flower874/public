@@ -2,11 +2,13 @@
 //按键控制和自定义事件
 var customEvent = events.emitter();
 //推送日志
+/*
 customEvent.on('log',function(r){
     // 发送日志
     var server = '';
     toastLog("收到日志 : " + r)
 });
+
 threads.start(function(){
     while(true){
         sleep(15000);
@@ -24,6 +26,7 @@ threads.start(function(){
     }
 });
 //心跳
+*/
 threads.start(function(){
     events.observeKey();
     events.setKeyInterceptionEnabled("volume_down", true);
@@ -107,7 +110,7 @@ function master(){
 };
 while(true){
     master();
-    sleep(1000);
+    sleep(1000); 
 };
 /* 4小时自动重启，避免进程崩溃
 var [reboot,clock,_sTime] = [14400,0,parseInt(Date.now()/1000)]

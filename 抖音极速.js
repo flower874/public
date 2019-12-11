@@ -113,17 +113,21 @@
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
         result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
+    var duration = random(300,720);
+    if(duration>time.duration)duration = time.duration;
     
     sac.open();
+
     threads.start(function (){
-        while(true){
+        let [t_start,t_end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
+        while((t_end-t_start)<duration){
             sac.cancel();
-            sleep(1000);
+            sleep(500);
+            t_end = parseInt(Date.now()/1000);
         };
     });
+
     sac.signin();
-    let duration = random(300,720);
-    if(duration>time.duration)duration = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
