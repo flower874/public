@@ -356,7 +356,7 @@
 
     // ------ main ------
     //let result = {setAndNotify:()=>{}};
-    sac.util.loglevel = 3;
+    //sac.util.loglevel = 3;
 
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){

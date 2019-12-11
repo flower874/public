@@ -236,7 +236,7 @@
 
 //-------------- main ---------------------//
     
-    sac.util.loglevel = 4;
+    //sac.util.loglevel = 4;
 
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){

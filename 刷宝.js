@@ -5,7 +5,7 @@
         advideo:{
             timeout:2000,
             wait:31000,
-            enter: 'id("positive_button").text("看视频签到")',
+            enter: 'text("看视频签到")',
             content:[
                 'id("跳过")',
             ],
@@ -116,7 +116,7 @@
     //测试模式，去掉返回master进程的方法//
     //let result = {setAndNotify:()=>{exit();}};
     //------------  日志等级  ------------
-    sac.util.loglevel = 3;
+    //sac.util.loglevel = 3;
     //-----------------------------------
 
     let time = sac.util.gettime(e.appName);
