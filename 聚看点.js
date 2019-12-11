@@ -189,11 +189,13 @@
         
         while(true){
             if(limitCount>max){
+                /*
                 if(sac.util.visible(sac.util.prove(e.detail.recommend,10))){
                     if(random(0,prob)==prob){
                         return true;
                     };
                 };
+                */
                 sac.util.print("滑动次数用尽，返回列表页",3)
                 back();
                 return true;
