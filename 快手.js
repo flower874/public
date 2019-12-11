@@ -108,7 +108,7 @@
     //测试模式，去掉返回master进程的方法//
     //let result = {setAndNotify:()=>{exit();}};
     //------------  日志等级  ------------
-    //sac.util.loglevel = 3;
+    sac.util.loglevel = 3;
     //-----------------------------------
 
     let time = sac.util.gettime(e.appName);

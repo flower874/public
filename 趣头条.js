@@ -234,7 +234,7 @@
 
 //-------------- main ---------------------//
     
-    //sac.util.loglevel = 3;
+    sac.util.loglevel = 3;
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
