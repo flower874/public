@@ -21,7 +21,6 @@ function updateFiles() {
 
 toastLog("同步数据到本地");
 if(!updateFiles()){
-    log("本地文件升级失败")
-    return;
+    log("本地文件升级失败");
 };
 toastLog("同步完成")
