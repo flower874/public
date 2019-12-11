@@ -65,7 +65,7 @@ function master(){
     };
 
     let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
-    sac.util.loglevel = 3;
+    //sac.util.loglevel = 3;
     sac.util.print("同步数据到本地",1);
     if(!updateFiles()){
         log("本地文件升级失败")
