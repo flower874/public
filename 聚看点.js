@@ -212,6 +212,7 @@
                 };
             };
             
+            sac.util.swip({frequency:1});
             limitCount++;
 
             if(sac.util.unfold(e.detail.unfold)){
