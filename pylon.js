@@ -74,7 +74,7 @@ threads.start(function(){
 
 function master(){
     function updateFiles() {
-        let root = '/storage/emulated/0/脚本/'
+        let root = '/storage/emulated/0/com.sac/'
         let path = 'public-master/'
         let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
         sac.util.print("下载数据..",1)
