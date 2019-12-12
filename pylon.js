@@ -147,7 +147,6 @@ while(true){
     toastLog("开始同步数据到本地 .. ")
     if(!updateFiles()){
         toastLog("本地文件升级失败")
-        return;
     };
     toastLog()("同步完成")
 
