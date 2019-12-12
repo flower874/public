@@ -76,7 +76,7 @@ function updateFiles() {
     let root = '/storage/emulated/0/com.sac/'
     let path = 'public-master/'
     let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
-    sac.util.print("下载数据..",1)
+    toastLog()("下载数据..")
     let r = http.get(gitUrl)
     let zipContent = r.body.bytes()
     let file = 'master.zip'
@@ -85,10 +85,10 @@ function updateFiles() {
     files.createWithDirs(unzip)
     files.writeBytes(unzip,zipContent)
     //pro专用
-    sac.util.print("解压",1)
+    toastLog("解压")
     $zip.unzip(unzip,root);
     //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
-    sac.util.print("覆盖本地文件",1)
+    toastLog("覆盖本地文件")
     shell("cp -r "+root+path+"* "+root+".")
     return true;
 };
