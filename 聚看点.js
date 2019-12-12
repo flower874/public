@@ -203,7 +203,7 @@
            
             
             sleep(200);
-            if(!sac.grope({intent:'detail',timeout:1000})){
+            if(!sac.grope({intent:'detail',timeout:2500})){
                 sac.util.print("当前不是详情页，尝试返回上一层页面",2)
                 back();
                 if(!sac.grope({intent:'detail',timeout:1000})){

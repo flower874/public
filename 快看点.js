@@ -37,6 +37,7 @@
         closead:{
             coin_get:'id("coin_get").text("收入囊中")',
             dialog:'id("dialog_close")',
+            zhibo:'text("暂停播放")',
             //egg:'id("dialog_positive_button").textEndsWith(">")'
         },
         rl:{

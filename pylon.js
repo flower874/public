@@ -11,6 +11,7 @@ customEvent.on('log',function(r){
 
 threads.start(function(){
     while(true){
+
         sleep(5000);
         /*
         var deviceID = device.brand+"_"+device.model+"_"+device.getAndroidId().slice(-6)
@@ -24,7 +25,10 @@ threads.start(function(){
             status : 'alive'
         };
         */
-        customEvent.emit('log',"剩余内存: "+device.getAvailMem()/1024/1024+"MB")
+        customEvent.emit('log',"剩余内存 a - "+device.getAvailMem()/1024/1024+"MB")
+        runtime.gc()
+        sleep(1000)
+        customEvent.emit('log',"剩余内存 b - "+device.getAvailMem()/1024/1024+"MB")
     }
 });
 //心跳
