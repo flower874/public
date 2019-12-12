@@ -1,5 +1,5 @@
 //版本
-var ver = '1.0.6'
+var ver = '1.0.7'
 
 //按键控制和自定义事件
 var customEvent = events.emitter();
@@ -72,38 +72,31 @@ threads.start(function(){
 
 // 更新本地文件
 
-function master(){
-    function updateFiles() {
-        let root = '/storage/emulated/0/com.sac/'
-        let path = 'public-master/'
-        let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
-        sac.util.print("下载数据..",1)
-        let r = http.get(gitUrl)
-        let zipContent = r.body.bytes()
-        let file = 'master.zip'
-        let unzip = files.join(root,file)
-        if(files.isDir(unzip))files.removeDir(unzip);
-        files.createWithDirs(unzip)
-        files.writeBytes(unzip,zipContent)
-        //pro专用
-        sac.util.print("解压",1)
-        $zip.unzip(unzip,root);
-        //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
-        sac.util.print("覆盖本地文件",1)
-        shell("cp -r "+root+path+"* "+root+".")
-        return true;
-    };
+function updateFiles() {
+    let root = '/storage/emulated/0/com.sac/'
+    let path = 'public-master/'
+    let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+    sac.util.print("下载数据..",1)
+    let r = http.get(gitUrl)
+    let zipContent = r.body.bytes()
+    let file = 'master.zip'
+    let unzip = files.join(root,file)
+    if(files.isDir(unzip))files.removeDir(unzip);
+    files.createWithDirs(unzip)
+    files.writeBytes(unzip,zipContent)
+    //pro专用
+    sac.util.print("解压",1)
+    $zip.unzip(unzip,root);
+    //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
+    sac.util.print("覆盖本地文件",1)
+    shell("cp -r "+root+path+"* "+root+".")
+    return true;
+};
 
+function master(){
     let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
     //sac.util.loglevel = 3;
-    sac.util.print("当前版本 : "+ver,1)
-    sac.util.print("开始同步数据到本地 .. ",1)
-    if(!updateFiles()){
-        log("本地文件升级失败")
-        return;
-    };
-    sac.util.print("同步完成",1)
-    
+
     let AppName,scriptFile,result,code,time;
     let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
     let localpath = '/storage/emulated/0/com.sac/'
@@ -150,6 +143,14 @@ function master(){
     };
 };
 while(true){
+    toastLog("当前版本 : "+ver)
+    toastLog("开始同步数据到本地 .. ")
+    if(!updateFiles()){
+        toastLog("本地文件升级失败")
+        return;
+    };
+    toastLog()("同步完成")
+
     master();
     sleep(1000); 
 };
