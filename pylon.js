@@ -1,8 +1,10 @@
+//版本
+var ver = '1.0.6'
 
 //按键控制和自定义事件
 var customEvent = events.emitter();
-//推送日志
 
+//推送日志
 customEvent.on('log',function(r){
     // 发送日志
     var server = '';
@@ -12,7 +14,7 @@ customEvent.on('log',function(r){
 threads.start(function(){
     while(true){
 
-        sleep(5000);
+        sleep(30000);
         /*
         var deviceID = device.brand+"_"+device.model+"_"+device.getAndroidId().slice(-6)
         var heartbeat = {
@@ -25,7 +27,29 @@ threads.start(function(){
             status : 'alive'
         };
         */
-        customEvent.emit('log',"剩余内存 a - "+device.getAvailMem()/1024/1024+"MB")
+        let mem = device.getAvailMem()/1024/1024
+        customEvent.emit('log',"剩余内存 a - "+mem+"MB")
+        if(mem<440){
+            recents();
+            if(device.brand === 'samsung'){
+                util.forcePress(id("recents_close_all_button").findOne(2000))
+            };
+            if(device.brand === 'HONOR'){
+                id("clear_all_recents_image_button").findOne(2000).click(); 
+            };
+            if(device.brand === 'OPPO'){
+                //forcePress(id("clear_panel").findOne(2000));
+                util.forcePress(id("clear_button").findOne(2000));
+        
+            };
+            if(device.brand === 'Realme'){
+               util.forcePress(id("clear_all_button").findOne(2000))
+            };
+            if(device.brand === 'ZTE'){
+                sleep(1800);
+                util.forcePress({x:50,y:76});
+            }; 
+        }
         runtime.gc()
         sleep(1000)
         customEvent.emit('log',"剩余内存 b - "+device.getAvailMem()/1024/1024+"MB")
@@ -72,7 +96,8 @@ function master(){
 
     let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
     //sac.util.loglevel = 3;
-    sac.util.print("同步数据到本地",1);
+    sac.util.print("当前版本 : "+ver,1)
+    sac.util.print("开始同步数据到本地 .. ",1)
     if(!updateFiles()){
         log("本地文件升级失败")
         return;

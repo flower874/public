@@ -276,4 +276,3 @@ var advideo = {
 
 
 
-runtime.gc()
