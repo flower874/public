@@ -148,7 +148,7 @@ while(true){
     if(!updateFiles()){
         toastLog("本地文件升级失败")
     };
-    toastLog()("同步完成")
+    toastLog("同步完成")
 
     master();
     sleep(1000); 
