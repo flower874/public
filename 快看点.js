@@ -146,7 +146,8 @@
     sac.loop=(duration)=>{
         let news
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
-
+        sac.util.forcePress(e.home.btn,1000);
+        sleep(2000);
         if(!sac.grope({intent:'home',timeout:1000})){
             sac.util.forcePress(e.home.btn,1000);
             sleep(2000);
@@ -289,24 +290,24 @@
     
 //sac.util.loglevel = 3;
 
-let time = sac.util.gettime(e.appName);
-if(time.duration<=0){
-    sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
-    result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
-};
-var duration = random(300,720);
-if(duration>time.duration)duration = time.duration;
-
-sac.open();
-
-threads.start(function (){
-    let [t_start,t_end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
-    while((t_end-t_start)<duration){
-        sac.cancel();
-        sleep(500);
-        t_end = parseInt(Date.now()/1000);
+    let time = sac.util.gettime(e.appName);
+    if(time.duration<=0){
+        sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
+        result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
     };
-});
+    var duration = random(300,720);
+    if(duration>time.duration)duration = time.duration;
+
+    sac.open();
+
+    threads.start(function (){
+        let [t_start,t_end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
+        while((t_end-t_start)<duration){
+            sac.cancel();
+            sleep(500);
+            t_end = parseInt(Date.now()/1000);
+        };
+    });
 
     //sac.i();
    

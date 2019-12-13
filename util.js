@@ -852,6 +852,13 @@ util.advideo=(ad)=>{
     };
     return true;
 };
+util.block=(e)=>{
+    if(util.prove(e)){
+        console.show()
+        console.log("滑块，手工解决一下，脚本暂时退出");
+        exit();
+    };
+};
 module.exports = util;
 
 // 汉字utf8字符串  /^[\u4e00-\u9fa5]+$/

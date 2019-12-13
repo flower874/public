@@ -8,7 +8,6 @@ let storage = storages.create("alreadyTime");
 confirm("要开始执行吗?",log(storage.get(today)));
 
 while(true){
-    
     toastLog("启动器版本 : "+ver)
     let root = '/storage/emulated/0/com.sac/'
     let path = 'public-master/'

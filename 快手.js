@@ -25,7 +25,8 @@
             follow:'id("slide_play_right_follow_background")',
             follow_old:'text("关注")',
             share:'id("forward_icon")',
-            write:'id("user_name_text_view_new")'
+            write:'id("user_name_text_view_new")',
+            block:'text("拖动滑块")',
         }
     };
     var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
@@ -38,7 +39,8 @@
         sac.util.loglevel = 1;
         for(i in e.closead){
             sac.util.forcePress(e.closead[i],200);
-        };        
+        };
+        sac.util.block(e.detail.block);
         sac.util.loglevel = k;
     }
     sac.open=()=>{
