@@ -56,15 +56,16 @@ for(AppName in pool){
     if(files.isFile(scriptFile)){
         time = sac.util.gettime(AppName);
         if(time.duration<0)continue;
-        result = threads.disposable();
         code = files.read(scriptFile)
         toastLog("运行: "+AppName)
         try{
             thread = threads.start(eval(code))
-            result.blockedGet()
         }catch(e){
             toastLog(e)
         };
+        try{
+            thread.interrupt();
+        }catch(e){};
     } else {
         toastLog(AppName+"对应的文件未找到");
         continue;
