@@ -76,6 +76,9 @@ let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
 let AppName,scriptFile,result,code,time;
 let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
 let localpath = '/storage/emulated/0/com.sac/'
+let scriptFile
+let result
+let code
 
 for(AppName in sign){
     if(random(0,2) === 1)continue;

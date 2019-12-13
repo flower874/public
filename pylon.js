@@ -28,9 +28,9 @@ while(true){
     toastLog("覆盖本地文件")
     shell("cp -r "+root+path+"* "+root+".")
     toastLog("同步完成");
-    pylonResult = threads.disposable();
-    pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
-    pylonThread = threads.start(eval(pylonCode))
+    var pylonResult = threads.disposable();
+    var pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
+    var thread = threads.start(eval(pylonCode))
     try{
         pylonResult.blockedGet()
     }catch(e){
