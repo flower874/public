@@ -30,7 +30,7 @@ while(true){
     toastLog("同步完成");
     var pylonResult = threads.disposable();
     var pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
-    var thread = threads.start(eval(pylonCode))
+    thread = threads.start(eval(pylonCode))
     try{
         pylonResult.blockedGet()
     }catch(e){
