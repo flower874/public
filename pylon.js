@@ -1,5 +1,7 @@
+auto();
+
 //版本
-var ver = '1.0.7'
+var ver = '1.0.9'
 
 //按键控制和自定义事件
 var customEvent = events.emitter();
