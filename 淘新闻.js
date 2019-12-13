@@ -183,7 +183,7 @@
         sac.util.print("进入新闻详情页",3)
         sac.util.forcePress(object.uiobject,1000);
         sac.util.savereadlist(e.appName,object.title);
-        sleep(100);
+        sleep(1500);
         
         while(true){
             if(limitCount>max){
