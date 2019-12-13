@@ -81,7 +81,7 @@ for(AppName in sign){
     if(random(0,2) === 1)continue;
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
-        sac.util.print("运行: "+AppName,1)
+        toastLog("运行: "+AppName)
         result = threads.disposable();
         code = files.read(scriptFile);
         thread = threads.start(eval(code))
@@ -91,7 +91,7 @@ for(AppName in sign){
             toastLog(e)
         };
     } else {
-        sac.util.print(AppName+"对应的文件未找到",1);
+        toastLog(AppName+"对应的文件未找到");
         continue;
     };
 };
@@ -105,7 +105,7 @@ for(AppName in pool){
         if(time.duration<0)continue;
         result = threads.disposable();
         code = files.read(scriptFile)
-        sac.util.print("运行: "+AppName,1)
+        toastLog("运行: "+AppName)
         try{
             thread = threads.start(eval(code))
             result.blockedGet()
@@ -113,7 +113,7 @@ for(AppName in pool){
             toastLog(e)
         };
     } else {
-        sac.util.print(AppName+"对应的文件未找到",1);
+        toastLog(AppName+"对应的文件未找到");
         continue;
     };
 };
