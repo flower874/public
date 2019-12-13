@@ -96,7 +96,6 @@ for(AppName in pool){
         continue;
     };
 };
-
 /* 4小时自动重启，避免进程崩溃
 var [reboot,clock,_sTime] = [14400,0,parseInt(Date.now()/1000)]
 while(clock < reboot){

@@ -3,7 +3,7 @@ auto();
 let ver = '1.0.11'
 
 while(true){
-    toastLog("当前版本 : "+ver)
+    toastLog("启动器版本 : "+ver)
     let root = '/storage/emulated/0/com.sac/'
     let path = 'public-master/'
     let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
@@ -23,10 +23,13 @@ while(true){
     shell("cp -r "+root+path+"* "+root+".")
     toastLog("同步完成");
     try{
-        engines.execScriptFile('/storage/emulated/0/com.sac/master.js')
+        var myengine = engines.execScriptFile('/storage/emulated/0/com.sac/master.js');
     }catch(e){
         console.log(e);
     };
+    try{
+        myengine.getEngine.forceStop();
+    }catch(e){};
 };
 /* 4小时自动重启，避免进程崩溃
 var [reboot,clock,_sTime] = [14400,0,parseInt(Date.now()/1000)]
