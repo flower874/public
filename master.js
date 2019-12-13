@@ -34,15 +34,19 @@ for(AppName in sign){
     if(random(0,2) === 1)continue;
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
+        time = sac.util.gettime(AppName);
+        if(time.duration<0)continue;
         toastLog("运行: "+AppName)
-        result = threads.disposable();
-        code = files.read(scriptFile);
-        thread = threads.start(eval(code))
+        code = files.read(scriptFile)
+        toastLog("运行: "+AppName)
         try{
-            result.blockedGet()
+            thread = threads.start(eval(code))
         }catch(e){
             toastLog(e)
         };
+        try{
+            thread.interrupt();
+        }catch(e){};
     } else {
         toastLog(AppName+"对应的文件未找到");
         continue;
