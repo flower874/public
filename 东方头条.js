@@ -15,7 +15,7 @@
         },
         list:{
             group:'className("android.widget.LinearLayout")',
-            innerGroup:'className("android.widget.RelativeLayout")',
+            innerGroup:'className("android.widget.RelativeLayout").text("标题")',
             filter:{
                 top:'text("置顶")',
                 ad:'textStartsWith("广告")',

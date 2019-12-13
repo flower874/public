@@ -36,7 +36,7 @@ if(up){
 threads.start(function(){
     let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
     while(true){
-        sleep(15000);
+        sleep(5000);
         let mem = device.getAvailMem()/1024/1024
         toastLog("当前剩余内存:"+mem+"MB，准备回收内存..")
         runtime.gc()
