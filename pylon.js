@@ -31,27 +31,7 @@ threads.start(function(){
         */
         let mem = device.getAvailMem()/1024/1024
         customEvent.emit('log',"剩余内存 a - "+mem+"MB")
-        if(mem<440){
-            recents();
-            if(device.brand === 'samsung'){
-                util.forcePress(id("recents_close_all_button").findOne(2000))
-            };
-            if(device.brand === 'HONOR'){
-                id("clear_all_recents_image_button").findOne(2000).click(); 
-            };
-            if(device.brand === 'OPPO'){
-                //forcePress(id("clear_panel").findOne(2000));
-                util.forcePress(id("clear_button").findOne(2000));
-        
-            };
-            if(device.brand === 'Realme'){
-               util.forcePress(id("clear_all_button").findOne(2000))
-            };
-            if(device.brand === 'ZTE'){
-                sleep(1800);
-                util.forcePress({x:50,y:76});
-            }; 
-        }
+        result.setAndNotify("内存不足，强制FullGC");
         runtime.gc()
         sleep(1000)
         customEvent.emit('log',"剩余内存 b - "+device.getAvailMem()/1024/1024+"MB")
@@ -64,7 +44,7 @@ threads.start(function(){
     events.setKeyInterceptionEnabled("volume_down", true);
     events.on("key",(code)=>{
         if(code === 24){
-            console.log("master进程: 关闭当前脚本！关闭后需要手工启动");
+            toastLog("master进程: 关闭当前脚本！关闭后需要手工启动");
             exit();
         }
     });
