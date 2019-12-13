@@ -8,53 +8,6 @@ customEvent.on('log',function(r){
     toastLog("收到日志 : " + r)
 });
 
-threads.start(function(){
-    while(true){
-
-        sleep(15000);
-        /*
-        var deviceID = device.brand+"_"+device.model+"_"+device.getAndroidId().slice(-6)
-        var heartbeat = {
-            time : Date.now(),
-            device : {
-                brand : device.brand ,
-                model : device.model ,
-                id : device.getAndroidId().slice(-6)
-            },
-            status : 'alive'
-        };
-        */
-        let mem = device.getAvailMem()/1024/1024
-        customEvent.emit('log',"剩余内存 a - "+mem+"MB")
-        runtime.gc()
-        if(mem<460){
-            home();
-            sleep(500);
-            recents();
-            sleep(100);
-            if(device.brand === 'samsung'){
-                util.forcePress(id("recents_close_all_button").findOne(2000))
-            };
-            if(device.brand === 'HONOR'){
-                id("clear_all_recents_image_button").findOne(2000).click(); 
-            };
-            if(device.brand === 'OPPO'){
-                //forcePress(id("clear_panel").findOne(2000));
-                util.forcePress(id("clear_button").findOne(2000));
-            };
-            if(device.brand === 'Realme'){
-            util.forcePress(id("clear_all_button").findOne(2000))
-            };
-            if(device.brand === 'ZTE'){
-                sleep(1800);
-                util.forcePress({x:50,y:76});
-            }; 
-            pylonResult.setAndNotify("内存不足，强制FullGC");
-        };
-        sleep(1000)
-        customEvent.emit('log',"剩余内存 b - "+device.getAvailMem()/1024/1024+"MB")
-    }
-});
 //心跳
 
 threads.start(function(){

@@ -361,7 +361,7 @@
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
-        result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
+        return; 
     };
     let duration = random(300,720);
     if(duration>time.duration)duration = time.duration;
@@ -373,7 +373,7 @@
     sac.loop(duration);
     sac.scrapecard();
     sac.util.savealreadytime(elements.AppName);
-    result.setAndNotify(elements.AppName+" : 运行完成，返回master进程");    
+    hoem();
 })()
 
 // 两种模式

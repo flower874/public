@@ -77,7 +77,7 @@
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
-            //result.setAndNotify("启动 "+e.packageName+" 失败，返回");
+            return false;
         };
     };
     sac.i=()=>{
@@ -110,6 +110,7 @@
                 return uiobjects;
             };
             sac.util.swip({frequency:3});
+            sleep(1500);
             if(!sac.grope({intent:'home',timeout:1000})){
                 if(!sac.grope({intent:'home',timeout:1000})){
                     sac.util.forcePress(e.home.btn);
@@ -247,19 +248,17 @@
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
-        result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
+        return;
     };
     var duration = random(300,720);
     if(duration>time.duration)duration = time.duration;
     
     sac.open();
 
-    threads.start(function (){
-        let [t_start,t_end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
-        while((t_end-t_start)<duration){
+    var t_cancel =  threads.start(function (){
+        while(true){
             sac.cancel();
             sleep(500);
-            t_end = parseInt(Date.now()/1000);
         };
     });
 
@@ -267,8 +266,8 @@
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
+    t_cancel.interrupt();
     sac.util.savealreadytime(e.appName);
     sac.util.print("运行完成，返回桌面",3)
     home();
-    result.setAndNotify("slave : 运行完成，返回master进程");
 })();

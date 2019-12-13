@@ -39,7 +39,7 @@
         },
 
         detail:{
-            unfold:'text("查看全文，奖励更多")',
+            unfold:'textStartsWith("查看全文，奖励更多")',
             end:[
                 'className("android.view.View").textMatches("/.+[0-9]阅读.*/")',
             ],
@@ -72,7 +72,7 @@
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
-            result.setAndNotify("启动 "+e.packageName+" 失败，返回");
+            return;
         };
         sleep(2000)
     };
@@ -115,6 +115,7 @@
                 return uiobjects;
             };
             sac.util.swip({frequency:3});
+            sleep(1500)
             if(!sac.grope({intent:'home',timeout:1000})){
                 back();
             };
@@ -223,7 +224,7 @@
             for(let end of e.detail.end){
                 if(sac.util.visible(sac.util.prove(end))){
                     sac.util.print("本文已经结束",3)
-                    limitCount += 5
+                    limitCount += 3
                     r1 = 10;
                     r2 = 30;
                 };
@@ -239,24 +240,22 @@
 
 //-------------- main ---------------------//
     
-    //sac.util.loglevel = 4;
+    sac.util.loglevel = 1;
 
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
-        result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");      
+        return;
     };
     var duration = random(300,720);
     if(duration>time.duration)duration = time.duration;
     
     sac.open();
 
-    threads.start(function (){
-        let [t_start,t_end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
-        while((t_end-t_start)<duration){
+    var t_cancel =  threads.start(function (){
+        while(true){
             sac.cancel();
             sleep(500);
-            t_end = parseInt(Date.now()/1000);
         };
     });
 
@@ -264,9 +263,9 @@
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
+    t_cancel.interrupt();
     sac.util.savesigin(e.appName);
     sac.util.savealreadytime(e.appName);
     home();
-    result.setAndNotify("slave : 运行完成，返回master进程");
-
+    
 })();

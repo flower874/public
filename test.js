@@ -288,3 +288,6 @@ var list={
     "刷宝":2400,
     "抖音极速版":1800
 }
+
+sac.util.forcePress('text("开启推送通知").findOne().parent().children()[0]')
+sac.util.forcePress('textStartsWith("真的要放弃吗").findOne().parent().children()[0].children()[0]')

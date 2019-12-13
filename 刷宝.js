@@ -69,6 +69,7 @@
 
     sac.watchvideo=()=>{
         let enjoy = random(4000,7000)
+        sac.util.forcePress('text("取消")');
         sac.util.like(20);
         sac.util.print("观看 "+enjoy/1000+" 秒",3);
         sleep(enjoy)

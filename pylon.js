@@ -1,13 +1,16 @@
-auto();
+"auto";
+"ui";
 //版本
-let ver = '1.1.1';
+let ver = '1.2.0';
 let root,path,gitUrl,r,zipContent,file,unzip,pylonCode,result
 let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
 let storage = storages.create("alreadyTime");
 
-confirm("要开始执行吗?",log(storage.get(today)));
+log(storage.get(today));
 
-while(true){
+let up = confirm("需要更新吗?");
+
+if(up){
     toastLog("本机id : "+device.getAndroidId().slice(-6));
     toastLog("启动器版本 : "+ver);
     root = '/storage/emulated/0/com.sac/'
@@ -28,13 +31,58 @@ while(true){
     toastLog("覆盖本地文件")
     shell("cp -r "+root+path+"* "+root+".")
     toastLog("同步完成");
-    pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
+};
+
+threads.start(function(){
+    let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
+    while(true){
+        sleep(15000);
+        let mem = device.getAvailMem()/1024/1024
+        toastLog("当前剩余内存:"+mem+"MB，准备回收内存..")
+        runtime.gc()
+        if(mem<460){
+            toastLog("内存不足，强制FullGC");
+            home();
+            sleep(500);
+            recents();
+            sleep(100);
+            if(device.brand === 'samsung'){
+                sac.util.forcePress(id("recents_close_all_button").findOne(2000))
+            };
+            if(device.brand === 'HONOR'){
+                id("clear_all_recents_image_button").findOne(2000).click(); 
+            };
+            if(device.brand === 'OPPO'){
+                //forcePress(id("clear_panel").findOne(2000));
+                sac.util.forcePress(id("clear_button").findOne(2000));
+            };
+            if(device.brand === 'Realme'){
+                sac.util.forcePress(id("clear_all_button").findOne(2000))
+            };
+            if(device.brand === 'ZTE'){
+                sleep(1800);
+                sac.util.forcePress({x:50,y:76});
+            }; 
+        };
+        sleep(1000)
+        toastLog("回收后剩余内存 - "+device.getAvailMem()/1024/1024+"MB")
+    }
+});
+
+pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
+
+while(true){
     try{
-        threads.start(eval(pylonCode))
+        var t_main = threads.start(eval(pylonCode))
     }catch(e){
         toastLog(e)
     };
+    try{
+        t_main.interrupt();
+    }catch(e){};
 };
+
+
 /* 4小时自动重启，避免进程崩溃
 var [reboot,clock,_sTime] = [14400,0,parseInt(Date.now()/1000)]
 while(clock < reboot){
