@@ -27,7 +27,7 @@ threads.start(function(){
         let mem = device.getAvailMem()/1024/1024
         customEvent.emit('log',"剩余内存 a - "+mem+"MB")
         runtime.gc()
-        if(mem<420){
+        if(mem<460){
             home();
             sleep(500);
             recents();

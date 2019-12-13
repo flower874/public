@@ -28,6 +28,7 @@
         },
 
         closead:{
+            cancel:'text("取消播放")',
             rl:'className("android.widget.TextView").text("领取")',
         },
         pice:{

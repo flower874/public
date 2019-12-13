@@ -8,7 +8,8 @@ let storage = storages.create("alreadyTime");
 confirm("要开始执行吗?",log(storage.get(today)));
 
 while(true){
-    toastLog("启动器版本 : "+ver)
+    toastLog("本机id : "+device.getAndroidId().slice(-6));
+    toastLog("启动器版本 : "+ver);
     root = '/storage/emulated/0/com.sac/'
     path = 'public-master/'
     gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
