@@ -1,5 +1,6 @@
 var util={};
 util.print=(message,level)=>{
+    /*
     level = level || 1;
     util.loglevel = util.loglevel || 1;
     //1 = error    2 = warning  3 = info
@@ -10,6 +11,7 @@ util.print=(message,level)=>{
             toastLog(message);
         };
     };
+    */
 };
 util.visible=(element,mode)=>{
     //模式选择 1 = 松散模式，不会检测父元素 
