@@ -31,7 +31,9 @@ threads.start(function(){
         */
         let mem = device.getAvailMem()/1024/1024
         customEvent.emit('log',"剩余内存 a - "+mem+"MB")
-        result.setAndNotify("内存不足，强制FullGC");
+        if(mem<420){
+            result.setAndNotify("内存不足，强制FullGC");
+        };
         runtime.gc()
         sleep(1000)
         customEvent.emit('log',"剩余内存 b - "+device.getAvailMem()/1024/1024+"MB")
