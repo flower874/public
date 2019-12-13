@@ -22,14 +22,14 @@ while(true){
     toastLog("覆盖本地文件")
     shell("cp -r "+root+path+"* "+root+".")
     toastLog("同步完成");
+    pylonResult = threads.disposable();
+    pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
+    pylonThread = threads.start(eval(pylonCode))
     try{
-        var myengine = engines.execScriptFile('/storage/emulated/0/com.sac/master.js');
+        pylonResult.blockedGet()
     }catch(e){
-        console.log(e);
+        toastLog(e)
     };
-    try{
-        myengine.getEngine.forceStop();
-    }catch(e){};
 };
 /* 4小时自动重启，避免进程崩溃
 var [reboot,clock,_sTime] = [14400,0,parseInt(Date.now()/1000)]
