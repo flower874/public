@@ -1,7 +1,7 @@
 auto();
 //版本
 let ver = '1.0.11'
-
+let root,path,gitUrl,r,zipContent,file,unzip,pylonCode,result
 let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
 let storage = storages.create("alreadyTime");
 
@@ -9,14 +9,14 @@ confirm("要开始执行吗?",log(storage.get(today)));
 
 while(true){
     toastLog("启动器版本 : "+ver)
-    let root = '/storage/emulated/0/com.sac/'
-    let path = 'public-master/'
-    let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+    root = '/storage/emulated/0/com.sac/'
+    path = 'public-master/'
+    gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
     toastLog("下载数据..")
-    let r = http.get(gitUrl)
-    let zipContent = r.body.bytes()
-    let file = 'master.zip'
-    let unzip = files.join(root,file)
+    r = http.get(gitUrl)
+    zipContent = r.body.bytes()
+    file = 'master.zip'
+    unzip = files.join(root,file)
     if(files.isDir(unzip))files.removeDir(unzip);
     files.createWithDirs(unzip)
     files.writeBytes(unzip,zipContent)
@@ -27,11 +27,10 @@ while(true){
     toastLog("覆盖本地文件")
     shell("cp -r "+root+path+"* "+root+".")
     toastLog("同步完成");
-    var pylonResult = threads.disposable();
-    var pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
-    thread = threads.start(eval(pylonCode))
+    pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
     try{
-        pylonResult.blockedGet()
+        threads.start(eval(pylonCode))
+        result.blockedGet()
     }catch(e){
         toastLog(e)
     };
