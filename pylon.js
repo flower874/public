@@ -5,9 +5,7 @@ let ver = '1.0.11'
 let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
 let storage = storages.create("alreadyTime");
 
-confirm("要开始执行吗?", function(){
-    storage.get(today)
-});
+confirm("要开始执行吗?",storage.get(today));
 
 while(true){
     
