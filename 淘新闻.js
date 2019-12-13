@@ -116,7 +116,8 @@
             if(!sac.grope({intent:'home',timeout:1000})){
                 back();
             };
-            exitcount++;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ``
+            exitcount++
+            //exitcount++;                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ``
         };
     };
     sac.loop=(duration)=>{
