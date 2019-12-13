@@ -2,7 +2,18 @@ auto();
 //版本
 let ver = '1.0.11'
 
+let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
+let storage = storages.create("alreadyTime");
+log(storage.get(today))
+
+confirm("要开始执行吗?", function(clear){
+    if(!clear){
+        exit();
+    };
+});
+
 while(true){
+    
     toastLog("启动器版本 : "+ver)
     let root = '/storage/emulated/0/com.sac/'
     let path = 'public-master/'
