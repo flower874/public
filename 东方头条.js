@@ -37,6 +37,7 @@
             double:'textMatches("/^立即领取.*/")',
             //处理 任务、我的 标签内无法退出的弹窗
             exit:'className("android.widget.TextView").text("继续赚钱")',
+            cancel:'text("取消")',
         },
         pice:{
             pice:'className("android.widget.TextView").textMatches("/点击领今天第.+个阅读惊喜.+/")',
