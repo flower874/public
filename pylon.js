@@ -1,6 +1,6 @@
 auto();
 //版本
-let ver = '1.0.11'
+let ver = '1.1.1';
 let root,path,gitUrl,r,zipContent,file,unzip,pylonCode,result
 let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
 let storage = storages.create("alreadyTime");
