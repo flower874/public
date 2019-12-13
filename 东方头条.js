@@ -81,6 +81,7 @@
             sac.util.print("打开 "+e.packageName+" 失败",2);
             result.setAndNotify("启动 "+e.packageName+" 失败，返回");
         };
+        
         sleep(2000)
     };
     sac.i=()=>{
@@ -93,7 +94,7 @@
         sleep(1000);
         sac.util.forcePress(e.profile.btn,1000);
         sleep(1000);
-        back();
+        sac.util.forcePress(e.home.btn,1000); 
     };
     sac.cancel=()=>{
         sac.util.loglevel = 1;
@@ -111,7 +112,7 @@
     };
     sac.getlist=()=>{
         let uiobjects
-        let [exitcount,exitcountmax] = [0,5];
+        let [exitcount,exitcountmax] = [0,15];
         while(true){
             if(exitcount>exitcountmax){
                 sac.util.print("5次上滑后仍无可访问的内容",2)
@@ -269,7 +270,7 @@
         };
     });
 
-    //sac.i();
+    sac.i();
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
