@@ -20,7 +20,7 @@ threads.start(function(){
     });
 });
 //快捷键
-
+let ac = {util:require('/storage/emulated/0/com.sac/util.js')};
 let AppName,scriptFile,code,time
 let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
 let blockList = JSON.parse(files.read('/storage/emulated/0/com.sac/block.json'));

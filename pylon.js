@@ -72,6 +72,7 @@ while(true){
     }catch(e){
         console.log(e)
     };
+    sleep(5000)
 };
 
 
