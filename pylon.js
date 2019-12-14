@@ -29,7 +29,7 @@ shell("cp -r "+root+path+"* "+root+".")
 toastLog("同步完成");
 
 threads.start(function(){
-    let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
+    let msac = {util:require('/storage/emulated/0/com.sac/util.js')};
     while(true){
         sleep(5000);
         let mem = device.getAvailMem()/1024/1024
@@ -41,21 +41,21 @@ threads.start(function(){
             recents();
             sleep(100);
             if(device.brand === 'samsung'){
-                sac.util.forcePress(id("recents_close_all_button").findOne(2000))
+                msac.util.forcePress(id("recents_close_all_button").findOne(2000))
             };
             if(device.brand === 'HONOR'){
                 id("clear_all_recents_image_button").findOne(2000).click(); 
             };
             if(device.brand === 'OPPO'){
                 //forcePress(id("clear_panel").findOne(2000));
-                sac.util.forcePress(id("clear_button").findOne(2000));
+                msac.util.forcePress(id("clear_button").findOne(2000));
             };
             if(device.brand === 'Realme'){
-                sac.util.forcePress(id("clear_all_button").findOne(2000))
+                msac.util.forcePress(id("clear_all_button").findOne(2000))
             };
             if(device.brand === 'ZTE'){
                 sleep(1800);
-                sac.util.forcePress({x:50,y:76});
+                msac.util.forcePress({x:50,y:76});
             }; 
         };
         sleep(1000)

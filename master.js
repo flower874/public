@@ -22,7 +22,7 @@ threads.start(function(){
 });
 //快捷键
 
-let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
+let ac = {util:require('/storage/emulated/0/com.sac/util.js')};
 //sac.util.loglevel = 3;
 
 let id = device.getAndroidId().slice(-6);
@@ -34,7 +34,7 @@ let block = blockList[id]
 for(AppName in sign){
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
-        time = sac.util.gettime(AppName);
+        time = ac.util.gettime(AppName);
         if(time.duration<0)continue;
         toastLog("运行: "+AppName)
         code = files.read(scriptFile)
@@ -62,7 +62,7 @@ for(AppName in pool){
     //if(random(0,4) === 1)continue;
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
-        time = sac.util.gettime(AppName);
+        time = ac.util.gettime(AppName);
         if(time.duration<0)continue;
         code = files.read(scriptFile)
         toastLog("运行: "+AppName)
