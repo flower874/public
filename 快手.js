@@ -7,7 +7,7 @@
                 id:'text("金币收益")'
             },
             home:{
-                progress:'text("分享")'
+                progress:'id("red_packet")'
             }
         },
         task:{
