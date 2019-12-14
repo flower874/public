@@ -21,16 +21,18 @@ threads.start(function(){
     });
 });
 //快捷键
-// 以上是公共事件的定义和监听
 
 let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
 //sac.util.loglevel = 3;
 
-let AppName,scriptFile,result,code,time;
+let id = device.getAndroidId().slice(-6);
+let AppName,scriptFile,code,time;
 let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
+let blockList = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
 let localpath = '/storage/emulated/0/com.sac/'
-
+let block = blockList.id
 for(AppName in sign){
+    
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
         time = sac.util.gettime(AppName);

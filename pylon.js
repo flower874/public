@@ -2,7 +2,7 @@
 "ui";
 //版本
 let ver = '1.2.1';
-let root,path,gitUrl,r,zipContent,file,unzip,pylonCode,result
+let root,path,gitUrl,r,zipContent,file,unzip,pylonCode
 let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
 let storage = storages.create("alreadyTime");
 
