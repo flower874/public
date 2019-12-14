@@ -109,11 +109,10 @@
         
         };
     };
-    /*
     //测试模式，去掉返回master进程的方法//
     //let result = {setAndNotify:()=>{exit();}};
     //------------  日志等级  ------------
-    sac.util.loglevel = 4;
+    sac.util.loglevel = 1;
     //-----------------------------------
 
     let time = sac.util.gettime(e.appName);
@@ -139,7 +138,4 @@
     t_cancel.interrupt();
     sac.util.savealreadytime(e.appName);
     home();
-    */
-    let foo = idMatches("/.+/").find()
-    for(let bra of foo)log(bra)
 })()
