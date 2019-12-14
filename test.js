@@ -289,4 +289,7 @@ var list={
     "抖音极速版":1800
 }
 
-log(id("user_name_text_view_new").findOne(20000))
+var name = id("user_name_text_view_new").find()
+for(let b of name){
+    log(b)
+}

@@ -7,7 +7,7 @@
                 id:'text("金币收益")'
             },
             home:{
-                write:'id("user_name_text_view_new")'
+                progress:'id("circular_progress_bar")'
             }
         },
         task:{
@@ -49,7 +49,7 @@
         sleep(800);
         sac.util.openApp(e.packageName);
         sleep(6000)
-        if(sac.grope({intent:'home',timeout:20000,unvisible:1})){
+        if(sac.grope({intent:'home',timeout:20000})){
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
@@ -112,7 +112,7 @@
     //测试模式，去掉返回master进程的方法//
     //let result = {setAndNotify:()=>{exit();}};
     //------------  日志等级  ------------
-    sac.util.loglevel = 3;
+    sac.util.loglevel = 4;
     //-----------------------------------
 
     let time = sac.util.gettime(e.appName);
