@@ -1,3 +1,4 @@
+
 //按键控制和自定义事件
 var customEvent = events.emitter();
 
@@ -7,8 +8,6 @@ customEvent.on('log',function(r){
     var server = '';
     toastLog("收到日志 : " + r)
 });
-
-//心跳
 
 threads.start(function(){
     events.observeKey();
@@ -22,30 +21,20 @@ threads.start(function(){
 });
 //快捷键
 
-let ac = {util:require('/storage/emulated/0/com.sac/util.js')};
-//sac.util.loglevel = 3;
-
-let id = device.getAndroidId().slice(-6);
-let AppName,scriptFile,code,time;
+let AppName,scriptFile,code,time
 let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
 let blockList = JSON.parse(files.read('/storage/emulated/0/com.sac/block.json'));
 let localpath = '/storage/emulated/0/com.sac/'
-let block = blockList[id]
+let block = blockList[ID]
 for(AppName in sign){
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
         time = ac.util.gettime(AppName);
         if(time.duration<0)continue;
-        toastLog("运行: "+AppName)
         code = files.read(scriptFile)
-        toastLog("运行: "+AppName)
+        toastLog("周期任务: "+AppName)
         try{
-            thread = threads.start(eval(code))
-        }catch(e){
-            toastLog(e)
-        };
-        try{
-            thread.interrupt();
+            eval(code)
         }catch(e){};
     } else {
         toastLog(AppName+"对应的文件未找到");
@@ -56,7 +45,7 @@ for(AppName in sign){
 let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
 for(AppName in pool){
     if(block&&block.indexOf(AppName)!==-1){
-        toastLog("本机id:"+id+",屏蔽了 "+AppName);
+        toastLog("本机id:"+ID+",屏蔽了 "+AppName);
         continue;
     };
     //if(random(0,4) === 1)continue;
@@ -66,6 +55,11 @@ for(AppName in pool){
         if(time.duration<0)continue;
         code = files.read(scriptFile)
         toastLog("运行: "+AppName)
+        //myengines = engines.execScriptFile(scriptFile)
+        try{
+            eval(code)
+        }catch(e){};
+        /*
         try{
             thread = threads.start(eval(code))
         }catch(e){
@@ -74,6 +68,7 @@ for(AppName in pool){
         try{
             thread.interrupt();
         }catch(e){};
+        */
     } else {
         toastLog(AppName+"对应的文件未找到");
         continue;

@@ -4,10 +4,11 @@ let ver = '1.2.1';
 let root,path,gitUrl,r,zipContent,file,unzip,pylonCode
 let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
 let storage = storages.create("alreadyTime");
+let ID = device.getAndroidId().slice(-6);
 
 log(storage.get(today));
 
-toastLog("本机id : "+device.getAndroidId().slice(-6));
+toastLog("本机id : "+ID);
 toastLog("启动器版本 : "+ver);
 root = '/storage/emulated/0/com.sac/'
 path = 'public-master/'
@@ -67,12 +68,10 @@ pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
 
 while(true){
     try{
-        var t_main = threads.start(eval(pylonCode))
+        eval(pylonCode);
     }catch(e){
-        toastLog(e)
+        console.log(e)
     };
-    try{t_main.interrupt()}catch(e){};
-    try{t_cancel.interrupt()}catch(e){};
 };
 
 
