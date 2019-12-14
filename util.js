@@ -724,8 +724,8 @@ util.gropev2=(objects)=>{
 
         if(package){
             util.print("验证包: "+package,3)
-            appPackaget = packageName(package).findOne(timeout); 
-            if(!appPackaget){
+            appPackaget = currentPackage(); 
+            if(appPackaget !== package){
                 return false;
             };
         };
