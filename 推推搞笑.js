@@ -345,6 +345,7 @@
         sac.util.clean();
         sleep(800);
         sac.util.openApp(elements.packageName);
+        sleep(6000)
         if(sac.grope({intent:'home',timeout:20000,unvisible:1})){
             sac.util.print("打开 "+elements.packageName+" 成功",3);
         }else{

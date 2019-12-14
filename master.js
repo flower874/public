@@ -55,7 +55,7 @@ for(AppName in sign){
 
 let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
 for(AppName in pool){
-    if(block.indexOf(AppName)!==-1){
+    if(block&&block.indexOf(AppName)!==-1){
         toastLog("本机id:"+id+",屏蔽了 "+AppName);
         continue;
     };
