@@ -49,7 +49,7 @@
         sleep(800);
         sac.util.openApp(e.packageName);
         sleep(6000)
-        if(sac.grope({intent:'home',timeout:20000})){
+        if(sac.grope({intent:'home',timeout:20000,unvisible:1})){
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
