@@ -39,7 +39,7 @@ threads.start(function(){
         sleep(5000);
         let mem = device.getAvailMem()/1024/1024
         runtime.gc()
-        if(mem<460){
+        if(mem<200){
             toastLog("内存不足，强制FullGC");
             try{t_main.interrupt();}catch(e){};
             try{t_cancel.interrupt();}catch(e){};
