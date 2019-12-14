@@ -289,4 +289,4 @@ var list={
     "抖音极速版":1800
 }
 
-sac.util.forcePress('id("gold_ad_iv_close")')
+sac.util.forcePress('id("red_packet")')

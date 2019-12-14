@@ -57,7 +57,7 @@
         };
     };
     sac.signin=()=>{
-        sac.util.forcePress(e.task.btn,2000);
+        sac.util.forcePress(e.task.btn,6000);
         sac.grope({intent:'task',timeout:10000});
         sleep(6000);
         back();
