@@ -31,7 +31,6 @@ let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
 let localpath = '/storage/emulated/0/com.sac/'
 
 for(AppName in sign){
-    if(random(0,2) === 1)continue;
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
         time = sac.util.gettime(AppName);
