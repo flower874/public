@@ -289,7 +289,4 @@ var list={
     "抖音极速版":1800
 }
 
-var name = id("user_name_text_view_new").find()
-for(let b of name){
-    log(b)
-}
+sac.util.forcePress('id("gold_ad_iv_close")')

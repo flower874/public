@@ -7,7 +7,7 @@
             wait:31000,
             enter: 'text("看视频签到")',
             content:[
-                'id("跳过")',
+                'id("mask_layer")',
             ],
             //wayout:'text("点击重播")',
             close:[
@@ -51,6 +51,7 @@
         sac.util.clean();
         sleep(800);
         sac.util.openApp(e.packageName);
+        sleep(5000)
         if(sac.grope({intent:'home',timeout:20000,unvisible:1})){
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
@@ -59,7 +60,7 @@
     };
     sac.signin=()=>{
         if(sac.util.getsigin(e.appName)){
-            return true;
+            //return true;
         };
         sac.util.forcePress(e.task.btn,2000);
         sac.grope({intent:'task',timeout:10000});
@@ -126,7 +127,7 @@
     //测试模式，去掉返回master进程的方法//
     //let result = {setAndNotify:()=>{exit();}};
     //------------  日志等级  ------------
-    //sac.util.loglevel = 3;
+    sac.util.loglevel = 3;
     //-----------------------------------
 
     let time = sac.util.gettime(e.appName);
@@ -134,13 +135,13 @@
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
         return;
     };
-    sac.open();
     var t_cancel =  threads.start(function (){
         while(true){
             sac.cancel();
             sleep(500);
         };
     });
+    sac.open();    
     sac.signin();
     let duration = random(300,720);
     if(duration>time.duration)duration = time.duration;
