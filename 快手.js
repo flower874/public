@@ -32,7 +32,7 @@
     };
     var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
     if(!sac.util.prove(e.detail.write)){
-        e.detail.write = 'id("user_name_text_view_new")';
+        e.detail.write = 'id("user_name_text_view")';
     };
     sac.grope = sac.util.gropev2({
         elements:e.where,
@@ -60,6 +60,9 @@
         };
     };
     sac.signin=()=>{
+        if(sac.util.getsigin(e.appName)){
+            return true;
+        };
         sac.util.forcePress(e.task.btn,2000);
         if(sac.grope({intent:'task',timeout:10000})){
             sleep(6000);
@@ -115,8 +118,7 @@
     //测试模式，去掉返回master进程的方法//
     //let result = {setAndNotify:()=>{exit();}};
     //------------  日志等级  ------------
-    sac.util.loglevel = 4;
-    console.show()
+    sac.util.loglevel = 1;
     //-----------------------------------
 
     let time = sac.util.gettime(e.appName);
@@ -140,7 +142,7 @@
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
     t_cancel.interrupt();
-    console.hide()
+    sac.util.savesigin(e.appName);
     sac.util.savealreadytime(e.appName);
     home();
 })()
