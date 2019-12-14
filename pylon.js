@@ -38,15 +38,11 @@ threads.start(function(){
     while(true){
         sleep(5000);
         let mem = device.getAvailMem()/1024/1024
-        toastLog("当前剩余内存:"+mem+"MB，准备回收内存..")
         runtime.gc()
-        if(mem<550){
+        if(mem<460){
             toastLog("内存不足，强制FullGC");
-            try{
-                t_main.interrupt();
-            }catch(e){};
-            home();
-            sleep(500);
+            try{t_main.interrupt();}catch(e){};
+            try{t_cancel.interrupt();}catch(e){};
             recents();
             sleep(100);
             if(device.brand === 'samsung'){
@@ -68,7 +64,7 @@ threads.start(function(){
             }; 
         };
         sleep(1000)
-        toastLog("回收后剩余内存 - "+device.getAvailMem()/1024/1024+"MB")
+        toastLog("剩余内存 "+device.getAvailMem()/1024/1024+"MB")
     }
 });
 
@@ -80,9 +76,8 @@ while(true){
     }catch(e){
         toastLog(e)
     };
-    try{
-        t_main.interrupt();
-    }catch(e){};
+    try{t_main.interrupt()}catch(e){};
+    try{t_cancel.interrupt()}catch(e){};
 };
 
 
