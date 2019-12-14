@@ -15,6 +15,9 @@
             ],
             mode:"2"    
         },
+        closead:{
+            push:'text("取消")',
+        },
         where:{
             task:{
                 id:'text("我的元宝")'
@@ -65,10 +68,17 @@
         sac.util.advideo(e.advideo);
         sac.util.forcePress(e.home.btn,2000);
     };
-
+    sac.cancel=()=>{
+        let k = sac.util.loglevel;
+        sac.util.loglevel = 1;
+        for(i in e.closead){
+            sac.util.forcePress(e.closead[i],200);
+        };
+        sac.util.block(e.detail.block);
+        sac.util.loglevel = k;
+    }
     sac.watchvideo=()=>{
-        let enjoy = random(4000,7000)
-        sac.util.forcePress('text("取消")');
+        let enjoy = random(4000,7000);
         sac.util.like(20);
         sac.util.print("观看 "+enjoy/1000+" 秒",3);
         sleep(enjoy)
@@ -125,12 +135,19 @@
         return;
     };
     sac.open();
+    var t_cancel =  threads.start(function (){
+        while(true){
+            sac.cancel();
+            sleep(500);
+        };
+    });
     sac.signin();
     let duration = random(300,720);
     if(duration>time.duration)duration = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
+    t_cancel.interrupt();
     sac.util.savealreadytime(e.appName);
     home();
     
