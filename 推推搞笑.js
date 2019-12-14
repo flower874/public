@@ -358,22 +358,22 @@
     //let result = {setAndNotify:()=>{}};
     //sac.util.loglevel = 3;
 
-    let time = sac.util.gettime(e.appName);
+    let time = sac.util.gettime(elements.AppName);
     if(time.duration<=0){
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
         return; 
     };
     let duration = random(300,720);
     if(duration>time.duration)duration = time.duration;
-    sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
-    sac.util.savestarttime(e.appName);
+    sac.util.print(elements.AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
+    sac.util.savestarttime(elements.AppName);
     sac.open();
     sac.util.savestarttime(elements.AppName);
     sac.signin();
     sac.loop(duration);
     sac.scrapecard();
     sac.util.savealreadytime(elements.AppName);
-    hoem();
+    home();
 })()
 
 // 两种模式

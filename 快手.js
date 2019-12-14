@@ -123,20 +123,18 @@
     
     sac.open();
 
-    threads.start(function (){
-        let [t_start,t_end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
-        while((t_end-t_start)<duration){
+    var t_cancel =  threads.start(function (){
+        while(true){
             sac.cancel();
             sleep(500);
-            t_end = parseInt(Date.now()/1000);
         };
     });
     sac.signin();
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
+    t_cancel.interrupt();
     sac.util.savealreadytime(e.appName);
     home();
-    result.setAndNotify("slave : 运行完成，返回master进程");
 
 })()
