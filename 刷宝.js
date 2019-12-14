@@ -143,7 +143,7 @@
     });
     sac.open();    
     sac.signin();
-    let duration = random(300,720);
+    var duration = random(1200,1800);
     if(duration>time.duration)duration = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
