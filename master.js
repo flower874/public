@@ -32,10 +32,6 @@ let blockList = JSON.parse(files.read('/storage/emulated/0/com.sac/block.json'))
 let localpath = '/storage/emulated/0/com.sac/'
 let block = blockList.id
 for(AppName in sign){
-    if(block.indexOf(AppName)!==-1){
-        toastLog("本机id:"+id+",屏蔽了 "+AppName);
-        continue;
-    }
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
         time = sac.util.gettime(AppName);
@@ -58,7 +54,11 @@ for(AppName in sign){
 };
 
 let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
-for(AppName in pool){      
+for(AppName in pool){
+    if(block.indexOf(AppName)!==-1){
+        toastLog("本机id:"+id+",屏蔽了 "+AppName);
+        continue;
+    };      
     if(random(0,4) === 1)continue;
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
