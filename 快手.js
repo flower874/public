@@ -7,7 +7,7 @@
                 id:'text("金币收益")'
             },
             home:{
-                progress:'id("circular_progress_bar")'
+                progress:'text("分享")'
             }
         },
         task:{
