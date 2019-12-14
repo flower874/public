@@ -112,7 +112,8 @@
     //测试模式，去掉返回master进程的方法//
     //let result = {setAndNotify:()=>{exit();}};
     //------------  日志等级  ------------
-    sac.util.loglevel = 1;
+    sac.util.loglevel = 4;
+    console.show()
     //-----------------------------------
 
     let time = sac.util.gettime(e.appName);
@@ -136,6 +137,7 @@
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
     t_cancel.interrupt();
+    console.hide()
     sac.util.savealreadytime(e.appName);
     home();
 })()
