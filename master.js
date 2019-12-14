@@ -30,7 +30,7 @@ let AppName,scriptFile,code,time;
 let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
 let blockList = JSON.parse(files.read('/storage/emulated/0/com.sac/block.json'));
 let localpath = '/storage/emulated/0/com.sac/'
-let block = blockList.id
+let block = blockList[id]
 for(AppName in sign){
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
@@ -58,8 +58,8 @@ for(AppName in pool){
     if(block.indexOf(AppName)!==-1){
         toastLog("本机id:"+id+",屏蔽了 "+AppName);
         continue;
-    };      
-    if(random(0,4) === 1)continue;
+    };
+    //if(random(0,4) === 1)continue;
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
         time = sac.util.gettime(AppName);

@@ -289,4 +289,4 @@ var list={
     "抖音极速版":1800
 }
 
-log(currentPackage())
+log(id("circular_progress_bar").findOne(2000))
