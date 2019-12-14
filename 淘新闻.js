@@ -69,6 +69,7 @@
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
             //result.setAndNotify("启动 "+e.packageName+" 失败，返回");
+            return;
         };
         sleep(2000)
     };
