@@ -26,7 +26,7 @@
             follow:'id("slide_play_right_follow_background")',
             follow_old:'text("关注")',
             share:'id("forward_icon")',
-            write:'id("user_name_text_view_new")',
+            write:'id("user_name_text_view_new").find()[1]',
             block:'text("拖动滑块")',
         }
     };
