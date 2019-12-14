@@ -2,7 +2,7 @@ var util={};
 util.print=(message,level)=>{
     
     level = level || 1;
-    util.loglevel = 1 //util.loglevel || 1;
+    util.loglevel = util.loglevel || 1;
     //1 = error    2 = warning  3 = info
     // 在执行方法之前定义 LEVEL 变量，可以控制调试信息输出等级
     if(level===1||level===2||level===3){
@@ -726,6 +726,7 @@ util.gropev2=(objects)=>{
             util.print("验证包: "+package,3)
             appPackaget = currentPackage(); 
             if(appPackaget !== package){
+                console.log("当前包:"+ appPackaget)
                 return false;
             };
         };

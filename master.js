@@ -28,11 +28,11 @@ let sac = {util:require('/storage/emulated/0/com.sac/util.js')};
 let id = device.getAndroidId().slice(-6);
 let AppName,scriptFile,code,time;
 let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
-let blockList = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
+let blockList = JSON.parse(files.read('/storage/emulated/0/com.sac/block.json'));
 let localpath = '/storage/emulated/0/com.sac/'
 let block = blockList.id
 for(AppName in sign){
-    
+    if(block.indexOf(AppName)!==-1)continue;
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
         time = sac.util.gettime(AppName);

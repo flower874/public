@@ -12,7 +12,8 @@
         },
         task:{
             //2019.11.19 已经更新 btn:'id("circular_progress_bar")'
-            btn:'id("redFloat")'
+            //2019.12.14 有更新回去了 btn:'id("redFloat")'
+            btn:'id("circular_progress_bar")'
         },
         closead:{
             btn:'className("android.view.View").text("立即签到")', 
@@ -47,11 +48,12 @@
         sac.util.clean();
         sleep(800);
         sac.util.openApp(e.packageName);
+        sleep(2000)
         if(sac.grope({intent:'home',timeout:20000,unvisible:1})){
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
-            return;
+            return
         };
     };
     sac.signin=()=>{
@@ -110,7 +112,7 @@
     //测试模式，去掉返回master进程的方法//
     //let result = {setAndNotify:()=>{exit();}};
     //------------  日志等级  ------------
-    //sac.util.loglevel = 3;
+    sac.util.loglevel = 3;
     //-----------------------------------
 
     let time = sac.util.gettime(e.appName);
