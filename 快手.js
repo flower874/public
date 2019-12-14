@@ -13,7 +13,7 @@
         task:{
             //2019.11.19 已经更新 btn:'id("circular_progress_bar")'
             //2019.12.14 有更新回去了 btn:'id("redFloat")'
-            btn:'id("circular_progress_bar")'
+            btn:'id("red_packet")'
         },
         closead:{
             btn:'className("android.view.View").text("立即签到")', 
