@@ -39,9 +39,10 @@
             //处理 任务、我的 标签内无法退出的弹窗
             exit:'className("android.widget.TextView").text("继续赚钱")',
             cancel:'text("取消")',
-            push:'text("忽  略")',
+            push:'className("android.widget.Button").textStartsWith("忽")',
             syspush:'text("开启推送通知").findOne().parent().children()[0]',
             sp2:'textStartsWith("真的要放弃吗").findOne().parent().children()[0].children()[0]',
+
         },
         pice:{
             pice:'className("android.widget.TextView").textMatches("/点击领今天第.+个阅读惊喜.+/")',
@@ -130,10 +131,10 @@
             sac.util.swip({frequency:3});
             sleep(1500)
             if(!sac.grope({intent:'home',timeout:1000})){
+                sac.util.forcePress(e.home.btn);
+            };
+            if(!sac.grope({intent:'home',timeout:1000})){
                 back();
-                if(!sac.grope({intent:'home',timeout:1000})){
-                    sac.util.forcePress(e.home.btn);
-                };
             };
             exitcount++;
         };
