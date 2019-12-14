@@ -26,11 +26,14 @@
             follow:'id("slide_play_right_follow_background")',
             follow_old:'text("关注")',
             share:'id("forward_icon")',
-            write:'id("user_name_text_view_new").find()[1]',
+            write:'id("user_name_text_view_new")',
             block:'text("拖动滑块")',
         }
     };
     var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
+    if(!sac.util.prove(e.detail.write)){
+        e.detail.write = 'id("user_name_text_view_new")';
+    };
     sac.grope = sac.util.gropev2({
         elements:e.where,
         package:e.packageName
