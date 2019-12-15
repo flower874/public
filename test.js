@@ -288,5 +288,8 @@ var list={
     "刷宝":2400,
     "抖音极速版":1800
 }
-
-engines.stopAll()
+sac.grope = sac.util.gropev2({
+    elements:e.where,
+    package:e.packageName
+});
+log(sac.grope({intent:'home'}))
