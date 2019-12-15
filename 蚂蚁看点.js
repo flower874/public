@@ -133,7 +133,7 @@
             if((end-start)>duration){
                 return true;
             }else{
-                toastLog("已运行时间"+(end-start))
+                toastLog("运行时间 "+duration+"/"(end-start)+" (秒)")
             }
 
             sac.pice();

@@ -293,4 +293,7 @@ sac.grope = sac.util.gropev2({
     package:e.packageName
 });
 
-log(sac.grope({intent:'home'}))
+var foo = idMatches("/.+/").find()
+for(let b of foo){
+    log(b.id())
+}
