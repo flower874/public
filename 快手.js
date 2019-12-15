@@ -96,12 +96,12 @@
         while(true){
             //计时器
             if((end-start)>duration){
-                sac.util.print("此次运行结束",3)
+                toastLog("已运行时间"+enn-start)
                 return true;
             };
             //失败计数器
             if(exitcount>exitcountmax){
-                sac.util.print("累积失败超过"+exitcount+"次，返回",2)
+                toastLog("累积失败超过"+exitcount+"次，返回",2)
                 return false;
             };
 
@@ -138,11 +138,12 @@
         };
     });
     sac.signin();
-    sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
+    toastLog(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
     t_cancel.interrupt();
     sac.util.savesigin(e.appName);
     sac.util.savealreadytime(e.appName);
     home();
+    toastLog("运行结束");
 })()

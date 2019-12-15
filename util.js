@@ -871,7 +871,7 @@ util.advideo=(ad)=>{
 util.block=(e)=>{
     if(util.prove(e)){
         console.show()
-        console.log("滑块，手工解决一下，脚本暂时退出");
+        console.log("滑块!需要手工解决，脚本暂时退出");
         exit();
     };
 };
