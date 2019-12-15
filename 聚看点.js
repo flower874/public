@@ -36,6 +36,7 @@
             closeSign:'id("v2_sign_close_button")', //首页签到按钮
             iv:'id("iv_close")',
             push:'id("dismisstv").textStartsWith("忽略")',
+            adindex:'id("tv_tool_bar_menu2_text").text("关闭")',
         },
 
         detail:{
