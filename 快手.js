@@ -26,7 +26,7 @@
             follow:'id("slide_play_right_follow_background")',
             follow_old:'text("关注")',
             share:'id("forward_icon")',
-            write:'id("user_name_text_view_new")',
+            write:'id("user_name_text_view_new").find()[1]',
             block:'text("拖动滑块")',
         }
     };
@@ -96,9 +96,10 @@
         while(true){
             //计时器
             if((end-start)>duration){
-                toastLog("已运行时间"+enn-start)
                 return true;
-            };
+            }else{
+                toastLog("已运行时间"+end-start)
+            }
             //失败计数器
             if(exitcount>exitcountmax){
                 toastLog("累积失败超过"+exitcount+"次，返回",2)
