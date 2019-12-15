@@ -745,7 +745,7 @@ util.gropev2=(objects)=>{
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){
                     toastLog("包验证失败，错误返回")
-                    return false;
+                    return 'redalert';
                 };
             };
         };

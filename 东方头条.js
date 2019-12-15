@@ -149,11 +149,18 @@
         let news
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
 
+        if(sac.grope({intent:'home',timeout:2000})=='redalert' ){
+            return;
+        };
+
         if(!sac.grope({intent:'home',timeout:1000})){
             sac.util.forcePress(e.home.btn,1000); 
             sleep(2000);
         };
         while(true){
+            if(sac.grope({intent:'detail'})=='redalert' ){
+                return;
+            };
             if((end-start)>duration){
                 return true;
             }else{
@@ -224,7 +231,6 @@
                 back();
                 return true;
             };
-           
             
             sleep(1000);
             if(!sac.grope({intent:'detail',timeout:2500})){

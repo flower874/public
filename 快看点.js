@@ -155,6 +155,9 @@
             sleep(2000);
         };
         while(true){
+            if(sac.grope({intent:'home'})=='redalert' ){
+                return;
+            };    
             if((end-start)>duration){
                 return true;
             }else{

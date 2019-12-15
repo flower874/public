@@ -30,7 +30,10 @@
             },
             ad:{
                 ad:'textEndsWith("广告")'
-            }
+            },
+            detail:{
+                write:'id("tv_author_nickname").find()[1]',
+            },
         },
         task:{
             btn:'id("tv_task_status")'
@@ -112,15 +115,14 @@
     };
     sac.loop=(duration)=>{
         sleep(1800);
-        if(!sac.grope({intent:'home',timeout:6000,unvisible:1})){
-            sac.util.print("重新打开App",2)
-            sac.open();
-        };
 
         let [exitcount,exitcountmax] = [0,5]
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
         
         while(true){
+            if(sac.grope({intent:'home'})=='redalert' ){
+                return;
+            };
             //计时器
             if((end-start)>duration){
                 return true;

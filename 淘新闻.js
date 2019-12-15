@@ -132,6 +132,9 @@
             //sac.util.forcePress(e.home.channel);
         };
         while(true){
+            if(sac.grope({intent:'home'})=='redalert' ){
+                return;
+            };
             if((end-start)>duration){
                 return true;
             }else{

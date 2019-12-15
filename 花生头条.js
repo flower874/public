@@ -122,7 +122,7 @@
         };
     };
     sac.loop=(duration)=>{
-        let news,recommend
+        let news
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
 
         sac.util.forcePress(e.home.btn,1000);
@@ -131,6 +131,9 @@
         sleep(2000);
 
         while(true){
+            if(sac.grope({intent:'home'})=='redalert' ){
+                return;
+            };    
             if((end-start)>duration){
                 return true;
             }else{

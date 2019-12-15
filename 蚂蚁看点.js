@@ -126,6 +126,9 @@
             sleep(2000);
         };
         while(true){
+            if(sac.grope({intent:'home'})=='redalert' ){
+                return;
+            };
             let news;
             if((end-start)>duration){
                 return true;
