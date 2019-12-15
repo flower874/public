@@ -7,7 +7,9 @@
             //btn:'className("android.widget.FrameLayout").depth(6).find()[0]',
         },
         task:{
-            btn:'className("android.widget.TextView").depth(8).text("任务")'
+            btn:'className("android.widget.TextView").depth(8).text("任务")',
+            sigin:'id("sigin")',
+            enable:'text("可领取")',
             //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
         },
         profile:{
@@ -29,6 +31,7 @@
         },
 
         closead:{
+            mission:'text("领金币")',
             //首页时段奖励
             rl:'className("android.widget.TextView").text("领取")',
             //首页时段奖励点击后弹窗
@@ -96,6 +99,9 @@
         sleep(1000);
 
         sac.util.forcePress(e.task.btn,1000);
+        if(sac.util.prove(e.task.enable)){
+            sac.util.forcePress(e.task.sigin)
+        };
         sleep(1000);
         sac.util.forcePress(e.profile.btn,1000);
         sleep(1000);
