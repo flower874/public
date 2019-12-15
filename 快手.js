@@ -32,6 +32,7 @@
     };
     var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
     if(!sac.util.prove(e.detail.write)){
+        toastLog("检测到低配机型快手版本，修正 用户名 元素为旧版。")
         e.detail.write = 'id("user_name_text_view")';
     };
     sac.grope = sac.util.gropev2({
@@ -107,9 +108,11 @@
             };
 
             if(sac.watchvideo(e.detail.write)){
+                if(exitcount!==0)toastLog("翻页成功，计数器清零");
                 exitcount = 0;
             }else{
                 exitcount++
+                toastLog("翻页失败，退出计数器: "+exitcount+"/"+exitcountmax);
             };
 
             end = parseInt(Date.now()/1000);

@@ -64,7 +64,6 @@ threads.start(function(){
             }; 
         };
         sleep(1000)
-        toastLog("剩余内存 "+device.getAvailMem()/1024/1024+"MB")
     }
 });
 
