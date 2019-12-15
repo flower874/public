@@ -35,7 +35,7 @@
             pice:'className("android.view.View").text("继续阅读")',
             closeSign:'id("v2_sign_close_button")', //首页签到按钮
             iv:'id("iv_close")',
-
+            push:'text("忽略")',
         },
 
         detail:{
@@ -206,7 +206,7 @@
            
             
             sleep(200);
-            if(!sac.grope({intent:'detail',timeout:2500})){
+            if(!sac.grope({intent:'detail',timeout:3500})){
                 sac.util.print("当前不是详情页，尝试返回上一层页面",2)
                 back();
                 if(!sac.grope({intent:'detail',timeout:1000})){
