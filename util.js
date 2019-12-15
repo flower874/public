@@ -726,12 +726,23 @@ util.gropev2=(objects)=>{
             util.print("验证包: "+package,3)
             appPackaget = currentPackage(); 
             if(appPackaget !== package){
-                
-                back();
+                if(intent=='home'){
+                    sleep(4000);
+                };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){    
-                console.log("当前包:"+ appPackaget)
-                return false;
+                    back();
+                };
+                appPackaget = currentPackage(); 
+                if(appPackaget !== package){    
+                    back();
+                    sleep(200);
+                    back();
+                };
+                appPackaget = currentPackage(); 
+                if(appPackaget !== package){    
+                    return false;
+                };
             };
         };
 
