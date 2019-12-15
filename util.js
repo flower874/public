@@ -744,7 +744,7 @@ util.gropev2=(objects)=>{
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){
-                    toastLog("包验证失败，错误返回")
+                    toastLog("包验证失败，红色警报")
                     return 'redalert';
                 };
             };
