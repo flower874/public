@@ -158,7 +158,7 @@
             if((end-start)>duration){
                 return true;
             }else{
-                toastLog("已运行时间"+end-start)
+                toastLog("已运行时间"+(end-start))
             };
 
             //sac.pice();
