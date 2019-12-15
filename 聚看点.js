@@ -35,7 +35,7 @@
             pice:'className("android.view.View").text("继续阅读")',
             closeSign:'id("v2_sign_close_button")', //首页签到按钮
             iv:'id("iv_close")',
-            push:'text("忽略")',
+            push:'id("dismisstv").textStartsWith("忽略")',
         },
 
         detail:{
