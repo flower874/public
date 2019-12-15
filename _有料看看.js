@@ -122,7 +122,7 @@
             if((end-start)>duration){
                 return true;
             }else{
-                toastLog("运行时间 "+duration+"/"(end-start)+" (秒)")
+                toastLog("运行时间 "+duration+"/"+(end-start)+" (秒)")
             }
             news = sac.getlist();
             if(!news){

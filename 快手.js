@@ -93,7 +93,7 @@
             if((end-start)>duration){
                 return true;
             }else{
-                toastLog("运行时间 "+duration+"/"(end-start)+" (秒)")
+                toastLog("运行时间 "+duration+"/"+(end-start)+" (秒)")
             }
             //失败计数器
             if(exitcount>exitcountmax){

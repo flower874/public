@@ -135,12 +135,13 @@
         };
         while(true){
             if(sac.grope({intent:'home'})=='redalert' ){
+                toastLog("当前运行的app不是"+e.packageName)
                 return;
             };    
             if((end-start)>duration){
                 return true;
             }else{
-                toastLog("运行时间 "+duration+"/"(end-start)+" (秒)")
+                toastLog("运行时间 "+duration+"/"+(end-start)+" (秒)")
             }
 
             news = sac.getlist();
@@ -267,6 +268,7 @@
     });
 
     sac.i();
+
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
     sac.loop(duration);
