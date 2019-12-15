@@ -128,69 +128,69 @@
     });
 
     sac.scrape=(ele,sacle)=>{
-            sac.util.print("横向刮卡器",3)
-            let size,x1,y1,x2,y2,time,excursion;
-            let [count,max] = [0,10]
-            let height = 0;
-            let obj = sac.util.prove(ele,2000);
-            try{size = obj.bounds()}catch(e){};
-            if(!size){
-                sac.util.print("无法获取Ui对象的bounds属性，错误返回",2)
+        sac.util.print("横向刮卡器",3)
+        let size,x1,y1,x2,y2,time,excursion;
+        let [count,max] = [0,10]
+        let height = 0;
+        let obj = sac.util.prove(ele,2000);
+        try{size = obj.bounds()}catch(e){};
+        if(!size){
+            sac.util.print("无法获取Ui对象的bounds属性，错误返回",2)
+            return false;
+        };
+        let _height = parseInt((size.height()*sacle)/2);
+        sac.util.print("首刮边缘修正: "+_height,3)
+        
+        while(true){
+            if(count>=max){
+                sac.util.print("超出最大滑动次数，结束滑动",2)
                 return false;
             };
-            let _height = parseInt((size.height()*sacle)/2);
-            sac.util.print("首刮边缘修正: "+_height,3)
+
+            time = random(320,410);
+            excursion = random(40,60)/100;
+            x1 = size.left + random(15,25)
+            x2 = size.right - random(3,8)
+            y1 = size.top + _height + height - random(15,25) 
+            y2 = y1+random(-5,5);
+            sac.util.print("滑动时间: " +time,3);
+            sac.util.print("坐标: "+x1+" "+y1+" "+x2+" "+y2,3);
+            sac.util.print("精度偏移: " +excursion,3);
+
+            sac.util.swipeEx(x1,y1,x2,y2,time,excursion);
+            sleep(800);
             
-            while(true){
-                if(count>=max){
-                    sac.util.print("超出最大滑动次数，结束滑动",2)
-                    return false;
-                };
-
-                time = random(320,410);
-                excursion = random(40,60)/100;
-                x1 = size.left + random(15,25)
-                x2 = size.right - random(3,8)
-                y1 = size.top + _height + height - random(15,25) 
-                y2 = y1+random(-5,5);
-                sac.util.print("滑动时间: " +time,3);
-                sac.util.print("坐标: "+x1+" "+y1+" "+x2+" "+y2,3);
-                sac.util.print("精度偏移: " +excursion,3);
-
-                sac.util.swipeEx(x1,y1,x2,y2,time,excursion);
-                sleep(800);
-                
-                if(y1>size.bottom){
-                    sac.util.print("y轴目标超出Ui对象坐标，返回",3)
-                    return true;
-                };
-
-                height = parseInt(size.height()*sacle) + _height + height
-                _height = 0;
-                sac.util.print("滑动坐标下移至: "+height,3)
-
-                sac.util.print("滑动计数器+1，当前值:"+count+" 最大允许值: "+max,3)
-                count++
-                if(sac.util.prove(elements.i.card.done)){
-                    sac.util.print("完成，返回",3);
-                    return true;
-                };
+            if(y1>size.bottom){
+                sac.util.print("y轴目标超出Ui对象坐标，返回",3)
+                return true;
             };
+
+            height = parseInt(size.height()*sacle) + _height + height
+            _height = 0;
+            sac.util.print("滑动坐标下移至: "+height,3)
+
+            sac.util.print("滑动计数器+1，当前值:"+count+" 最大允许值: "+max,3)
+            count++
+            if(sac.util.prove(elements.i.card.done)){
+                sac.util.print("完成，返回",3);
+                return true;
+            };
+        };
     };
     sac.signin=()=>{
-            sleep(800)
-            sac.util.print("进入任务频道",3);
-            sac.util.forcePress(elements.i.sign.channelbtn,100)
-            sac.util.print("点击签到按钮",3)
-            sac.util.forcePress(elements.i.sign.signbtn,4000)
-            sleep(2000);
-            sac.util.print("收下签到金币",3)
-            if(sac.util.forcePress(elements.i.sign.addcoin,3000)){
-                sac.util.print("等待视频广告结束",3)
-                sac.util.forcePress(elements.closead.video,31000)
-            };
-            sleep(800);
-            sac.tohome();
+        sleep(800)
+        sac.util.print("进入任务频道",3);
+        sac.util.forcePress(elements.i.sign.channelbtn,100)
+        sac.util.print("点击签到按钮",3)
+        sac.util.forcePress(elements.i.sign.signbtn,4000)
+        sleep(2000);
+        sac.util.print("收下签到金币",3)
+        if(sac.util.forcePress(elements.i.sign.addcoin,3000)){
+            sac.util.print("等待视频广告结束",3)
+            sac.util.forcePress(elements.closead.video,31000)
+        };
+        sleep(800);
+        sac.tohome();
     };
     sac.entervideo=()=>{
         if(!sac.low){
@@ -247,9 +247,10 @@
         while(true){
             //计时器
             if((end-start)>duration){
-                sac.util.print("此次运行结束",3)
                 return true;
-            };
+            }else{
+                toastLog("已运行时间"+end-start)
+            }
             //失败计数器
             if(exitcount>exitcountmax){
                 sac.util.print("累积失败超过"+exitcount+"次，返回",2)
@@ -364,7 +365,7 @@
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
         return; 
     };
-    var duration = random(1200,1800);
+    var duration = random(1800,time.duration);
     if(duration>time.duration)duration = time.duration;
     sac.util.print(elements.AppName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(elements.AppName);

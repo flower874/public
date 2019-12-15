@@ -127,7 +127,7 @@
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
         return;
     };
-    var duration = random(1200,1800);
+    var duration = random(1800,time.duration);
     if(duration>time.duration)duration = time.duration;
     
     sac.open();

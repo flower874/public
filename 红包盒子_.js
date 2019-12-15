@@ -130,8 +130,9 @@
         };
         while(true){
             if((end-start)>duration){
-                sac.util.print("运行时间耗尽: "+(end-start),3)
                 return true;
+            }else{
+                toastLog("已运行时间"+end-start)
             };
 
             news = sac.getlist();
@@ -235,7 +236,7 @@
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
         return;
     };
-    var duration = random(300,720);
+    var duration = random(1800,time.duration);
     if(duration>time.duration)duration = time.duration;
     
     sac.open();

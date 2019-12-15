@@ -117,9 +117,10 @@
 
         while(true){
             if((end-start)>duration){
-                sac.util.print("运行时间耗尽: "+(end-start),3)
                 return true;
-            };
+            }else{
+                toastLog("已运行时间"+end-start)
+            }
             news = sac.getlist();
             if(!news){
                 sac.util.print("未获取到任何内容",3)
@@ -230,7 +231,7 @@
     });
     */ 
     //sac.i();
-    let duration = random(2830,4284);
+    var duration = random(1800,time.duration);
     if(duration>time.duration)d = time.duration;
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);

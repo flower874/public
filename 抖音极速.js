@@ -83,9 +83,10 @@
         while(true){
             //计时器
             if((end-start)>duration){
-                sac.util.print("此次运行结束",3)
                 return true;
-            };
+            }else{
+                toastLog("已运行时间"+end-start)
+            }
             //失败计数器
             if(exitcount>exitcountmax){
                 sac.util.print("累积失败超过"+exitcount+"次，返回",2)
@@ -114,7 +115,7 @@
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
         return;
     };
-    var duration = random(1200,1800);
+    var duration = random(1800,time.duration);
     if(duration>time.duration)duration = time.duration;
     
     sac.open();
