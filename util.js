@@ -727,20 +727,24 @@ util.gropev2=(objects)=>{
             appPackaget = currentPackage(); 
             if(appPackaget !== package){
                 if(intent=='home'){
+                    toastLog("包验证失败，等待App启动")
                     sleep(4000);
                 };
                 appPackaget = currentPackage(); 
-                if(appPackaget !== package){    
+                if(appPackaget !== package){
+                    toastLog("包验证失败，尝试返回")
                     back();
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){    
+                    toastLog("包验证失败，尝试返回2连击")
                     back();
                     sleep(200);
                     back();
                 };
                 appPackaget = currentPackage(); 
-                if(appPackaget !== package){    
+                if(appPackaget !== package){
+                    toastLog("包验证失败，错误返回")
                     return false;
                 };
             };
