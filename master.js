@@ -15,7 +15,6 @@ var memdog = threads.start(function(){
         sleep(5000);
         let mem = device.getAvailMem()/1024/1024
         runtime.gc()
-        toastLog("可用内存: "+mem)
         if(mem<300){
             toastLog("内存不足，强制FullGC");
             try{t_main.interrupt();}catch(e){};
