@@ -31,10 +31,6 @@
         }
     };
     var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
-    if(!sac.util.prove(e.detail.write)){
-        toastLog("检测到低配机型快手版本，修正 用户名 元素为旧版。")
-        e.detail.write = 'id("user_name_text_view")';
-    };
     sac.grope = sac.util.gropev2({
         elements:e.where,
         package:e.packageName
@@ -134,6 +130,11 @@
     if(duration>time.duration)duration = time.duration;
     
     sac.open();
+
+    if(!sac.util.prove(e.detail.write)){
+        toastLog("检测到低配机型快手版本，修正 用户名 元素为旧版。")
+        e.detail.write = 'id("user_name_text_view")';
+    };
 
     var t_cancel =  threads.start(function (){
         while(true){
