@@ -67,7 +67,7 @@
                 btn:'id("tab_text_tv").text("首页")',
             },
             detail:{
-                detail:'id("tv_title").text("新闻详情")',
+                detail:'className("android.widget.TextView").text("微信群分享")',         
             }
         },
     };
