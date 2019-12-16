@@ -136,7 +136,9 @@
             };
             sac.util.swip({frequency:3});
             sleep(1500)
-            sac.util.forcePress(e.home.btn);
+            if(sac.grope({intent:'task'})){
+                sac.util.forcePress(e.home.btn,1000);
+            };
             if(!sac.grope({intent:'home',timeout:1000})){
                 back();
             };
