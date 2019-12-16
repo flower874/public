@@ -140,7 +140,7 @@
                 sac.util.forcePress(e.home.btn,1000);
             };
             if(!sac.grope({intent:'home',timeout:1000})){
-                back();
+                sac.util.forcePress(e.home.btn,1000);
             };
             exitcount++;
         };
