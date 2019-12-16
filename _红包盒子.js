@@ -95,19 +95,19 @@
     sac.pice=()=>{
         if(count==30){
             sac.util.forcePress(e.pice.enter)
+            if(sac.util.prove(e.pice.advideo.enter)){
+                sac.util.advideo(e.pice.advideo)
+                count=0
+            }else{
+                if(sac.util.prove('id("tv_title").text("邀请收徒")')){
+                    count=20;
+                    back();
+                };
+            };    
         }else{
             toastLog("红包倒计时器: "+count)
             count++
         }
-        if(sac.util.prove(e.pice.advideo.enter)){
-            sac.util.advideo(e.pice.advideo)
-            count=0
-        }else{
-            if(sac.util.prove('id("tv_title").text("邀请收徒")')){
-                count=20;
-                back();
-            };
-        };
     };
     sac.i=()=>{
         if(sac.util.getsigin(e.appName)){
