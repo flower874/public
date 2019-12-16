@@ -56,10 +56,10 @@
                 'id("pic_container")',
                 'className("android.view.View").text("用户评论")',
                 'text("相关推荐")',
-
             ],
-            detail:'id("tv_title").text("新闻详情")',
-            recommend:'className("android.view.View").text("相关推荐")',         
+            detail:'className("android.widget.TextView").text("微信群分享")',         
+            //:'id("tv_title").text("新闻详情")',
+            recommend:'className("android.view.View").text("")',         
             //progress:'className("android.widget.FrameLayout").depth(4)'
         },
         where:{
