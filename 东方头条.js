@@ -252,7 +252,7 @@
             for(let end of e.detail.end){
                 if(sac.util.visible(sac.util.prove(end))){
                     sac.util.print("本文已经结束",3)
-                    limitCount += 2
+                    limitCount += max
                     r1 = 10;
                     r2 = 30;
                 };
