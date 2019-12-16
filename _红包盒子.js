@@ -26,9 +26,21 @@
             pic:'className("android.widget.TextView").textEndsWith("图")'
         },
         pice:{
-            btn:'id("dsyt_tv_bind")',   //入口按钮
-            time:'id("time_now")',      //内容
-            close:'id("cancle")',       //退出按钮
+            advideo:{
+                timeout:2000,
+                wait:130000,
+                enter: 'id("dsyt_tv_bind").textStartsWith("看小视频")',
+                content:[
+                    'id("tt_video_reward_container")',
+                    'id("ad_progress")',
+                ],
+                close:[
+                    'id("tt_video_ad_close")',
+                    'id("cancle")',
+                ],
+                mode:"2"    
+            },
+            enter:{x:50,y:50},
         },
         closead:{
             rl:'className("android.widget.TextView").text("领取")',
@@ -43,6 +55,8 @@
             end:[
                 'id("pic_container")',
                 'className("android.view.View").text("用户评论")',
+                'text("相关推荐")',
+
             ],
             detail:'id("tv_title").text("新闻详情")',
             recommend:'className("android.view.View").text("相关推荐")',         
@@ -75,6 +89,9 @@
             //result.setAndNotify("启动 "+e.packageName+" 失败，返回");
         };
         sleep(2000)
+    };
+    sac.pice=()=>{
+        
     };
     sac.i=()=>{
         if(sac.util.getsigin(e.appName)){
@@ -133,7 +150,7 @@
             sleep(2000);
         };
         while(true){
-            if(sac.grope({intent:'detail',timeout:2000})=='redalert' ){
+            if(sac.grope({intent:'home'})=='redalert' ){
                 return;
             };    
             if((end-start)>duration){
@@ -183,8 +200,8 @@
     };
     sac.reader=(object)=>{
         //最大滑动次数
-        let [limitCount,max] = [0,random(3,6)]; 
-        let [r1,r2] = [800,2700];
+        let [limitCount,max] = [0,random(6,11)]; 
+        let [r1,r2] = [400,800];
 
         sac.util.print("进入新闻详情页",3)
         sac.util.forcePress(object.uiobject,1000);
@@ -221,7 +238,7 @@
             for(let end of e.detail.end){
                 if(sac.util.visible(sac.util.prove(end))){
                     sac.util.print("本文已经结束",3)
-                    limitCount += 2
+                    limitCount += max
                     r1 = 10;
                     r2 = 30;
                 };
@@ -230,7 +247,7 @@
             sleep(random(r1,r2));
             sac.util.print("图文详情页上滑",3)
             sac.util.swip({frequency:3});
-
+            sac.pice();
         };
     };
 
@@ -241,12 +258,12 @@
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
         sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
-        return;
+        //return;
     };
     var duration = random(1800,time.duration);
     if(duration>time.duration)duration = time.duration;
     
-    sac.open();
+    //sac.open();
 
     var t_cancel =  threads.start(function (){
         while(true){

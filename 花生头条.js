@@ -41,7 +41,8 @@
             end:'textEndsWith("分享给你的好友吧")',
             unfold:'className("android.view.View").textStartsWith("展开全文")',
             praise:'id("ll_praise")',
-            follow:'id("title_star")'
+            follow:'id("title_star")',
+            factory:'id("title_view").text("商城")',
         },
         i:{
             gettimeaward:'id("get_single")'
@@ -94,6 +95,9 @@
         };
         if(!sac.util.prove(e.rl.wait)){
             sac.util.forcePress(e.rl.rl);
+        };
+        if(sac.util.prove(e.detail.factory)){
+            back();
         };
         sac.util.loglevel = 3;
     };

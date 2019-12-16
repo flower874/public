@@ -137,10 +137,8 @@
             sac.util.swip({frequency:3});
             sleep(1500)
             if(!sac.grope({intent:'home',timeout:1000})){
-                sac.util.forcePress(e.home.btn);
-            };
-            if(!sac.grope({intent:'home',timeout:1000})){
                 back();
+                sac.util.forcePress(e.home.btn);
             };
             exitcount++;
         };

@@ -79,7 +79,9 @@
             return true;
         };
         sac.util.forcePress(e.task.btn,1000);
-        sleep(5000);
+        sleep(3000);
+        sac.util.forcePress('text("领取")');
+        sleep(1000);
     };
     sac.cancel=()=>{
         sac.util.loglevel = 1;
