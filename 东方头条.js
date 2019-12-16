@@ -233,11 +233,11 @@
             };
             
             sleep(1000);
+            if(sac.grope({intent:'task'})){
+                sac.util.forcePress(e.home.btn);
+                return;
+            };
             if(!sac.grope({intent:'detail',timeout:3500})){
-                if(sac.grope({intent:'task'})){
-                    sac.util.forcePress(e.home.btn);
-                    return;
-                };
                 back();
                 return;
             };
