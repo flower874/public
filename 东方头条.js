@@ -136,10 +136,10 @@
             };
             sac.util.swip({frequency:3});
             sleep(1500)
+            sac.util.forcePress(e.home.btn);
             if(!sac.grope({intent:'home',timeout:1000})){
                 back();
             };
-            sac.util.forcePress(e.home.btn);
             exitcount++;
         };
     };
@@ -233,8 +233,8 @@
             sleep(1000);
             if(!sac.grope({intent:'detail',timeout:2500})){
                 sac.util.print("当前不是详情页，尝试返回上一层页面",2)
-                sac.util.forcePress(e.home.btn);
                 back();
+                sac.util.forcePress(e.home.btn);
                 if(!sac.grope({intent:'detail',timeout:1000})){
                     sac.util.print("仍不是详情页，退出阅读方法",2)
                     return false;

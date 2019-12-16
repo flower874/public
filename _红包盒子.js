@@ -49,6 +49,7 @@
             closeRl:'id("dcs_iv_close")',
             closeRl:'id("dcs_iv_close_ad")',
             tx:'id("dws_iv_close")',
+            
             quit:'id("de_tv_cance").text("继续赚钱")',
         },
         detail:{
