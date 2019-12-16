@@ -53,8 +53,8 @@
         },
         detail:{
             end:[
-                'text("等你发表伟大的评论哦~")',
-                'text("已无更多评论")'
+                'textStartsWith("等你发表伟大的评论")',
+                'textStartsWith("已无更多评论")'
             ],
             comment:'className("android.widget.TextView").textStartsWith("快去发表伟大言论吧")',
             collect:'className("android.widget.TextView").textStartsWith("快去发表伟大言论吧").findOne().parent().children()[2]',
@@ -231,14 +231,13 @@
             };
             
             sleep(1000);
-            if(!sac.grope({intent:'detail',timeout:2500})){
-                sac.util.print("当前不是详情页，尝试返回上一层页面",2)
-                back();
-                sac.util.forcePress(e.home.btn);
-                if(!sac.grope({intent:'detail',timeout:1000})){
-                    sac.util.print("仍不是详情页，退出阅读方法",2)
-                    return false;
+            if(!sac.grope({intent:'detail',timeout:3500})){
+                if(sac.grope({intent:'task'})){
+                    sac.util.forcePress(e.home.btn);
+                    return;
                 };
+                back();
+                return;
             };
             
             limitCount++;

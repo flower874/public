@@ -40,7 +40,7 @@
                 ],
                 mode:"2"    
             },
-            enter:{x:50,y:50},
+            enter:{x:85,y:90},
         },
         closead:{
             rl:'className("android.widget.TextView").text("领取")',
@@ -49,7 +49,7 @@
             closeRl:'id("dcs_iv_close")',
             closeRl:'id("dcs_iv_close_ad")',
             tx:'id("dws_iv_close")',
-            
+
             quit:'id("de_tv_cance").text("继续赚钱")',
         },
         detail:{
@@ -92,7 +92,9 @@
         sleep(2000)
     };
     sac.pice=()=>{
-        
+        if(sac.util.prove(e.pice.advideo.enter)){
+            sac.util.advideo(e.pice.advideo)
+        };
     };
     sac.i=()=>{
         if(sac.util.getsigin(e.appName)){
