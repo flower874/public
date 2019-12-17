@@ -293,7 +293,39 @@ sac.grope = sac.util.gropev2({
     package:e.packageName
 });
 
-var foo = idMatches("/.+/").find()
+
+/*
+var foo = className("android.widget.ScrollView").find()
 for(let b of foo){
-    log(b.id())
+    if(b.bounds().centerX()==360&&b.bounds().top==1047){
+        log(b)
+    }
+   log(b)
 }
+*/
+
+//var foo = text("我的金币").find();
+//var foo = idMatches("/[0-9].+/").find()
+//for(b of foo)log(b)
+
+/*
+let _redpacket = className("android.view.ViewGroup").find().find(className("android.view.ViewGroup"))
+let __redpacket = _redpacket.find(className("android.view.ViewGroup"))
+let ___redpacket = __redpacket.find(className("android.view.ViewGroup"))
+let ____redpacket = ___redpacket.find(className("android.view.ViewGroup"))
+let redpacket = ____redpacket.find(className("android.widget.ImageView"))
+*/
+
+
+//sac.util.forcePress('')
+// 198*108  2340/1080
+// 132*132  1560/720
+// 132*132
+/*
+if(sac.util.prove('textStartsWith("Next")')){
+    sac.util.forcePress('text("×").indexInParent(0)')
+};
+*/
+
+var foo = className("android.view.View").textEndsWith("参与").findOne(10).parent().parent()
+sac.util.forcePress(foo)

@@ -1,52 +1,76 @@
 (function(){
+    var count = 0;
     var e = {
-        packageName : 'com.youliao.topic',
-        appName : '有料看看',
+        packageName : 'com.bang.redbox',
+        appName : '红包盒子',
         home:{
-            btn:'className("android.widget.TextView").text("有料")'
+            btn:'id("tab_text_tv").text("首页")'
         },
         task:{
-            btn:'className("android.widget.TextView").text("资产")'
+            btn:'id("tab_text_tv").text("任务")',
+            sign:'text("今天")',
+            //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
+        },
+        profile:{
+            btn:'id("tab_text_tv").text("我的")'
         },
         list:{
-            group:'className("android.view.ViewGroup")',
-            innerGroup:'className("android.view.ViewGroup")',
+            group:'className("android.widget.LinearLayout")',
+            innerGroup:'idMatches("/reco_.+/")',
             filter:{
-                ad:'text("广告")',
-                video:'className("android.widget.TextView").textMatches("/.+:.+/")' 
+                ad:'text("页面由第三方提供")',
             },
             title:{
-                list:'className("android.widget.TextView")',
-                //list:'textEndsWith("分钟前").findOne(50).parent().children()[0]',
-                inner:'className("android.widget.TextView")',
+                list:'id("three_title")',
+                inner:'className("android.view.View").depth(17)',
             },
-        },
-        i:{
-            sigin:'text("签到")',
-            btn:'textStartsWith("您已连续签到").findOne(50).parent().children()[4]',
-        },
-        closead:{
-            dialog:'textStartsWith("看完视频再领").findOne().parent().parent().parent().children()[1]',
+            pic:'className("android.widget.TextView").textEndsWith("图")'
         },
         pice:{
+            advideo:{
+                timeout:2000,
+                wait:30000,
+                enter: 'id("dsyt_tv_bind").textStartsWith("看小视频")',
+                content:[
+                    'id("tt_video_reward_container")',
+                    'id("ad_progress")',
+                ],
+                close:[
+                    'id("tt_video_ad_close")',
+                    'id("cancle")',
+                ],
+                mode:"2"    
+            },
+            enter:{x:85,y:90},
+        },
+        closead:{
+            rl:'className("android.widget.TextView").text("领取")',
+            close:'id("sign_remind_iv_close")',
+            taskRl:'id("taskcontent_button").text("待领取")',
+            closeRl:'id("dcs_iv_close")',
+            closeRl:'id("dcs_iv_close_ad")',
+            tx:'id("dws_iv_close")',
+
+            quit:'id("de_tv_cance").text("继续赚钱")',
         },
         detail:{
             end:[
-                'textMatches("/(.+刚刚$)|(.+分钟前$)/")'
+                'id("pic_container")',
+                'className("android.view.View").text("用户评论")',
+                'text("相关推荐")',
             ],
-            title:'textStartsWith("来源：")',
-            unfold:'textStartsWith("点击阅读全文")'
+            detail:'className("android.widget.TextView").text("微信群分享")',         
+            //:'id("tv_title").text("新闻详情")',
+            recommend:'className("android.view.View").text("")',         
+            //progress:'className("android.widget.FrameLayout").depth(4)'
         },
         where:{
             home:{
-                sigin:'textEndsWith("签到")'
+                btn:'id("tab_text_tv").text("首页")',
             },
             detail:{
-                title:'textStartsWith("来源：")'
-            },
-            sigin:{
-                status:'text("当前阶段")',
-            },
+                detail:'className("android.widget.TextView").text("微信群分享")',         
+            }
         },
     };
     var sac = {util:require("/storage/emulated/0/com.sac/util.js")};
@@ -64,18 +88,37 @@
             sac.util.print("打开 "+e.packageName+" 成功",3);
         }else{
             sac.util.print("打开 "+e.packageName+" 失败",2);
-            return;
             //result.setAndNotify("启动 "+e.packageName+" 失败，返回");
         };
         sleep(2000)
+    };
+    sac.pice=()=>{
+        if(count==60){
+            sac.util.forcePress(e.pice.enter)
+            if(sac.util.prove(e.pice.advideo.enter)){
+                sac.util.advideo(e.pice.advideo)
+                count=0
+            }else{
+                if(sac.util.prove('id("tv_title").text("邀请收徒")')){
+                    count=30;
+                    back();
+                };
+            };    
+        }else{
+            toastLog("红包倒计时器: "+count)
+            count++
+        }
     };
     sac.i=()=>{
         if(sac.util.getsigin(e.appName)){
             return true;
         };
+        sleep(2000)
         sac.util.forcePress(e.task.btn,1000);
-
-
+        sleep(3000);
+        sac.util.forcePress(e.task.sign,1000);
+        sleep(1000)
+        sac.util.forcePress(e.home.btn,1000);
     };
     sac.cancel=()=>{
         sac.util.loglevel = 1;
@@ -84,12 +127,6 @@
             sac.util.forcePress(e.closead[j]);
         };
         sac.util.loglevel = 3;
-    };
-    sac.pice=()=>{
-        if(sac.util.forcePress(e.pice.pice,50,2)){
-            sleep(1500);
-            sac.util.forcePress(e.pice.close);
-        };
     };
     sac.getlist=()=>{
         let uiobjects
@@ -106,8 +143,13 @@
             };
             sac.util.swip({frequency:3});
             sleep(1500);
-            sac.util.print("验证首页失败，尝试返回上一层",1)
-            back();
+            if(!sac.grope({intent:'home',timeout:1000})){
+                sac.util.forcePress(e.home.btn,10);
+            };
+            if(!sac.grope({intent:'home',timeout:1000})){
+                back();
+            };
+
             exitcount++;
         };
     };
@@ -115,16 +157,26 @@
         let news
         let [start,end] = [parseInt(Date.now()/1000),parseInt(Date.now()/1000)+1];
 
+        if(sac.grope({intent:'home'})=='redalert' ){
+            return;
+        };
+        
+        if(!sac.grope({intent:'home',timeout:1000})){
+            sac.util.forcePress(e.home.btn,1000);
+            sleep(2000);
+        };
         while(true){
             if(sac.grope({intent:'home'})=='redalert' ){
                 return;
-            };
+            };    
             if((end-start)>duration){
                 return true;
             }else{
                 toastLog("运行时间 "+duration+"/"+(end-start)+" (秒)")
-            }
+            };
+
             news = sac.getlist();
+
             if(!news){
                 sac.util.print("未获取到任何内容",3)
                 return false;
@@ -163,11 +215,9 @@
         back();
     };
     sac.reader=(object)=>{
-        //阅读推荐的概率
-        let prob = 0;
         //最大滑动次数
-        let [limitCount,max] = [0,random(3,6)]; 
-        let [r1,r2] = [800,2700];
+        let [limitCount,max] = [0,random(6,11)]; 
+        let [r1,r2] = [400,800];
 
         sac.util.print("进入新闻详情页",3)
         sac.util.forcePress(object.uiobject,1000);
@@ -176,11 +226,20 @@
         
         while(true){
             if(limitCount>max){
+                /*
+                if(sac.util.visible(sac.util.prove(e.detail.recommend,10))){
+                    if(random(0,prob)==prob){
+                        sac.util.print("准备阅读推荐内容",3)
+                        return true;
+                    };
+                };
+                */
                 sac.util.print("滑动次数用尽，返回列表页",3)
                 back();
                 return true;
             };
-                       
+           
+            sleep(1000);
             if(!sac.grope({intent:'detail',timeout:2500})){
                 sac.util.print("当前不是详情页，尝试返回上一层页面",2)
                 back();
@@ -192,15 +251,10 @@
             
             limitCount++;
 
-            if(sac.util.unfold(e.detail.unfold)){
-                sac.util.swip();
-                continue;
-            };
-
             for(let end of e.detail.end){
                 if(sac.util.visible(sac.util.prove(end))){
                     sac.util.print("本文已经结束",3)
-                    limitCount += 2
+                    limitCount += max
                     r1 = 10;
                     r2 = 30;
                 };
@@ -209,8 +263,7 @@
             sleep(random(r1,r2));
             sac.util.print("图文详情页上滑",3)
             sac.util.swip({frequency:3});
-            sleep(500);
-
+            sac.pice();
         };
     };
 
@@ -220,26 +273,27 @@
 
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){
-        //result.setAndNotify("slave : 今天分配的运行时间已经用尽，返回master进程");
-        return;
+        sac.util.print("今天分配的运行时间已经用尽，返回master进程",3)
+        //return;
     };
-    ///sac.open();
+    var duration = random(1800,time.duration);
+    if(duration>time.duration)duration = time.duration;
+    
+    //sac.open();
 
-    /*
-    threads.start(function(){
+    var t_cancel =  threads.start(function (){
         while(true){
             sac.cancel();
-            sleep(1000);
+            sleep(500);
         };
     });
-    */ 
-    //sac.i();
-    var duration = random(1800,time.duration);
-    if(duration>time.duration)d = time.duration;
+
+    sac.i();
     sac.util.print(e.appName+" 剩余运行时间 "+time.duration+". 本次运行时间 : "+ duration +" 秒",3)
     sac.util.savestarttime(e.appName);
-    duration = 100
+    duration = 1800
     sac.loop(duration);
+    t_cancel.interrupt();
     sac.util.savesigin(e.appName);
     sac.util.savealreadytime(e.appName);
     home();
