@@ -43,7 +43,9 @@
             },
             box:{
                 open : 'className("android.view.View").text("开宝箱得金币")'
-            }
+            },
+            offer:'935,745',
+
         },
         where:{
             home:{
