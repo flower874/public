@@ -84,7 +84,7 @@ for(AppName in pool){
         toastLog("本机id:"+ID+",屏蔽了 "+AppName);
         continue;
     };
-    //if(random(0,4) === 1)continue;
+    if(random(0,4) === 1)continue;
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
         time = ac.util.gettime(AppName);
