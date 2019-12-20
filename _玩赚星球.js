@@ -11,7 +11,9 @@
             //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
         },
         profile:{
-            btn:'className("android.widget.Button").text("我的")'
+            btn:'className("android.widget.Button").text("我的")
+            
+            '
         },
         list:{
             group:'className("android.widget.LinearLayout").depth(12)',
