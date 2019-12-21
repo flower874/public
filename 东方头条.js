@@ -68,7 +68,7 @@
                 btn:'className("android.widget.TextView").text("搜索你感兴趣的内容")'
             },
             detail:{
-                comment:'className("android.widget.TextView").textStartsWith("快去发表伟大言论吧")',
+                comment:'className("android.widget.TextView").textStartsWith("评论拿金币")',
             }
         },
     };
