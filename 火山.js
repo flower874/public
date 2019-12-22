@@ -13,7 +13,7 @@
             btn:'className("android.widget.TextView").id("title").text("红包")'
         },
         closead:{
-            kids:'className("android.widget.TextView").text("我知道了")',
+            kids:'text("我知道了")',
             close:'className("android.view.View").text("javascript:;")',
             offer:'text("sentinelStart").findOne(10).parent().children()[2]',
         },
@@ -105,7 +105,7 @@
         sac.util.forcePress(e.task.btn,2000);
 
         if(!sac.grope({intent:'task',timeout:4000})){
-            
+
             return false;
         };
 
