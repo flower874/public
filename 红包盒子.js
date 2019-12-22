@@ -100,7 +100,7 @@
                 count=0
             }else{
                 if(sac.util.prove('id("tv_title").text("邀请收徒")')){
-                    count=30;
+                    count=45;
                     back();
                 };
             };    
@@ -279,7 +279,7 @@
     var duration = random(1800,time.duration);
     if(duration>time.duration)duration = time.duration;
     
-    //sac.open();
+    sac.open();
 
     var t_cancel =  threads.start(function (){
         while(true){

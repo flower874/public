@@ -327,5 +327,19 @@ if(sac.util.prove('textStartsWith("Next")')){
 };
 */
 
-var foo = className("android.view.View").textEndsWith("参与").findOne(10).parent().parent()
-sac.util.forcePress(foo)
+var e = {
+    appName:"com.zte.heartyservice",
+    app:"app_name",
+    froze:'id("quick_froze")',
+    froze_affirm:'id("button1").text("冻结")',
+}
+
+var progress = className("android.widget.FrameLayout").find()
+var p = progress[progress.length-1].children()[1]
+if(p){
+    log("没金蛋 :"+p.id())
+}else{
+    log("金蛋来了")
+    sac.util.forcePress(progress[progress.length-1])
+}
+sac.util.swip({num:2})

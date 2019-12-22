@@ -3,15 +3,15 @@
         packageName : 'com.jifen.qukan',
         appName : '趣头条',
         home:{
-            btn:'className("android.widget.Button").text("头条")'
+            btn:'className("android.widget.TextView").text("头条")'
             //btn:'className("android.widget.FrameLayout").depth(6).find()[0]',
         },
         task:{
-            btn:'className("android.widget.Button").text("去签到")'
+            btn:'className("android.widget.TextView").text("去签到")'
             //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
         },
         profile:{
-            btn:'className("android.widget.Button").text("我的")'
+            btn:'className("android.widget.TextView").text("我的")'
         },
         list:{
             group:'className("android.widget.LinearLayout").depth(12)',
@@ -98,9 +98,13 @@
         sac.util.loglevel = 3;
     };
     sac.pice=()=>{
-        if(sac.util.forcePress(e.pice.pice,50,2)){
-            sleep(1500);
-            sac.util.forcePress(e.pice.close);
+        let Progress = className("android.widget.FrameLayout").find()
+        let progress = Progress[Progress.length-1].children()[1]
+        if(!progress&&Progress[Progress.length-1]){
+            sac.util.forcePress(Progress[Progress.length-1]);
+        }
+        if(sac.util.prove('text("— 恭喜砸中彩蛋 —")')){
+            sac.util.forcePress('text("— 恭喜砸中彩蛋 —").findOne(10).parent().parent().parent().children()[2]')
         };
     };
     sac.getlist=()=>{
@@ -218,6 +222,8 @@
             };
             
             limitCount++;
+            
+            sac.pice();
 
             for(let end of e.detail.end){
                 if(sac.util.visible(sac.util.prove(end))){
@@ -231,6 +237,8 @@
             sleep(random(r1,r2));
             sac.util.print("图文详情页上滑",3)
             sac.util.swip({frequency:3});
+
+            
 
             sac.util.percent(e.detail.follow,99);
             sleep(50);

@@ -80,13 +80,15 @@
     };
     sac.i=()=>{
         if(sac.util.getsigin(e.appName)){
-            return true;
+            //return true;
         };
         sleep(5000)
         sac.util.forcePress(e.task.btn,1000);
         sleep(5000);
         sac.util.forcePress(e.profile.btn,1000);
         sleep(5000);
+        sac.util.forcePress(e.home.btn,1000);
+
     };
     sac.cancel=()=>{
         sac.util.loglevel = 1;
