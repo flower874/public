@@ -305,9 +305,9 @@ for(let b of foo){
 */
 
 //var foo = text("我的金币").find();
-//var foo = idMatches("/.+/").find()
-var foo = textMatches("/.+/").find()
-for(b of foo)log(b.text())
+var foo = idMatches("/.+/").find()
+//var foo = textMatches("/.+/").find()
+for(b of foo)log(b.id());
 
 /*
 let _redpacket = className("android.view.ViewGroup").find().find(className("android.view.ViewGroup"))

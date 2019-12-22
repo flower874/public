@@ -64,7 +64,9 @@
                 x:15,
                 y:90
             },
-            dialog:'id("a")'
+            dialog:'id("a")',
+            videoContent:'id("tt_video_progress")',
+            videoClose:'id("tt_video_ad_close")',
         },
         where:{
             home:{
@@ -279,6 +281,10 @@
                     back();
                     return true;
                 };
+                if(sac.util.prove(e.egg.videoContent)){
+                    sac.util.forcePress(e.egg.videoClose,32000);
+                    return true
+                }
                 sleep(3500);
                 //sac.util.advideo(ad);
             }else{
