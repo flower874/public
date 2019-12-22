@@ -305,9 +305,9 @@ for(let b of foo){
 */
 
 //var foo = text("我的金币").find();
-var foo = idMatches("/.+/").find()
+//var foo = idMatches("/.+/").find()
 //var foo = textMatches("/.+/").find()
-for(b of foo)log(b.id());
+//for(b of foo)log(b.id());
 
 /*
 let _redpacket = className("android.view.ViewGroup").find().find(className("android.view.ViewGroup"))
@@ -333,4 +333,8 @@ var e = {
     app:"app_name",
     froze:'id("quick_froze")',
     froze_affirm:'id("button1").text("冻结")',
+}
+
+if(sac.util.prove('text("sentinelStart")')){
+    press(640,475,15)
 }

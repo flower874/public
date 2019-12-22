@@ -5,7 +5,7 @@
         advideo:{
             timeout:2000,
             wait:130000,
-            enter: 'id("positive_button").text("立即翻倍")',
+            enter: 'text("立即翻倍")',
             content:[
                 'className("com.iclicash.advlib.__remote__.ui.elements.MutedVideoView")',
                 'id("tt_video_ad_mute")'

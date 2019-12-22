@@ -44,7 +44,8 @@
             box:{
                 open : 'className("android.view.View").text("开宝箱得金币")'
             },
-            offer:'935,745',
+            offer:'935,745',   //0.87x0.318 1080x 2340  |   720x1560 宽650/高475
+
 
         },
         where:{
@@ -93,6 +94,9 @@
         for(let i in e.closead){
             sac.util.forcePress(e.closead[i],timeout);
         };
+        if(sac.util.prove('text("sentinelStart")')){
+            press(640,475,15)
+        }
         sac.util.loglevel = k;
     };
     sac.i=()=>{
@@ -105,17 +109,18 @@
         sac.util.forcePress(e.task.btn,2000);
 
         if(!sac.grope({intent:'task',timeout:4000})){
-
             return false;
         };
 
         sleep(1000);
         //时段宝箱
+        /*
         sac.util.print("时段宝箱",3);
         sac.util.forcePress(e.i.box.open,3000)
         sleep(1000);
-
+        */
         sac.util.swip({num:1});
+
 
         sleep(1000);
         //广告视频
