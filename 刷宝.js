@@ -17,6 +17,7 @@
         },
         closead:{
             push:'text("取消")',
+            offer:'id("imgClose")',
         },
         where:{
             task:{

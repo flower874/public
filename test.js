@@ -305,8 +305,9 @@ for(let b of foo){
 */
 
 //var foo = text("我的金币").find();
-//var foo = idMatches("/[0-9].+/").find()
-//for(b of foo)log(b)
+//var foo = idMatches("/.+/").find()
+var foo = textMatches("/.+/").find()
+for(b of foo)log(b.text())
 
 /*
 let _redpacket = className("android.view.ViewGroup").find().find(className("android.view.ViewGroup"))
@@ -333,13 +334,3 @@ var e = {
     froze:'id("quick_froze")',
     froze_affirm:'id("button1").text("冻结")',
 }
-
-var progress = className("android.widget.FrameLayout").find()
-var p = progress[progress.length-1].children()[1]
-if(p){
-    log("没金蛋 :"+p.id())
-}else{
-    log("金蛋来了")
-    sac.util.forcePress(progress[progress.length-1])
-}
-sac.util.swip({num:2})

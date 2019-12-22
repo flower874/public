@@ -68,8 +68,14 @@
                 btn:'className("android.widget.TextView").text("搜索你感兴趣的内容")'
             },
             detail:{
-                comment:'className("android.widget.TextView").textStartsWith("评论拿金币")',
-            }
+                comment:[
+                    'className("android.widget.TextView").textStartsWith("评论拿金币")',
+                    'className("android.widget.TextView").textStartsWith("快去发表伟大言论")',
+                ],
+            },
+            task:{
+                mission:'className("android.widget.TextView").textStartsWith("日常活动")',
+            },
         },
     };
     var sac = {util:require("/storage/emulated/0/com.sac/util.js")};
@@ -217,7 +223,7 @@
         let prob = 0;
         //最大滑动次数
         let [limitCount,max] = [0,random(3,6)]; 
-        let [r1,r2] = [800,2700];
+        let [r1,r2] = [400,1500];
         sleep(1000) //避免滑动惯性
         sac.util.print("进入新闻详情页",3)
         sac.util.forcePress(object.uiobject,1000);
@@ -241,7 +247,7 @@
                 sac.util.forcePress(e.home.btn);
                 return;
             };
-            if(!sac.grope({intent:'detail',timeout:3500})){
+            if(!sac.grope({intent:'detail',timeout:1500})){
                 back();
                 return;
             };
@@ -272,7 +278,7 @@
 
 //-------------- main ---------------------//
     
-    //sac.util.loglevel = 3;
+    sac.util.loglevel = 3;
 
     let time = sac.util.gettime(e.appName);
     if(time.duration<=0){

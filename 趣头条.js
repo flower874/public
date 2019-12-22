@@ -104,7 +104,7 @@
             sac.util.forcePress(Progress[Progress.length-1]);
         }
         if(sac.util.prove('text("— 恭喜砸中彩蛋 —")')){
-            sac.util.forcePress('text("— 恭喜砸中彩蛋 —").findOne(10).parent().parent().parent().children()[2]')
+            sac.util.forcePress('text("— 恭喜砸中彩蛋 —").findOne(10).parent().parent().parent().children()[2]',1500)
         };
     };
     sac.getlist=()=>{

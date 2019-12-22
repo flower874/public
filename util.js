@@ -692,7 +692,7 @@ util.gropev2=(objects)=>{
 
         let select=(inte)=>{
             let page = elements[inte];
-            let uiobjects;
+            let uiobjects,ele,e
             if(page){
                 util.print("查询意图: "+inte,3);
             }else{
@@ -702,7 +702,16 @@ util.gropev2=(objects)=>{
             };
             for(i in page){
                 util.print("验证 "+inte+" 中的元素: "+page[i],3)
-                uiobjects = util.prove(page[i],timeout);
+                ele = page[i];
+                if(ele.__proto__.constructor.name !== "Array"){
+                    ele = [ele]
+                };
+                for(e of ele){
+                    uiobjects = util.prove(e,timeout);
+                    if(uiobjects){
+                        break;
+                    };
+                }
                 if(!uiobjects){
                     return false;
                 };
