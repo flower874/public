@@ -51,7 +51,7 @@ var offkey = threads.start(function(){
     });
 });
 
-let ver = '1.2.1';
+let ver = '0.1.2';
 
 let AppName,scriptFile,code,time,packageinfo,appinfo
 let packages = []
