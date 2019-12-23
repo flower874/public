@@ -334,7 +334,32 @@ var e = {
     froze:'id("quick_froze")',
     froze_affirm:'id("button1").text("冻结")',
 }
+let packageinfo,appinfo
+let packages = []
+packageinfo = app.getInstalledApps();
+packageinfo.forEach(appinfo=>{
+    packages.push(appinfo.label)
+});
 
-if(sac.util.prove('text("sentinelStart")')){
-    press(640,475,15)
+var list = [
+    "快手极速版", 
+    "刷宝短视频",
+    "快看点",
+    "东方头条",
+    "花生头条",
+    "推推搞笑",
+    "蚂蚁看点",
+    "红包盒子",
+    "淘新闻",
+    "彩蛋视频",
+    "抖呱呱极速版",
+    "抖音极速版",
+    "趣头条"
+]
+
+for(bra of list){
+    if(packages.indexOf(bra)>=0){
+    }else{
+        log(bra)
+    }
 }

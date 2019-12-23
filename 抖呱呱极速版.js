@@ -1,6 +1,6 @@
 (function(){
     var e = {
-        appName:"抖呱呱",
+        appName:"抖呱呱极速版",
         packageName :"com.uyouqu.disco",
         where:{
             task:{

@@ -1,6 +1,6 @@
 (function(){
     var e = {
-        appName:"抖音极速",
+        appName:"抖音极速版",
         packageName :"com.ss.android.ugc.aweme.lite",
         where:{
             task:{

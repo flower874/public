@@ -1,6 +1,6 @@
 (function(){
     var e = {
-        appName:"快手",
+        appName:"快手极速版",
         packageName :"com.kuaishou.nebula",
         where:{
             task:{

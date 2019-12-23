@@ -1,6 +1,6 @@
 (function(){
     var e = {
-        appName:"刷宝",
+        appName:"刷宝短视频",
         packageName :"com.jm.video",
         advideo:{
             timeout:2000,
