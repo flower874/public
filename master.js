@@ -1,7 +1,3 @@
-
-
-
-
 //按键控制和自定义事件
 var customEvent = events.emitter();
 //推送日志
@@ -15,6 +11,7 @@ var offkey = threads.start(function(){
     events.setKeyInterceptionEnabled("volume_down", true);
     events.on("key",(code)=>{
         if(code === 24){
+            toastLog("退出运行...")
             engines.stopAll();
         };
     });
@@ -53,12 +50,31 @@ var memdog = threads.start(function(){
     }
 });
 
+let up=()=>{
+    toastLog("同步本地文件..")
+    let root = '/storage/emulated/0/com.sac/'
+    let path,gitUrl,r,zipContent,file,unzip
+    path = 'public-master/'
+    gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+    r = http.get(gitUrl)
+    zipContent = r.body.bytes()
+    file = 'master.zip'
+    unzip = files.join(root,file)
+    if(files.isDir(unzip))files.removeDir(unzip);
+    files.createWithDirs(unzip)
+    files.writeBytes(unzip,zipContent)
+    //pro专用
+    $zip.unzip(unzip,root);
+    //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
+    shell("cp -r "+root+path+"* "+root+".")
+    toastLog("完成")
+};
+
 while(true){
 try{
 
 let AppName,scriptFile,code,time
 let packages = []
-let ID = device.getAndroidId().slice(-6);
 app.getInstalledApps().forEach(appinfo=>{
     packages.push(appinfo.label)
 });
@@ -93,9 +109,14 @@ for(AppName in sign){
 };
 
 let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
+let target = "block";
+let s = storages.create(target);
+let block = s.get(target);
+if(!block){
+    block=[];
+};
 for(AppName in pool){
     if(block&&block.indexOf(AppName)!==-1){
-        toastLog("本机id:"+ID+",屏蔽了 "+AppName);
         continue;
     };
     if(random(0,4) !== 1)continue;  //运行概率20%

@@ -32,9 +32,8 @@ ui.layout(
 );
 
 
-var root = '/storage/emulated/0/com.sac'
-var sac={util:require(root+'/util.js')};
 let root = '/storage/emulated/0/com.sac/'
+var sac={util:require(root+'util.js')};
 let up=()=>{
     toastLog("同步本地文件..")
     let path,gitUrl,r,zipContent,file,unzip
@@ -114,11 +113,11 @@ ui.start.on("click", function(){
 });
 
 ui.release.on("click", function(){
-    up();
+    try{up();}catch(e){toastLog(e)}
 });
 
 ui.test.on("click", function(){
-    up();
+    try{up();}catch(e){toastLog(e)}
 });
 
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
