@@ -32,7 +32,7 @@ ui.layout(
 
 
 let root = '/storage/emulated/0/com.sac/'
-let path,gitUrl,r,zipContent,file,unzip,r
+let path,gitUrl,r,zipContent,file,unzip
 var sac={util:require(root+'util.js')};
 let getappinfo=()=>{
     let name,namelist,blocklist,runtime,report,disable,installd,c
