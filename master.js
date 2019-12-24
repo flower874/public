@@ -57,7 +57,7 @@ while(true){
 try{
 
 let AppName,scriptFile,code,time
-//let packages = []
+let packages = []
 let ID = device.getAndroidId().slice(-6);
 app.getInstalledApps().forEach(appinfo=>{
     packages.push(appinfo.label)
