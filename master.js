@@ -60,6 +60,8 @@ let up=()=>{
     toastLog("完成")
 };
 
+var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
+    
 while(true){
 try{
 
