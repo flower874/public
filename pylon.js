@@ -92,7 +92,7 @@ ui.appInfo.setDataSource(appInfo);
 ui.start.on("click", function(){
     threads.start(
         function(){
-            engines.execScriptFile(root+'master.js');
+            try{engines.execScriptFile(root+'master.js');}catch(e){};
         }
     );
 });
@@ -100,7 +100,7 @@ ui.start.on("click", function(){
 ui.release.on("click", function(){
     threads.start(
         function(){
-            engines.execScriptFile(root+'master.js');
+            try{engines.execScriptFile(root+'master.js');}catch(e){}
         }
     );
 });
