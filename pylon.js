@@ -90,11 +90,19 @@ var appInfo = getappinfo();
 ui.appInfo.setDataSource(appInfo);
 
 ui.start.on("click", function(){
-    engines.execScriptFile(root+'master.js');
+    threads.start(
+        function(){
+            engines.execScriptFile(root+'master.js');
+        }
+    );
 });
 
 ui.release.on("click", function(){
-    engines.execScript(eval(files.read(root+"update.js")))
+    threads.start(
+        function(){
+            engines.execScriptFile(root+'master.js');
+        }
+    );
 });
 
 ui.test.on("click", function(){
