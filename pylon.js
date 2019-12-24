@@ -32,6 +32,7 @@ ui.layout(
 
 
 let root = '/storage/emulated/0/com.sac/'
+let path,gitUrl,r,zipContent,file,unzip,r
 var sac={util:require(root+'util.js')};
 let getappinfo=()=>{
     let name,namelist,blocklist,runtime,report,disable,installd,c
@@ -95,7 +96,6 @@ ui.start.on("click", function(){
 
 ui.release.on("click", function(){
     toastLog("同步本地文件")
-    let path,gitUrl,r,zipContent,file,unzip,r
     path = 'public-master/'
     gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
     toastLog("下载...")
@@ -116,7 +116,6 @@ ui.release.on("click", function(){
 
 ui.test.on("click", function(){
     toastLog("同步本地文件")
-    let path,gitUrl,r,zipContent,file,unzip,r
     path = 'public-master/'
     gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
     toastLog("下载...")
