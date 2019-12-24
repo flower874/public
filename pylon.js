@@ -35,11 +35,14 @@ ui.layout(
 let root = '/storage/emulated/0/com.sac/'
 var sac={util:require(root+'util.js')};
 let up=()=>{
-    toastLog("同步本地文件..")
+    toastLog("同步本地文件")
     let path,gitUrl,r,zipContent,file,unzip
     path = 'public-master/'
     gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+
+    toastLog("下载...")
     r = http.get(gitUrl)
+    toastLog("下载完成")
     zipContent = r.body.bytes()
     file = 'master.zip'
     unzip = files.join(root,file)
@@ -121,6 +124,14 @@ ui.test.on("click", function(){
 });
 
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
+    itemView.run.on("click",function(){
+        let name = itemHolder.item.name;
+        scriptFile = root+name;
+        if(files.isFile(scriptFile+".js")){
+            toastLog("运行: "+name);
+            engines.execScript(scriptFile);
+        };
+    });
     //绑定勾选框事件
     itemView.disable.on("check", function (checked) {
         let item = itemHolder.item;

@@ -79,7 +79,6 @@ app.getInstalledApps().forEach(appinfo=>{
     packages.push(appinfo.label)
 });
 
-let ac = {util:require('/storage/emulated/0/com.sac/util.js')};
 let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
 let localpath = '/storage/emulated/0/com.sac/'
 
@@ -92,7 +91,7 @@ for(AppName in sign){
             continue;
         };
         up();
-        time = ac.util.gettime(AppName);
+        time = sac.util.gettime(AppName);
         if(time.duration<0){
             toastLog("运行时间用尽: "+AppName); 
             continue;
@@ -128,7 +127,7 @@ for(AppName in pool){
             continue;
         };
         up();
-        time = ac.util.gettime(AppName);
+        time = sac.util.gettime(AppName);
         if(time.duration<0){
             toastLog("运行时间用尽: "+AppName); 
             continue;
