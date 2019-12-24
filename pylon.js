@@ -33,6 +33,16 @@ ui.layout(
 
 let root = '/storage/emulated/0/com.sac/'
 var sac={util:require(root+'util.js')};
+var offkey = threads.start(function(){
+    events.observeKey();
+    events.setKeyInterceptionEnabled("volume_down", true);
+    events.on("key",(code)=>{
+        if(code === 24){
+            toastLog("退出运行...")
+            exit();
+        };
+    });
+});
 let getappinfo=()=>{
     let name,namelist,blocklist,runtime,report,disable,installd,c
     let packages = [];

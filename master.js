@@ -6,16 +6,6 @@ customEvent.on('log',function(r){
     var server = '';
     toastLog("收到日志 : " + r)
 });
-var offkey = threads.start(function(){
-    events.observeKey();
-    events.setKeyInterceptionEnabled("volume_down", true);
-    events.on("key",(code)=>{
-        if(code === 24){
-            toastLog("退出运行...")
-            engines.stopAll();
-        };
-    });
-});
 var memdog = threads.start(function(){
     let msac = {util:require('/storage/emulated/0/com.sac/util.js')};
     while(true){
