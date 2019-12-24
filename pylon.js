@@ -22,7 +22,6 @@ ui.layout(
                         <text text="{{this.installd}}" textColor="#{{this.color}}" textSize="14sp" maxLines="1" />
                         <button id="run" text="运行" style="Widget.AppCompat.Button.Colored" w="auto"/>
                         <checkbox id="disable" marginLeft="4" marginRight="6" checked="{{this.disable}}" text="禁用" />
-
                     </horizontal>
 
                 </card>
@@ -125,12 +124,12 @@ ui.test.on("click", function(){
 
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
     itemView.run.on("click",function(){
-        let name = itemHolder.item.name;
-        scriptFile = root+name;
-        if(files.isFile(scriptFile+".js")){
-            toastLog("运行: "+name);
-            engines.execScript(scriptFile);
-        };
+        let name = itemHolder.item.name
+        threads.start(
+            function(){
+                engines.execScript(eval(files.read(root+name+".js")))
+            }
+        );
     });
     //绑定勾选框事件
     itemView.disable.on("check", function (checked) {
