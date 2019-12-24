@@ -1,4 +1,7 @@
 
+
+
+
 //按键控制和自定义事件
 var customEvent = events.emitter();
 //推送日志
@@ -6,6 +9,15 @@ customEvent.on('log',function(r){
     // 发送日志
     var server = '';
     toastLog("收到日志 : " + r)
+});
+var offkey = threads.start(function(){
+    events.observeKey();
+    events.setKeyInterceptionEnabled("volume_down", true);
+    events.on("key",(code)=>{
+        if(code === 24){
+            engines.stopAll();
+        };
+    });
 });
 var memdog = threads.start(function(){
     let msac = {util:require('/storage/emulated/0/com.sac/util.js')};
@@ -40,34 +52,20 @@ var memdog = threads.start(function(){
         sleep(1000)
     }
 });
-var offkey = threads.start(function(){
-    events.observeKey();
-    events.setKeyInterceptionEnabled("volume_down", true);
-    events.on("key",(code)=>{
-        if(code === 24){
-            toastLog("master进程: 关闭当前脚本！关闭后需要手工启动");
-            exit();
-        }
-    });
-});
 
-let ver = '0.1.2';
+while(true){
+try{
 
-let AppName,scriptFile,code,time,packageinfo,appinfo
-let packages = []
-let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
-let storage = storages.create("alreadyTime");
+let AppName,scriptFile,code,time
+//let packages = []
 let ID = device.getAndroidId().slice(-6);
-packageinfo = app.getInstalledApps();
-packageinfo.forEach(appinfo=>{
+app.getInstalledApps().forEach(appinfo=>{
     packages.push(appinfo.label)
 });
 
 let ac = {util:require('/storage/emulated/0/com.sac/util.js')};
 let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
-let blockList = JSON.parse(files.read('/storage/emulated/0/com.sac/block.json'));
 let localpath = '/storage/emulated/0/com.sac/'
-let block = blockList[ID]
 
 for(AppName in sign){
     scriptFile = localpath+AppName+".js";
@@ -100,7 +98,7 @@ for(AppName in pool){
         toastLog("本机id:"+ID+",屏蔽了 "+AppName);
         continue;
     };
-    if(random(0,4) === 1)continue;
+    if(random(0,4) !== 1)continue;  //运行概率20%
     scriptFile = localpath+AppName+".js";
     if(files.isFile(scriptFile)){
         if(packages.indexOf(AppName)<0){
@@ -117,25 +115,20 @@ for(AppName in pool){
 
         code = files.read(scriptFile)
         toastLog("运行: "+AppName)
-        //myengines = engines.execScriptFile(scriptFile)
         try{
             eval(code)
-        }catch(e){};
-        /*
-        try{
-            thread = threads.start(eval(code))
-        }catch(e){
-            toastLog(e)
-        };
-        try{
-            thread.interrupt();
-        }catch(e){};
-        */
+        }catch(e){};        
     } else {
         toastLog(AppName+"对应的文件未找到");
         continue;
     };
 };
+    }catch(e){console.log(e)};
+
+    sleep(15000);
+};
+
+
 /* 4小时自动重启，避免进程崩溃
 var [reboot,clock,_sTime] = [14400,0,parseInt(Date.now()/1000)]
 while(clock < reboot){

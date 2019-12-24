@@ -1,10 +1,43 @@
-"auto";
-//版本
+"ui";
 
-var up=()=>{
+ui.layout(
+    <frame>
+        <vertical>
+            <appbar>
+                <toolbar id="toolbar" title="S.A.C Project" />
+            </appbar>
+            <linear>
+                <button id="start" text="循环运行" style="Widget.AppCompat.Button.Colored" w="auto"/>
+                <button id="release" text="同步正式版" style="Widget.AppCompat.Button.Colored" w="auto"/>
+                <button id="test" text="同步测试版" style="Widget.AppCompat.Button.Colored" w="auto"/>
+            </linear>
+            <list id="appInfo">
+                <card w="*" h="70" margin="10 5" cardCornerRadius="2dp"
+                    cardElevation="1dp" foreground="?selectableItemBackground">
+                    <horizontal gravity="center_vertical">
+                        <vertical padding="10 8" h="auto" w="0" layout_weight="1">
+                            <text id="name" text="{{this.name}}" textColor="#222222" textSize="16sp" maxLines="1" />
+                            <text text="{{this.summary}}" textColor="#999999" textSize="14sp" maxLines="1" />
+                        </vertical>
+                        <text text="{{this.installd}}" textColor="#{{this.color}}" textSize="14sp" maxLines="1" />
+                        <button id="run" text="运行" style="Widget.AppCompat.Button.Colored" w="auto"/>
+                        <checkbox id="disable" marginLeft="4" marginRight="6" checked="{{this.disable}}" text="禁用" />
+
+                    </horizontal>
+
+                </card>
+            </list>
+        </vertical>
+    </frame>
+);
+
+
+var root = '/storage/emulated/0/com.sac'
+var sac={util:require(root+'/util.js')};
+let root = '/storage/emulated/0/com.sac/'
+let up=()=>{
     toastLog("同步本地文件..")
-    let root,path,gitUrl,r,zipContent,file,unzip
-    root = '/storage/emulated/0/com.sac/'
+    let path,gitUrl,r,zipContent,file,unzip
     path = 'public-master/'
     gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
     r = http.get(gitUrl)
@@ -20,38 +53,88 @@ var up=()=>{
     shell("cp -r "+root+path+"* "+root+".")
     toastLog("完成")
 };
-
-if(up()){
-    toastLog("下载更新失败")
-    exit();
-};
-
-var pylonCode = files.read('/storage/emulated/0/com.sac/master.js');
-while(true){
-    try{
-        eval(pylonCode);
-    }catch(e){
-        console.log(e)
-    };
-    offkey.interrupt();
-    memdog.interrupt();
-    sleep(5000)
-};
-
-
-/* 4小时自动重启，避免进程崩溃
-var [reboot,clock,_sTime] = [14400,0,parseInt(Date.now()/1000)]
-while(clock < reboot){
-    console.log("agent剩余运行时间 :",reboot-clock)
-    try{
-        master()
-        threads.shutDownAll()
-    }catch(e){
-        threads.shutDownAll()
-        console.log(e)
+let getappinfo=()=>{
+    let name,namelist,blocklist,runtime,report,disable,installd,c
+    let packages = [];
+    namelist = JSON.parse(files.read(root+'/cycle.json'));
+    blocklist = handleBlock();
+    app.getInstalledApps().forEach(appinfo=>{
+        packages.push(appinfo.label)
+    });
+    let result = [];
+    for(name in namelist ){
+        disable = false;
+        installd = '未安装';
+        c = 'FF0000';
+        if(blocklist.indexOf(name)>=0){
+            disable = true
+        };
+        if(packages.indexOf(name)>=0){
+            installd = '已安装';
+            c = '008000';
+        };
+        runtime = sac.util.gettime(name); 
+        report = parseInt(runtime.atime/60)+"分钟/"+parseInt(runtime.limitTIME/60)+"分钟"
+        result.push({
+            "name": name,
+            "summary": report,
+            "installd" : installd,
+            "disable" : disable,
+            "color": c,
+        });
     }
-    clock =  parseInt(Date.now()/1000) - _sTime
-}
+    return result;
+};
+let handleBlock=(name)=>{
+    let appindex;
+    let target = "block";
+    let s = storages.create(target);
+    let block = s.get(target);
+    if(!block){
+        block=[];
+    };
+    if(name){
+        appindex = block.indexOf(name);
+        if(appindex<0){
+            block.push(name);
+        }else{
+            block.splice(appindex)
+        };
+        s.put(target,block);
+        return true;
+    };
+    return block;
+};
 
-exit()
-*/
+var appInfo = getappinfo();
+ui.appInfo.setDataSource(appInfo);
+
+ui.start.on("click", function(){
+    engines.execScriptFile(root+'master.js');
+});
+
+ui.release.on("click", function(){
+    up();
+});
+
+ui.test.on("click", function(){
+    up();
+});
+
+ui.appInfo.on("item_bind", function (itemView, itemHolder) {
+    //绑定勾选框事件
+    itemView.disable.on("check", function (checked) {
+        let item = itemHolder.item;
+        item.disable = checked;
+        let paint = itemView.name.paint;
+        //设置或取消中划线效果
+        if (checked) {
+            handleBlock(item.name);
+            paint.flags |= Paint.STRIKE_THRU_TEXT_FLAG;
+        } else {
+            handleBlock(item.name);
+            paint.flags &= ~Paint.STRIKE_THRU_TEXT_FLAG;
+        }
+        itemView.name.invalidate();
+    });
+});
