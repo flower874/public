@@ -35,10 +35,9 @@ let root = '/storage/emulated/0/com.sac/'
 var sac={util:require(root+'util.js')};
 let up=()=>{
     toastLog("同步本地文件")
-    let path,gitUrl,r,zipContent,file,unzip
+    let path,gitUrl,r,zipContent,file,unzip,r
     path = 'public-master/'
     gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
-
     toastLog("下载...")
     r = http.get(gitUrl)
     toastLog("下载完成")
