@@ -33,26 +33,6 @@ ui.layout(
 
 let root = '/storage/emulated/0/com.sac/'
 var sac={util:require(root+'util.js')};
-let up=()=>{
-    toastLog("同步本地文件")
-    let path,gitUrl,r,zipContent,file,unzip,r
-    path = 'public-master/'
-    gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
-    toastLog("下载...")
-    r = http.get(gitUrl)
-    toastLog("下载完成")
-    zipContent = r.body.bytes()
-    file = 'master.zip'
-    unzip = files.join(root,file)
-    if(files.isDir(unzip))files.removeDir(unzip);
-    files.createWithDirs(unzip)
-    files.writeBytes(unzip,zipContent)
-    //pro专用
-    $zip.unzip(unzip,root);
-    //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
-    shell("cp -r "+root+path+"* "+root+".")
-    toastLog("完成")
-};
 let getappinfo=()=>{
     let name,namelist,blocklist,runtime,report,disable,installd,c
     let packages = [];
@@ -114,11 +94,45 @@ ui.start.on("click", function(){
 });
 
 ui.release.on("click", function(){
-    try{up();}catch(e){toastLog(e)}
+    toastLog("同步本地文件")
+    let path,gitUrl,r,zipContent,file,unzip,r
+    path = 'public-master/'
+    gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+    toastLog("下载...")
+    r = http.get(gitUrl)
+    toastLog("下载完成")
+    zipContent = r.body.bytes()
+    file = 'master.zip'
+    unzip = files.join(root,file)
+    if(files.isDir(unzip))files.removeDir(unzip);
+    files.createWithDirs(unzip)
+    files.writeBytes(unzip,zipContent)
+    //pro专用
+    $zip.unzip(unzip,root);
+    //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
+    shell("cp -r "+root+path+"* "+root+".")
+    toastLog("完成")
 });
 
 ui.test.on("click", function(){
-    try{up();}catch(e){toastLog(e)}
+    toastLog("同步本地文件")
+    let path,gitUrl,r,zipContent,file,unzip,r
+    path = 'public-master/'
+    gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+    toastLog("下载...")
+    r = http.get(gitUrl)
+    toastLog("下载完成")
+    zipContent = r.body.bytes()
+    file = 'master.zip'
+    unzip = files.join(root,file)
+    if(files.isDir(unzip))files.removeDir(unzip);
+    files.createWithDirs(unzip)
+    files.writeBytes(unzip,zipContent)
+    //pro专用
+    $zip.unzip(unzip,root);
+    //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
+    shell("cp -r "+root+path+"* "+root+".")
+    toastLog("完成")
 });
 
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
