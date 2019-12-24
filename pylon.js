@@ -100,13 +100,17 @@ ui.start.on("click", function(){
 ui.release.on("click", function(){
     threads.start(
         function(){
-            try{engines.execScriptFile(root+'master.js');}catch(e){}
+            try{engines.execScriptFile(root+'update.js');}catch(e){}
         }
     );
 });
 
 ui.test.on("click", function(){
-    engines.execScript(eval(files.read(root+"update.js")))
+    threads.start(
+        function(){
+            try{engines.execScriptFile(root+'update.js');}catch(e){}
+        }
+    );
 });
 
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
