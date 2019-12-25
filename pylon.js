@@ -100,15 +100,15 @@ let handleBlock=(name,act)=>{
     let blockList = "bl";
     let s = storages.create(target)
     let block = s.get(blockList);
+    if(block.__proto__.constructor.name !== "Array"){
+        block = [];
+        s.put(blockList,block);
+    };
     if(name&&act){
         appindex = block.indexOf(name);
     }else{
         return block;
     }
-    if(!block){
-        block = [];
-        s.put(blockList,block);
-    };
     if(act=='add'){
         if(appindex>=0){
             return true;
