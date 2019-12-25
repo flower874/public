@@ -156,13 +156,13 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
         if (checked) {
             paint.flags |= Paint.STRIKE_THRU_TEXT_FLAG;
         } else {
+            threads.start(
+                function(){
+                    handleBlock(item.name);
+                }
+            );    
             paint.flags &= ~Paint.STRIKE_THRU_TEXT_FLAG;
         }
-        threads.start(
-            function(){
-                handleBlock(item.name);
-            }
-        );
         itemView.name.invalidate();
     });
 });
