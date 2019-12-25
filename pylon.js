@@ -153,19 +153,14 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
         //设置或取消中划线效果
         if (checked) {
             paint.flags |= Paint.STRIKE_THRU_TEXT_FLAG;
-            threads.start(
-                function(){
-                    handleBlock(item.name);
-                }
-            );
         } else {
             paint.flags &= ~Paint.STRIKE_THRU_TEXT_FLAG;
-            threads.start(
-                function(){
-                    handleBlock(item.name);
-                }
-            );
         }
+        threads.start(
+            function(){
+                handleBlock(item.name);
+            }
+        );
         itemView.name.invalidate();
     });
 });
