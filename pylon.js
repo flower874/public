@@ -132,7 +132,6 @@ ui.test.on("click", function(){
 
 ui.window.on("click", function(){
     console.show();
-    console.setPosition(parseInt(device.width*0.7), parseInt(device.height*0.2))
 });
 
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
