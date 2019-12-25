@@ -100,7 +100,7 @@ let handleBlock=(name,act)=>{
     let blockList = "bl";
     let s = storages.create(target)
     let block = s.get(blockList);
-    if(block.__proto__.constructor.name !== "Array"){
+    if(!block||block.__proto__.constructor.name !== "Array"){
         block = [];
         s.put(blockList,block);
     };
