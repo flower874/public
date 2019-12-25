@@ -278,6 +278,10 @@ util.clean=()=>{
         sleep(1800);
         util.forcePress({x:50,y:76});
     }; 
+    if(device.brand === 'Meizu'){
+        sleep(500);
+        util.forcePress({x:50,y:86});
+    };
     sleep(800);
 };
 util.openApp=(PackageName)=>{
