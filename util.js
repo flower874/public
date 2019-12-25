@@ -281,6 +281,7 @@ util.clean=()=>{
     if(device.brand === 'Meizu'){
         sleep(500);
         util.forcePress({x:50,y:86});
+        sleep(1000)
     };
     sleep(800);
 };
