@@ -18,23 +18,7 @@ var memdog = threads.start(function(){
             try{t_cancel.interrupt();}catch(e){};
             recents();
             sleep(100);
-            if(device.brand === 'samsung'){
-                msac.util.forcePress(id("recents_close_all_button").findOne(2000))
-            };
-            if(device.brand === 'HONOR'){
-                id("clear_all_recents_image_button").findOne(2000).click(); 
-            };
-            if(device.brand === 'OPPO'){
-                //forcePress(id("clear_panel").findOne(2000));
-                msac.util.forcePress(id("clear_button").findOne(2000));
-            };
-            if(device.brand === 'Realme'){
-                msac.util.forcePress(id("clear_all_button").findOne(2000))
-            };
-            if(device.brand === 'ZTE'){
-                sleep(1800);
-                msac.util.forcePress({x:50,y:76});
-            }; 
+            msac.util.clean();
         };
         sleep(1000)
     }
@@ -61,11 +45,11 @@ let up=()=>{
 };
 
 var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
-    
+
 while(true){
 try{
 
-let AppName,scriptFile,code,time
+let AppName,scriptFile,code,time,block
 let packages = []
 app.getInstalledApps().forEach(appinfo=>{
     packages.push(appinfo.label)
@@ -102,12 +86,9 @@ for(AppName in sign){
 let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
 let target = "block";
 let s = storages.create(target);
-let block = s.get(target);
-if(!block){
-    block=[];
-};
 for(AppName in pool){
-    if(block&&block.indexOf(AppName)!==-1){
+    block = s.get(target);
+    if(block&&block.indexOf(AppName)>=0){
         continue;
     };
     if(random(0,4) !== 1)continue;  //运行概率20%
@@ -124,7 +105,6 @@ for(AppName in pool){
             toastLog("运行时间用尽: "+AppName); 
             continue;
         };
-
         code = files.read(scriptFile)
         toastLog("运行: "+AppName)
         try{
@@ -136,7 +116,6 @@ for(AppName in pool){
     };
 };
     }catch(e){console.log(e)};
-
     sleep(15000);
 };
 

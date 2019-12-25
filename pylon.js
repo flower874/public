@@ -10,6 +10,7 @@ ui.layout(
                 <button id="start" text="循环运行" style="Widget.AppCompat.Button.Colored" w="auto"/>
                 <button id="release" text="同步正式版" style="Widget.AppCompat.Button.Colored" w="auto"/>
                 <button id="test" text="同步测试版" style="Widget.AppCompat.Button.Colored" w="auto"/>
+                <button id="window" text="日志窗口" style="Widget.AppCompat.Button.Colored" w="auto"/>
             </linear>
             <list id="appInfo">
                 <card w="*" h="70" margin="10 5" cardCornerRadius="2dp"
@@ -32,7 +33,7 @@ ui.layout(
 
 
 let root = '/storage/emulated/0/com.sac/'
-var sac={util:require(root+'util.js')};
+
 var offkey = threads.start(function(){
     events.observeKey();
     events.setKeyInterceptionEnabled("volume_down", true);
@@ -43,9 +44,27 @@ var offkey = threads.start(function(){
         };
     });
 });
+
 let getappinfo=()=>{
     let name,namelist,blocklist,runtime,report,disable,installd,c
     let packages = [];
+    if(!files.isFile(root+'/util.js')){
+        let path,gitUrl,r,zipContent,file,unzip
+        path = 'public-master/'
+        gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+        r = http.get(gitUrl)
+        zipContent = r.body.bytes()
+        file = 'master.zip'
+        unzip = files.join(root,file)
+        if(files.isDir(unzip))files.removeDir(unzip);
+        files.createWithDirs(unzip)
+        files.writeBytes(unzip,zipContent)
+        //pro专用
+        $zip.unzip(unzip,root);
+        //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
+        shell("cp -r "+root+path+"* "+root+".");    
+    }
+    var sac={util:require(root+'util.js')};
     namelist = JSON.parse(files.read(root+'/cycle.json'));
     blocklist = handleBlock();
     app.getInstalledApps().forEach(appinfo=>{
@@ -100,27 +119,20 @@ var appInfo = getappinfo();
 ui.appInfo.setDataSource(appInfo);
 
 ui.start.on("click", function(){
-    threads.start(
-        function(){
-            try{engines.execScriptFile(root+'master.js');}catch(e){};
-        }
-    );
+    try{engines.execScriptFile(root+'master.js');}catch(e){};
 });
 
 ui.release.on("click", function(){
-    threads.start(
-        function(){
-            try{engines.execScriptFile(root+'update.js');}catch(e){}
-        }
-    );
+    try{engines.execScriptFile(root+'update.js');}catch(e){}
 });
 
 ui.test.on("click", function(){
-    threads.start(
-        function(){
-            try{engines.execScriptFile(root+'update.js');}catch(e){}
-        }
-    );
+    try{engines.execScriptFile(root+'update.js');}catch(e){}
+});
+
+ui.window.on("click", function(){
+    console.show();
+    console.setPosition(parseInt(device.width*0.7), parseInt(device.height*0.2))
 });
 
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
@@ -139,11 +151,19 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
         let paint = itemView.name.paint;
         //设置或取消中划线效果
         if (checked) {
-            handleBlock(item.name);
             paint.flags |= Paint.STRIKE_THRU_TEXT_FLAG;
+            threads.start(
+                function(){
+                    handleBlock(item.name);
+                }
+            );
         } else {
-            handleBlock(item.name);
             paint.flags &= ~Paint.STRIKE_THRU_TEXT_FLAG;
+            threads.start(
+                function(){
+                    handleBlock(item.name);
+                }
+            );
         }
         itemView.name.invalidate();
     });

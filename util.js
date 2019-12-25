@@ -738,10 +738,10 @@ util.gropev2=(objects)=>{
 
         if(package){
             util.print("验证包: "+package,3)
-            appPackaget = currentPackage(); 
+            appPackaget = currentPackage();
             if(appPackaget !== package){
                 if(intent=='home'){
-                    toastLog("包验证失败，等待App启动")
+                    toastLog("包验证失败，等待一会...")
                     sleep(4000);
                 };
                 appPackaget = currentPackage(); 
@@ -751,15 +751,16 @@ util.gropev2=(objects)=>{
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){    
-                    toastLog("包验证失败，尝试返回2连击")
+                    toastLog("包验证失败，尝试返回")
                     back();
                     sleep(200);
                     back();
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){
-                    toastLog("包验证失败，红色警报")
-                    return 'redalert';
+                    toastLog("包验证失败!!!")
+                    throw "redalert"
+                    //return 'redalert';
                 };
             };
         };
