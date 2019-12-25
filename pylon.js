@@ -94,29 +94,39 @@ let getappinfo=()=>{
     }
     return result;
 };
-let handleBlock=(name)=>{
+let handleBlock=(name,act)=>{
     let appindex;
     let target = "block";
     let blockList = "bl";
     let s = storages.create(target)
     let block = s.get(blockList);
-    if(!block){
-        block=[];
-        s.put(blockList,block);
-    };
-    if(name){
+    if(name&&act){
         appindex = block.indexOf(name);
-        if(appindex<0){
-            toast(name+" 已禁用")
-            block.push(name);
-        }else{
-            toast(name+" 已启用")
-            block.splice(appindex)
-        };
+    }else{
+        return block;
+    }
+    if(!block){
+        block = [];
         s.put(blockList,block);
-        return true;
     };
-    return block;
+    if(act=='add'){
+        if(appindex>=0){
+            return true;
+        }else{
+            block.push(name);
+            s.put(blockList,block);
+        };
+    };
+
+    if(act=='del'){
+        if(appindex<0){
+            return true;
+        }else{
+            block.splice(appindex);
+            s.put(blockList,block);
+        };
+    };
+    return true;
 };
 
 var appInfo = getappinfo();
@@ -151,28 +161,19 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
     itemView.disable.on("check", function (checked) {
         let item = itemHolder.item;
         item.disable = checked;
-        let paint = itemView.name.paint;
         //设置或取消中划线效果
         if (checked) {
-            toast("选中了..")
             threads.start(
                 function(){
-                    sleep(1000);
-                    handleBlock(item.name);
+                    handleBlock(item.name,'add');
                 }
             );    
-            paint.flags |= Paint.STRIKE_THRU_TEXT_FLAG;
         } else {
-            toast("取消了..")
-            sleep(1000)
             threads.start(
                 function(){
-                    sleep(1000);
-                    handleBlock(item.name);
+                    handleBlock(item.name,'del');
                 }
             );
-            paint.flags &= ~Paint.STRIKE_THRU_TEXT_FLAG;
         }
-        itemView.name.invalidate();
     });
 });
