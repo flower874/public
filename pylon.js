@@ -97,10 +97,11 @@ let getappinfo=()=>{
 let handleBlock=(name)=>{
     let appindex;
     let target = "block";
-    let s = storages.create(target);
-    let block = s.get(target);
+    let block = storage.get(target);
     if(!block){
+        storages.create(target);
         block=[];
+        storage.put(target,block);
     };
     if(name){
         appindex = block.indexOf(name);
@@ -111,7 +112,7 @@ let handleBlock=(name)=>{
             toast(name+" 已启用")
             block.splice(appindex)
         };
-        s.put(target,block);
+        storage.put(target,block);
         return true;
     };
     return block;
