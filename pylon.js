@@ -155,9 +155,9 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
         //设置或取消中划线效果
         if (checked) {
             toast("选中了..")
-            sleep(1000)
             threads.start(
                 function(){
+                    sleep(1000);
                     handleBlock(item.name);
                 }
             );    
@@ -167,6 +167,7 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
             sleep(1000)
             threads.start(
                 function(){
+                    sleep(1000);
                     handleBlock(item.name);
                 }
             );
