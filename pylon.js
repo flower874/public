@@ -105,8 +105,10 @@ let handleBlock=(name)=>{
     if(name){
         appindex = block.indexOf(name);
         if(appindex<0){
+            toast(name+" 已禁用")
             block.push(name);
         }else{
+            toast(name+" 已启用")
             block.splice(appindex)
         };
         s.put(target,block);
