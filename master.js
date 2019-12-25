@@ -85,9 +85,10 @@ for(AppName in sign){
 
 let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
 let target = "block";
+let bl = "bl";
 let s = storages.create(target);
 for(AppName in pool){
-    block = s.get(target);
+    block = s.get(bl);
     if(block&&block.indexOf(AppName)>=0){
         continue;
     };
