@@ -260,6 +260,10 @@ util.clean=()=>{
     home();
     sleep(800);
     recents();
+    if(device.brand === 'Meizu'){
+        back();
+        return;
+    };
     if(device.brand === 'samsung'){
         util.forcePress(id("recents_close_all_button").findOne(2000))
     };
@@ -278,9 +282,6 @@ util.clean=()=>{
         sleep(1800);
         util.forcePress({x:50,y:76});
     }; 
-    if(device.brand === 'Meizu'){
-        home();
-    };
     sleep(800);
 };
 util.openApp=(PackageName)=>{
