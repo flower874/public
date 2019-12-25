@@ -154,13 +154,22 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
         let paint = itemView.name.paint;
         //设置或取消中划线效果
         if (checked) {
-            paint.flags |= Paint.STRIKE_THRU_TEXT_FLAG;
-        } else {
+            toast("选中了..")
+            sleep(1000)
             threads.start(
                 function(){
                     handleBlock(item.name);
                 }
             );    
+            paint.flags |= Paint.STRIKE_THRU_TEXT_FLAG;
+        } else {
+            toast("取消了..")
+            sleep(1000)
+            threads.start(
+                function(){
+                    handleBlock(item.name);
+                }
+            );
             paint.flags &= ~Paint.STRIKE_THRU_TEXT_FLAG;
         }
         itemView.name.invalidate();
