@@ -279,9 +279,7 @@ util.clean=()=>{
         util.forcePress({x:50,y:76});
     }; 
     if(device.brand === 'Meizu'){
-        sleep(500);
-        util.forcePress({x:50,y:86});
-        sleep(1000)
+        home();
     };
     sleep(800);
 };
