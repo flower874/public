@@ -259,30 +259,36 @@ util.forcePress=(ele,timeout,mode)=>{
 util.clean=()=>{
     home();
     sleep(800);
-    recents();
     if(device.brand === 'Meizu'){
-        back();
         return;
     };
+    recents();
     if(device.brand === 'samsung'){
         util.forcePress(id("recents_close_all_button").findOne(2000))
+        sleep(1500);
+        home();
+        return;
     };
     if(device.brand === 'HONOR'){
-        id("clear_all_recents_image_button").findOne(2000).click(); 
+        id("clear_all_recents_image_button").findOne(2000).click();
+        sleep(1500);
     };
     if(device.brand === 'OPPO'){
         //forcePress(id("clear_panel").findOne(2000));
         util.forcePress(id("clear_button").findOne(2000));
-
+        sleep(1500);
     };
     if(device.brand === 'Realme'){
        util.forcePress(id("clear_all_button").findOne(2000))
+       sleep(1500);
     };
     if(device.brand === 'ZTE'){
         sleep(1800);
         util.forcePress({x:50,y:76});
     }; 
-    sleep(800);
+    sleep(1500);
+    home();
+    return;
 };
 util.openApp=(PackageName)=>{
     sleep(500);
