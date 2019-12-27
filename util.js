@@ -309,6 +309,7 @@ util.clean=()=>{
 util.openApp=(PackageName)=>{
     sleep(500);
     launchPackage(PackageName);
+    sleep(2000);
 };
 util.savestarttime=(AppName)=>{
     let now = parseInt(Date.now()/1000) ;
