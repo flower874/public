@@ -763,7 +763,7 @@ util.gropev2=(objects)=>{
             if(appPackaget !== package){
                 if(intent=='home'){
                     toastLog("包验证失败，等待一会...")
-                    sleep(4000);
+                    sleep(10000);
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){
