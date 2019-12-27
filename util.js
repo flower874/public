@@ -260,8 +260,30 @@ util.clean=()=>{
     home();
     sleep(800);
     if(device.brand === 'Meizu'){
+        swipe(500, 10, 500, 1000, 800);
+        sleep(500);
+        swipe(500, 10, 500, 1000, 800);
+        sleep(500);
+        util.forcePress('id("title").text("手机加速")');
+        sleep(1500)
+        home();
         return;
     };
+    if(device.brand === 'ZTE'){
+        home();
+        sleep(1000);
+        let clean = text("一键加速").findOne(200);
+        if(clean){
+            util.forcePress(clean);
+            sleep(1500);
+            return;
+        }
+        recents();
+        sleep(1500);
+        util.forcePress({x:50,y:76});
+        sleep(1500);
+        return;
+    }; 
     recents();
     if(device.brand === 'samsung'){
         sleep(1500);
@@ -280,10 +302,6 @@ util.clean=()=>{
         sleep(1500);
         util.forcePress(id("clear_all_button").findOne(2000))
     };
-    if(device.brand === 'ZTE'){
-        sleep(1800);
-        util.forcePress({x:50,y:76});
-    }; 
     sleep(1500);
     home();
     return;
