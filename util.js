@@ -781,6 +781,12 @@ util.gropev2=(objects)=>{
                     back();
                 };
                 appPackaget = currentPackage(); 
+                if(appPackaget !== package){    
+                    toastLog("当前包 "+appPackaget+"，尝试重新载入预期包: "+package)
+                    app.launchPackage(package);
+                    sleep(2000);
+                };
+                appPackaget = currentPackage(); 
                 if(appPackaget !== package){
                     toastLog("当前包 "+appPackaget+"预期包: "+package)
                     toastLog("包验证失败!!!")
