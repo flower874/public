@@ -10,7 +10,6 @@ ui.layout(
                 <button id="start" text="循环运行" style="Widget.AppCompat.Button.Colored" w="auto"/>
                 <button id="release" text="同步正式版" style="Widget.AppCompat.Button.Colored" w="auto"/>
                 <button id="test" text="同步测试版" style="Widget.AppCompat.Button.Colored" w="auto"/>
-                <button id="window" text="日志窗口" style="Widget.AppCompat.Button.Colored" w="auto"/>
             </linear>
             <list id="appInfo">
                 <card w="*" h="70" margin="10 5" cardCornerRadius="2dp"
@@ -18,9 +17,9 @@ ui.layout(
                     <horizontal gravity="center_vertical">
                         <vertical padding="10 8" h="auto" w="0" layout_weight="1">
                             <text id="name" text="{{this.name}}" textColor="#222222" textSize="16sp" maxLines="1" />
-                            <text text="{{this.summary}}" textColor="#999999" textSize="14sp" maxLines="1" />
+                            <text text="{{this.summary}}" textColor="#999999" textSize="11sp" maxLines="1" />
                         </vertical>
-                        <text text="{{this.installd}}" textColor="#{{this.color}}" textSize="14sp" maxLines="1" />
+                        <button id="setup" text="{{this.installd}}" textColor="#{{this.color}}" textSize="14sp" maxLines="1" style="Widget.AppCompat.Button.Borderless" w="auto"/>
                         <button id="run" text="运行" style="Widget.AppCompat.Button.Colored" w="auto"/>
                         <checkbox id="disable" marginLeft="4" marginRight="6" checked="{{this.disable}}" text="禁用" />
                     </horizontal>
@@ -144,11 +143,38 @@ ui.test.on("click", function(){
     try{engines.execScriptFile(root+'update.js');}catch(e){}
 });
 
-ui.window.on("click", function(){
-    console.show();
-});
-
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
+
+    itemView.setup.on("click",function(){
+        threads.start(
+            function(){
+                let name = itemHolder.item.name
+                let sac={util:require(root+'util.js')};
+                if(device.brand === 'Meizu'){
+                   app.launchPackage('com.meizu.mstore');
+                   sleep(2000);
+                   let edit = id("mc_search_edit").findOne(1000)
+                   edit.click();
+                   sleep(1200);
+                   edit = id("mc_search_edit").findOne(1000).setText(name);
+                   sleep(800);
+                   sac.util.forcePress('text("搜索")');
+               };
+               if(device.brand === 'ZTE'){
+                app.launchPackage('zte.com.market');
+                sleep(2000);
+                let edit = id("home_et_search").findOne(1000)
+                edit.click();
+                sleep(1200);
+                edit = id("search_btn").findOne(1000).setText(name);
+                sleep(800);
+                sac.util.forcePress('text("搜索")');
+            };
+
+            }
+        );
+    });
+
     itemView.run.on("click",function(){
         let name = itemHolder.item.name
         threads.start(
