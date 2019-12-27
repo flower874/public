@@ -265,7 +265,7 @@ util.clean=()=>{
         swipe(500, 10, 500, 1000, 800);
         sleep(500);
         util.forcePress('id("title").text("手机加速")');
-        sleep(1500)
+        sleep(200)
         home();
         return;
     };
