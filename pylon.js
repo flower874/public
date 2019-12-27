@@ -163,7 +163,7 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
                if(device.brand === 'ZTE'){
                 app.launchPackage('zte.com.market');
                 sleep(2000);
-                let edit = id("home_et_search").findOne(1000)
+                let edit = id("home_et_search").findOne(20000)
                 edit.click();
                 sleep(1200);
                 edit = id("search_btn").findOne(1000).setText(name);
