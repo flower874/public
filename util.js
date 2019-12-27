@@ -265,7 +265,7 @@ util.clean=()=>{
         swipe(500, 10, 500, 1000, 800);
         sleep(500);
         util.forcePress('id("title").text("手机加速")');
-        sleep(200)
+        sleep(2500)
         home();
         return;
     };
@@ -275,7 +275,7 @@ util.clean=()=>{
         let clean = text("一键加速").findOne(200);
         if(clean){
             util.forcePress(clean);
-            sleep(1500);
+            sleep(2500);
             return;
         }
         recents();
