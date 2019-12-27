@@ -276,6 +276,7 @@ util.clean=()=>{
         if(clean){
             util.forcePress(clean);
             sleep(2500);
+            back();
             return;
         }
         recents();
