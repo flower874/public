@@ -309,7 +309,7 @@ util.clean=()=>{
     return;
 };
 util.openApp=(PackageName)=>{
-    sleep(1500);
+    sleep(3000);
     launchPackage(PackageName);
     sleep(1000);
 };
@@ -784,7 +784,7 @@ util.gropev2=(objects)=>{
                 if(appPackaget !== package){    
                     toastLog("当前包 "+appPackaget+"，尝试重新载入预期包: "+package)
                     app.launchPackage(package);
-                    sleep(2000);
+                    sleep(6000);
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){
