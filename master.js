@@ -66,7 +66,6 @@ for(AppName in sign){
             sleep(2000);
             continue;
         };
-        up();
         time = sac.util.gettime(AppName);
         if(time.duration<0){
             toastLog("运行时间用尽: "+AppName); 
@@ -74,6 +73,7 @@ for(AppName in sign){
         };
         code = files.read(scriptFile)
         toastLog("周期任务: "+AppName)
+        up();
         try{
             eval(code)
         }catch(e){};
@@ -100,12 +100,12 @@ for(AppName in pool){
             sleep(2000);
             continue;
         };
-        up();
         time = sac.util.gettime(AppName);
         if(time.duration<0){
             toastLog("运行时间用尽: "+AppName); 
             continue;
         };
+        up();
         code = files.read(scriptFile)
         toastLog("运行: "+AppName)
         try{
