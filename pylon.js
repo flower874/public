@@ -163,12 +163,11 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
                if(device.brand === 'ZTE'){
                 app.launchPackage('zte.com.market');
                 sleep(2000);
-                let edit = id("home_et_search").findOne(20000)
-                edit.click();
+                sac.util.forcePress('id("home_et_search")',20000)
                 sleep(1200);
-                edit = id("search_btn").findOne(1000).setText(name);
+                edit = id("search_ed").findOne(1000).setText(name);
                 sleep(800);
-                sac.util.forcePress('text("搜索")');
+                sac.util.forcePress('id("search_btn")');
             };
 
             }
