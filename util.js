@@ -309,9 +309,9 @@ util.clean=()=>{
     return;
 };
 util.openApp=(PackageName)=>{
-    sleep(500);
+    sleep(1500);
     launchPackage(PackageName);
-    sleep(2000);
+    sleep(1000);
 };
 util.savestarttime=(AppName)=>{
     let now = parseInt(Date.now()/1000) ;
@@ -766,7 +766,7 @@ util.gropev2=(objects)=>{
             if(appPackaget !== package){
                 if(intent=='home'){
                     toastLog("包验证失败，等待一会，当前包: "+appPackaget+"预期包: "+package)
-                    sleep(10000);
+                    sleep(6000);
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){
