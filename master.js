@@ -66,11 +66,6 @@ for(AppName in sign){
             sleep(2000);
             continue;
         };
-        time = sac.util.gettime(AppName);
-        if(time.duration<0){
-            toastLog("运行时间用尽: "+AppName); 
-            continue;
-        };
         code = files.read(scriptFile)
         toastLog("周期任务: "+AppName)
         up();
@@ -87,8 +82,8 @@ let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
 let target = "block";
 let bl = "bl";
 let s = storages.create(target);
+block = s.get(bl);
 for(AppName in pool){
-    block = s.get(bl);
     if(block&&block.indexOf(AppName)>=0){
         continue;
     };
@@ -97,7 +92,7 @@ for(AppName in pool){
     if(files.isFile(scriptFile)){
         if(packages.indexOf(AppName)<0){
             toastLog("本机未安装: "+AppName);
-            sleep(2000);
+            sleep(200);
             continue;
         };
         time = sac.util.gettime(AppName);
