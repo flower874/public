@@ -161,14 +161,14 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
                    sac.util.forcePress('text("搜索")');
                };
                if(device.brand === 'ZTE'){
-                app.launchPackage('zte.com.market');
-                sleep(2000);
-                sac.util.forcePress('id("home_et_search")',20000)
-                sleep(1200);
-                edit = id("search_ed").findOne(1000).setText(name);
-                sleep(800);
-                sac.util.forcePress('id("search_btn")');
-            };
+                    app.launchPackage('zte.com.market');
+                    sleep(2000);
+                    sac.util.forcePress('id("home_et_search")',20000)
+                    sleep(1200);
+                    id("search_ed").findOne(1000).setText(name);
+                    sleep(800);
+                    sac.util.forcePress('id("search_btn")');
+                };
 
             }
         );
