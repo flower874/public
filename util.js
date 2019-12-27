@@ -763,24 +763,24 @@ util.gropev2=(objects)=>{
             appPackaget = currentPackage();
             if(appPackaget !== package){
                 if(intent=='home'){
-                    toastLog("包验证失败，等待一会，当前包: "+appPackaget)
+                    toastLog("包验证失败，等待一会，当前包: "+appPackaget+"预期包: "+package)
                     sleep(10000);
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){
-                    toastLog("包验证失败，尝试返回，当前包 "+appPackaget)
+                    toastLog("包验证失败，尝试返回，当前包 "+appPackaget+"预期包: "+package)
                     back();
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){    
-                    toastLog("包验证失败，尝试再次返回，当前包 "+appPackaget)
+                    toastLog("包验证失败，尝试再次返回，当前包 "+appPackaget+"预期包: "+package)
                     back();
                     sleep(200);
                     back();
                 };
                 appPackaget = currentPackage(); 
                 if(appPackaget !== package){
-                    toastLog("当前包 "+appPackaget)
+                    toastLog("当前包 "+appPackaget+"预期包: "+package)
                     toastLog("包验证失败!!!")
                     throw "redalert"
                     //return 'redalert';
