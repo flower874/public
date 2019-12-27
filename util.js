@@ -275,8 +275,9 @@ util.clean=()=>{
         let clean = text("一键加速").findOne(200);
         if(clean){
             util.forcePress(clean);
-            sleep(2500);
+            sleep(1500);
             back();
+            sleep(1000)
             return;
         }
         recents();
