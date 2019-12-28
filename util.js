@@ -265,8 +265,7 @@ util.clean=()=>{
         swipe(500, 10, 500, 1000, 800);
         sleep(500);
         util.forcePress('id("title").text("手机加速")');
-        sleep(2500)
-        home();
+        sleep(5000)
         return;
     };
     if(device.brand === 'ZTE'){
@@ -275,9 +274,7 @@ util.clean=()=>{
         let clean = text("一键加速").findOne(200);
         if(clean){
             util.forcePress(clean);
-            sleep(1500);
-            back();
-            sleep(1000)
+            sleep(5000)
             return;
         }
         recents();

@@ -47,29 +47,15 @@ var offkey = threads.start(function(){
 let getappinfo=()=>{
     let name,namelist,blocklist,runtime,report,disable,installd,c
     let packages = [];
-    if(!files.isFile(root+'/util.js')){
-        let path,gitUrl,r,zipContent,file,unzip
-        path = 'public-master/'
-        gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
-        r = http.get(gitUrl)
-        zipContent = r.body.bytes()
-        file = 'master.zip'
-        unzip = files.join(root,file)
-        if(files.isDir(unzip))files.removeDir(unzip);
-        files.createWithDirs(unzip)
-        files.writeBytes(unzip,zipContent)
-        //pro专用
-        $zip.unzip(unzip,root);
-        //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
-        shell("cp -r "+root+path+"* "+root+".");    
-    }
-    var sac={util:require(root+'util.js')};
-    namelist = JSON.parse(files.read(root+'/cycle.json'));
+    let namelist = [];
+    let result = [];
+    if(files.exists(root+'/cycle.json')){
+        namelist = JSON.parse(files.read(root+'/cycle.json'));
+    };
     blocklist = handleBlock();
     app.getInstalledApps().forEach(appinfo=>{
         packages.push(appinfo.label)
     });
-    let result = [];
     for(name in namelist ){
         disable = false;
         installd = '未安装';
