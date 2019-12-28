@@ -266,6 +266,7 @@ util.clean=()=>{
         sleep(500);
         util.forcePress('id("title").text("手机加速")');
         sleep(5000)
+        back();
         return;
     };
     if(device.brand === 'ZTE'){
