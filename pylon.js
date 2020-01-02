@@ -43,25 +43,23 @@ var offkey = threads.start(function(){
 });
 
 let getappinfo=()=>{
-    let name,blocklist,runtime,report,disable,installd,c
+    let name,blocklist,runtime,report,disable,installd,c,res
     let packages = [];
     let namelist = [];
     let result = [];
 
-    setInterval(function(){
-        if(!files.exists(root+'/util.js')){
-            let util = http.get('http://106.12.191.1/public/util.js').body.string()
-            files.createWithDirs(root)
-            files.write(root+'/util.js',util)
-        };    
-    },1000);
+    res = threads.start(function(){
+        let get = http.get('http://106.12.191.1/public/util.js').body.string()
+        files.createWithDirs(root)
+        files.write(root+'/util.js',get)
+    });
+    res.join()
     var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
 
-    if(!files.exists(root+'/cycle.json')){
-        namelist = http.get('http://106.12.191.1/public/cycle.json').body.string();
-        files.createWithDirs(root)
-        files.write(root+'/cycle.json',namelist)
-    };
+    namelist = http.get('http://106.12.191.1/public/cycle.json').body.string();
+    files.createWithDirs(root)
+    files.write(root+'/cycle.json',namelist)
+
     namelist = JSON.parse(files.read(root+'/cycle.json'));
     blocklist = handleBlock();
     app.getInstalledApps().forEach(appinfo=>{
