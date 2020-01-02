@@ -1,7 +1,7 @@
 function updateFiles() {
     let root = '/storage/emulated/0/com.sac/'
     let path = 'public-master/'
-    let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+    let gitUrl = 'http://106.12.191.1/download/master.zip'
     toastLog("下载数据..")
     let r = http.get(gitUrl)
     let zipContent = r.body.bytes()

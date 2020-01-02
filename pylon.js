@@ -43,7 +43,7 @@ var offkey = threads.start(function(){
 });
 
 let getappinfo=()=>{
-    let name,namelist,blocklist,runtime,report,disable,installd,c
+    let name,blocklist,runtime,report,disable,installd,c
     let packages = [];
     let namelist = [];
     let result = [];
@@ -51,8 +51,10 @@ let getappinfo=()=>{
     if(!files.exists(root+'/util.js')){
         let util = http.get('http://106.12.191.1/public/util.json').body.string()
         files.createWithDirs(root)
-        files.writeBytes(root+'/util.js',util)
-    }
+        files.write(root+'/util.js',util)
+    };
+    var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
+
     if(files.exists(root+'/cycle.json')){
         namelist = JSON.parse(files.read(root+'/cycle.json'));
 
@@ -129,6 +131,11 @@ ui.start.on("click", function(){
 });
 
 ui.release.on("click", function(){
+    if(!files.exists(root+'/release.js')){
+        let util = http.get('http://106.12.191.1/public/release.json').body.string()
+        files.createWithDirs(root)
+        files.write(root+'/release',util)
+    };
     try{engines.execScriptFile(root+'release.js');}catch(e){}
 });
 
