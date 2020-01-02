@@ -29,7 +29,7 @@ let up=()=>{
     let root = '/storage/emulated/0/com.sac/'
     let path,gitUrl,r,zipContent,file,unzip
     path = 'public-master/'
-    gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
+    gitUrl = 'http://106.12.191.1/download/master.zip'
     r = http.get(gitUrl)
     zipContent = r.body.bytes()
     file = 'master.zip'

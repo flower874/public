@@ -7,9 +7,8 @@ ui.layout(
                 <toolbar id="toolbar" title="S.A.C Project" />
             </appbar>
             <linear>
-                <button id="start" text="循环运行" style="Widget.AppCompat.Button.Colored" w="auto"/>
-                <button id="release" text="同步正式版" style="Widget.AppCompat.Button.Colored" w="auto"/>
-                <button id="test" text="同步测试版" style="Widget.AppCompat.Button.Colored" w="auto"/>
+                <button id="start" text="开始运行" style="Widget.AppCompat.Button.Colored" w="auto"/>
+                <button id="release" text="手动更新" style="Widget.AppCompat.Button.Colored" w="auto"/>
             </linear>
             <list id="appInfo">
                 <card w="*" h="70" margin="10 5" cardCornerRadius="2dp"
@@ -23,7 +22,6 @@ ui.layout(
                         <button id="run" text="运行" style="Widget.AppCompat.Button.Colored" w="auto"/>
                         <checkbox id="disable" marginLeft="4" marginRight="6" checked="{{this.disable}}" text="禁用" />
                     </horizontal>
-
                 </card>
             </list>
         </vertical>
@@ -49,8 +47,17 @@ let getappinfo=()=>{
     let packages = [];
     let namelist = [];
     let result = [];
+
+    if(!files.exists(root+'/util.js')){
+        let util = http.get('http://106.12.191.1/public/util.json').body.string()
+        files.createWithDirs(root)
+        files.writeBytes(root+'/util.js',util)
+    }
     if(files.exists(root+'/cycle.json')){
         namelist = JSON.parse(files.read(root+'/cycle.json'));
+
+    }else{
+        namelist = JSON.parse(http.get('http://106.12.191.1/public/cycle.json').body.string());
     };
     blocklist = handleBlock();
     app.getInstalledApps().forEach(appinfo=>{
@@ -70,11 +77,11 @@ let getappinfo=()=>{
         runtime = sac.util.gettime(name); 
         report = parseInt(runtime.atime/60)+"分钟/"+parseInt(runtime.limitTIME/60)+"分钟"
         result.push({
-            "name": name,
-            "summary": report,
+            "name" : name,
+            "summary" : report,
             "installd" : installd,
             "disable" : disable,
-            "color": c,
+            "color" : c,
         });
     }
     return result;
@@ -122,11 +129,7 @@ ui.start.on("click", function(){
 });
 
 ui.release.on("click", function(){
-    try{engines.execScriptFile(root+'update.js');}catch(e){}
-});
-
-ui.test.on("click", function(){
-    try{engines.execScriptFile(root+'update.js');}catch(e){}
+    try{engines.execScriptFile(root+'release.js');}catch(e){}
 });
 
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
@@ -155,7 +158,6 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
                     sleep(800);
                     sac.util.forcePress('id("search_btn")');
                 };
-
             }
         );
     });
