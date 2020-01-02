@@ -48,19 +48,21 @@ let getappinfo=()=>{
     let namelist = [];
     let result = [];
 
-    if(!files.exists(root+'/util.js')){
-        let util = http.get('http://106.12.191.1/public/util.json').body.string()
-        files.createWithDirs(root)
-        files.write(root+'/util.js',util)
-    };
+    setInterval(function(){
+        if(!files.exists(root+'/util.js')){
+            let util = http.get('http://106.12.191.1/public/util.js').body.string()
+            files.createWithDirs(root)
+            files.write(root+'/util.js',util)
+        };    
+    },1000);
     var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
 
-    if(files.exists(root+'/cycle.json')){
-        namelist = JSON.parse(files.read(root+'/cycle.json'));
-
-    }else{
-        namelist = JSON.parse(http.get('http://106.12.191.1/public/cycle.json').body.string());
+    if(!files.exists(root+'/cycle.json')){
+        namelist = http.get('http://106.12.191.1/public/cycle.json').body.string();
+        files.createWithDirs(root)
+        files.write(root+'/cycle.json',namelist)
     };
+    namelist = JSON.parse(files.read(root+'/cycle.json'));
     blocklist = handleBlock();
     app.getInstalledApps().forEach(appinfo=>{
         packages.push(appinfo.label)
@@ -132,9 +134,9 @@ ui.start.on("click", function(){
 
 ui.release.on("click", function(){
     if(!files.exists(root+'/release.js')){
-        let util = http.get('http://106.12.191.1/public/release.json').body.string()
+        let util = http.get('http://106.12.191.1/public/release.js').body.string()
         files.createWithDirs(root)
-        files.write(root+'/release',util)
+        files.write(root+'/release.js',util)
     };
     try{engines.execScriptFile(root+'release.js');}catch(e){}
 });
