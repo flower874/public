@@ -15,7 +15,7 @@ function updateFiles() {
     $zip.unzip(unzip,root);
     //com.stardust.io.Zip.unzip(new java.io.File(unzip), new java.io.File(root))
     toastLog("覆盖本地文件")
-    shell("cp -r "+root+path+"* "+root+"/.")
+    shell("cp -r "+root+"/"+path+"* "+root+"/.");
     return true;
 };
 
