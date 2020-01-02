@@ -130,11 +130,11 @@ var appInfo = getappinfo();
 ui.appInfo.setDataSource(appInfo);
 
 ui.start.on("click", function(){
-    try{engines.execScriptFile(root+'master.js');}catch(e){};
+    try{engines.execScriptFile(root+'/master.js');}catch(e){};
 });
 
 ui.release.on("click", function(){
-    try{engines.execScriptFile(root+'release.js');}catch(e){}
+    try{engines.execScriptFile(root+'/release.js');}catch(e){}
 });
 
 ui.appInfo.on("item_bind", function (itemView, itemHolder) {
@@ -143,7 +143,7 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
         threads.start(
             function(){
                 let name = itemHolder.item.name
-                let sac={util:require(root+'util.js')};
+                let sac={util:require(root+'/util.js')};
                 if(device.brand === 'Meizu'){
                    app.launchPackage('com.meizu.mstore');
                    sleep(2000);
