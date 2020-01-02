@@ -29,7 +29,7 @@ ui.layout(
 );
 
 
-let root = '/storage/emulated/0/com.sac/'
+let root = files.cwd() //'/storage/emulated/0/com.sac/'
 
 var offkey = threads.start(function(){
     events.observeKey();
@@ -43,18 +43,18 @@ var offkey = threads.start(function(){
 });
 
 let getappinfo=()=>{
-    let name,blocklist,runtime,report,disable,installd,c,res
+    let name,blocklist,runtime,report,disable,installd,c,res,get
     let packages = [];
     let namelist = [];
     let result = [];
 
     res = threads.start(function(){
-        let get = http.get('http://106.12.191.1/public/util.js').body.string()
+        get = http.get('http://106.12.191.1/public/util.js').body.string()
         files.createWithDirs(root)
         files.write(root+'/util.js',get)
     });
     res.join()
-    var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
+    var sac = {util:require(root+'/util.js')};
 
     namelist = http.get('http://106.12.191.1/public/cycle.json').body.string();
     files.createWithDirs(root)

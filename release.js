@@ -1,5 +1,5 @@
 function updateFiles() {
-    let root = '/storage/emulated/0/com.sac/'
+    let root = files.cwd()
     let path = 'public-master/'
     let gitUrl = 'http://106.12.191.1/download/master.zip'
     toastLog("下载数据..")

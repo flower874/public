@@ -107,7 +107,7 @@
             ad:'textEndsWith("广告位")'
         },
     };
-    var sac={util:require('/storage/emulated/0/com.sac/util.js')}
+    var sac={util:require(files.cwd()+'/util.js')}
 
     /*
     //推推对不同分辨率有不同界面

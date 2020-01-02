@@ -1,5 +1,5 @@
 function updateFiles() {
-    let root = '/storage/emulated/0/com.sac/'
+    let root = files.cwd()
     let path = 'public-master/'
     let gitUrl = 'https://codeload.github.com/flower874/public/zip/master'
     toastLog("下载数据..")

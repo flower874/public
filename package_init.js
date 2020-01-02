@@ -11,7 +11,7 @@
         },
 
     };
-    var c = {util:require("/storage/emulated/0/com.sac/util.js")};
+    var c = {util:require(files.cwd()+"/util.js")};
 
     e.i=()=>{
         

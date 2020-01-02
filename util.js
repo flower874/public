@@ -399,7 +399,7 @@ util.gettime=(AppName)=>{
     };
     let today = new Date().getFullYear() + new Date().getMonth() + new Date().getDate();
     util.print("加载应用池与运行时间配置",3)
-    let AppPool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
+    let AppPool = JSON.parse(files.read(files.cwd()+'/cycle.json'));
     let limitTIME = AppPool[AppName] || 0 ;
     let atime = alreadyTime(AppName);
     util.print(AppName+"已运行时间: "+atime,3);

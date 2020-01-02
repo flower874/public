@@ -29,7 +29,7 @@
             //signin:'className("android.view.View").textStartsWith("看视频再送").findOne().parent().parent().parent().parent().children()[1]'
         },
     };
-    var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
+    var sac = {util:require(files.cwd()+'/util.js')};
     sac.grope = sac.util.gropev2({
         elements:e.where,
         package:e.packageName

@@ -7,7 +7,7 @@ customEvent.on('log',function(r){
     toastLog("收到日志 : " + r)
 });
 var memdog = threads.start(function(){
-    let msac = {util:require('/storage/emulated/0/com.sac/util.js')};
+    let msac = {util:require(files.cwd()+'/util.js')};
     while(true){
         sleep(5000);
         let mem = device.getAvailMem()/1024/1024
@@ -26,7 +26,7 @@ var memdog = threads.start(function(){
 
 let up=()=>{
     toastLog("同步本地文件..")
-    let root = '/storage/emulated/0/com.sac/'
+    let root = files.cwd()//'/storage/emulated/0/com.sac/'
     let path,gitUrl,r,zipContent,file,unzip
     path = 'public-master/'
     gitUrl = 'http://106.12.191.1/download/master.zip'
@@ -44,7 +44,7 @@ let up=()=>{
     toastLog("完成")
 };
 
-var sac = {util:require('/storage/emulated/0/com.sac/util.js')};
+var sac = {util:require(files.cwd()+'/util.js')};
 
 while(true){
 try{
@@ -55,8 +55,8 @@ app.getInstalledApps().forEach(appinfo=>{
     packages.push(appinfo.label)
 });
 
-let sign = JSON.parse(files.read('/storage/emulated/0/com.sac/sign.json'));
-let localpath = '/storage/emulated/0/com.sac/'
+let sign = JSON.parse(files.read(files.cwd()+'/sign.json'));
+let localpath = files.cwd();
 
 for(AppName in sign){
     scriptFile = localpath+AppName+".js";
@@ -78,7 +78,7 @@ for(AppName in sign){
     };
 };
 
-let pool = JSON.parse(files.read('/storage/emulated/0/com.sac/cycle.json'));
+let pool = JSON.parse(files.read(files.cwd()+'/cycle.json'));
 let target = "block";
 let bl = "bl";
 let s = storages.create(target);
