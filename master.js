@@ -56,7 +56,7 @@ app.getInstalledApps().forEach(appinfo=>{
 });
 
 let sign = JSON.parse(files.read(files.cwd()+'/sign.json'));
-let localpath = files.cwd();
+let localpath = files.cwd()+"/";
 
 for(AppName in sign){
     scriptFile = localpath+AppName+".js";

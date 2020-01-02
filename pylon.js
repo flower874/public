@@ -171,7 +171,7 @@ ui.appInfo.on("item_bind", function (itemView, itemHolder) {
         let name = itemHolder.item.name
         threads.start(
             function(){
-                engines.execScript(eval(files.read(root+name+".js")))
+                engines.execScript(eval(files.read(root+"/"+name+".js")))
             }
         );
     });
