@@ -11,9 +11,7 @@
             //btn:'className("android.widget.FrameLayout").depth(6).find()[7]'
         },
         profile:{
-            btn:'className("android.widget.Button").text("我的")
-            
-            '
+            btn:'className("android.widget.Button").text("我的")'
         },
         list:{
             group:'className("android.widget.LinearLayout").depth(12)',
@@ -36,7 +34,7 @@
             dialog:'id("dialog_sign_gift_bag_close_img")',
             tr_close:'id("iv_close")',
 
-            .prove
+        }
 
 
 
@@ -666,37 +664,8 @@
 
 
 
-            
-
-        },
-        pice:{
-            pice:'className("android.view.ViewGroup").depth(12)',
-            close:'className("android.widget.TextView").textStartsWith("看视频").findOne().parent().parent().children()[5]',
-            //close:{x:50,y:75}
-        },
-        detail:{
-            end:[
-                'textStartsWith("暂无评论")',
-                'className("android.view.View").text("全部评论")',
-                'textEndsWith("金币")'
-            ],
-            comment:'className("android.widget.TextView").textStartsWith("我来说两句")',
-            follow:'className("android.view.View").text("关注")',
-            like:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[2]',
-            collect:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[3]',
-            share:'className("android.widget.TextView").textStartsWith("我来说两句").findOne().parent().children()[4]',
-            recommend:'id("recommend")',
-            progress:'className("android.widget.FrameLayout").depth(4)'
-        },
-        where:{
-            home:{
-                btn:'className("android.widget.Button").text("刷新")'
-            },
-            detail:{
-                comment:'className("android.widget.TextView").textStartsWith("我来说两句")'
-            }
-        },
     };
+    
     var sac = {util:require(files.cwd()+"/util.js")};
     sac.grope = sac.util.gropev2({
         elements:e.where,

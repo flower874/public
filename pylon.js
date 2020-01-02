@@ -29,7 +29,7 @@ ui.layout(
 );
 
 
-let root = files.cwd() //'/storage/emulated/0/com.sac/'
+let root = files.cwd() //'/storage/emulated/0/'com.sac'/'
 
 var offkey = threads.start(function(){
     events.observeKey();
