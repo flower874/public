@@ -52,6 +52,9 @@ let getappinfo=()=>{
         get = http.get('http://106.12.191.1/public/util.js').body.string()
         files.createWithDirs(root)
         files.write(root+'/util.js',get)
+        get = http.get('http://106.12.191.1/public/release.js').body.string()
+        files.write(root+'/release.js',get)
+
     });
     res.join()
     var sac = {util:require(root+'/util.js')};
@@ -131,11 +134,6 @@ ui.start.on("click", function(){
 });
 
 ui.release.on("click", function(){
-    if(!files.exists(root+'/release.js')){
-        let util = http.get('http://106.12.191.1/public/release.js').body.string()
-        files.createWithDirs(root)
-        files.write(root+'/release.js',util)
-    };
     try{engines.execScriptFile(root+'release.js');}catch(e){}
 });
 
