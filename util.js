@@ -260,6 +260,11 @@ util.clean=()=>{
     home();
     sleep(800);
     if(device.brand === 'Meizu'){
+        home();
+        if(util.forcePress('text("一键加速")')){
+            sleep(8000)
+            return;
+        };
         swipe(500, 10, 500, 1000, 800);
         sleep(500);
         swipe(500, 10, 500, 1000, 800);

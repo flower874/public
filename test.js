@@ -1,1 +1,1 @@
-log(files.cwd())
+log(device.getAndroidId())
